@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title= 'Chad\'s Node App'
+    block styles
+      link(href='http://fonts.googleapis.com/css?family=Roboto', rel='stylesheet', type='text/css')
+      link(rel='stylesheet', href='/stylesheets/style.css')
+    block scripts
+  body.background
+    .navbar.left
+      .top
+        a(href='/', class='btn') Hey Chad!
+      .bottom
+        h2 Whatchya...
+        ul.left
+          li
+            a(href='/about', class='btn btn-default') ...all about?
+          li
+            a(href='/projects', class='btn btn-default') ...tinkering on?
+          li
+            a(href='/ontap', class='btn btn-default') ...got on tap?
+          li
+            a(href='/brewing', class='btn btn-default') ...brewing?
+    .content.left
+      block content

@@ -1,0 +1,45 @@
+div(class='recipe' id='keg-#{recipe.keg}')
+  h2.left.recipe-name= recipe.name
+    //- input(class='recipe-detail name' name='name' value='#{recipe.name}')
+  div(class='recipeDetails left')
+    div.row
+      div.left= 'ABV: ' + recipe.abv + '%'
+      //- input(class='recipe-detail abv' name='abv' value='#{recipe.abv}')
+    div.row
+      di.left= 'IBU: ' + recipe.ibu
+      //- input(class='recipe-detail ibu' name='ibu' value='#{recipe.ibu}')
+    div.row
+      div.left= 'Yeast: ' + recipe.yeast
+      //- input(class='recipe-detail yeast' name='yeast' value='#{recipe.yeast}')
+    div.row
+      if (recipe.grains.length > 0)
+        label.left Grains:
+        .grains
+          each grain in recipe.grains
+            div.left= grain
+            //- input(class='recipe-detail grain' name='grain' value='#{grain}')
+    div.row
+      if (recipe.hops.length > 0)
+        label.left Hops:
+        .hops
+          each hop in recipe.hops
+            div.left= hop
+            //- input(class='recipe-detail hop' name='hop' value='#{hop}')
+  div.pourData.right
+  .beer.left
+    div(class='pour srm-#{recipe.srm}')
+    .beaker
+      .beer-foam
+        .foam-1
+        .foam-2
+        .foam-3
+        .foam-4
+        .foam-5
+        .foam-6
+        .foam-7
+    div(class='liquid srm-#{recipe.srm}' title='SRM: #{recipe.srm}')
+      .bubble.bubble1
+      .bubble.bubble2
+      .bubble.bubble3
+      .bubble.bubble4
+      .bubble.bubble5

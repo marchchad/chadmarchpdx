@@ -1,0 +1,504 @@
+.container{
+  display: flex;
+}
+
+.item{
+  flex: 1 100%;
+  margin: 0 5px;
+}
+
+.item ul,
+.item ol{
+  list-style-type: none;
+  margin: 0;
+}
+
+.recipe{
+  overflow: auto;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0px #888;
+  background-color: rgba(255,255,255, 0.6);
+  box-sizing: border-box;
+}
+
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5{
+  margin: 25px;
+  display: inline-block;
+  text-align: center;
+}
+
+.recipe{
+  min-width: 350px;
+}
+
+.recipe h2,
+.recipe h3,
+.recipe h4,
+.recipe h5{
+  margin: 10px;
+}
+
+.pourData p{
+  margin: 5px;
+}
+
+.beer {
+  height: 225px;
+  margin-left: 20px;
+  overflow: hidden;
+  position: relative;
+  width: 150px;
+}
+
+.beer > div {
+  position: absolute;
+}
+
+.recipeDetails{
+  position: relative;
+  height: 100%;
+  width: calc(100% - 200px);
+  clear: both;
+  margin-left: 15px;
+}
+
+.recipeDetails label,
+.recipeDetails ul{
+  float: left;
+  clear: both;
+}
+
+.recipeDetails ul{
+  padding: 5px;
+  width: 100%;
+}
+
+.recipe-detail{
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  padding: 3px;
+  margin-left: 5px;
+}
+
+.grains input,
+.hops input{
+  clear: both;
+}
+
+.hops .left,
+.grains .left {
+    clear: both;
+}
+
+.grains *,
+.hops *{
+  margin-left: 7.5px;
+}
+
+.pour {
+  position: absolute;
+  left: 45%;
+  width: 20px;
+  height: 0px;
+  border-radius: 10px
+}
+
+.beaker {
+  border: 5px solid #eee;
+  border-top: 0;
+  border-radius: 0 0 30px 30px;
+  height: 90%;
+  bottom: 0;
+  width: 140px;
+}
+
+/*
+.beaker:before,
+.beaker:after {
+  border: 10px solid #ccc;
+  border-bottom: 0;
+  border-radius: 15px 15px 0 0;
+  content: '';
+  height: 15px;
+  position: absolute;
+  top: -25px;
+  width: 15px;
+}
+
+.beaker:before { 
+  left: -35px;
+}
+.beaker:after {
+  right: -35px;
+}
+*/
+
+.liquid {
+  height: 90%;
+  overflow: hidden;
+  width: 140px;
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: 10px;
+  border-radius: 0 0 25px 25px;
+  left: 5px;
+  bottom: 4px;
+  -webkit-animation-name: fillup;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-duration: 1100ms;
+}
+
+@-webkit-keyframes fillup {
+  0% {
+    height: 10%;
+  }
+
+  50% {
+    height: 45%;
+  }
+
+  100% {
+    height: 90%;
+  }
+}
+
+.liquid:after {
+  background-color: rgba(255, 255, 255, 0.25);
+  bottom: -10px;
+  content: '';
+  height: 200px;
+  left: -40px;
+  position: absolute;
+  transform: rotate(30deg);
+  -webkit-transform: rotate(15deg);
+  width: 110px;
+}
+
+.liquid .bubble {
+  -webkit-animation-name: bubble;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  background-color: rgba(255, 255, 255, 0.5);
+  bottom: 0;
+  border-radius: 10px;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+}
+
+@-webkit-keyframes bubble {
+  0% { bottom: 0; }
+
+   50% {
+     background-color: rgba(255, 255, 255, 0.2);
+      bottom: 80px;
+   }
+
+   100% {
+     background-color: rgba(255, 255, 255, 0);
+      bottom: 160px;
+   }
+}
+
+.bubble1 {
+  left: 10px;
+  -webkit-animation-duration: 1000ms;
+}
+
+.bubble2 {
+  left: 30px;
+  -webkit-animation-duration: 1100ms;
+}
+
+.bubble3 {
+  left: 60px;
+  -webkit-animation-duration: 1300ms;
+}
+
+.bubble4 {
+  left: 85px;
+  -webkit-animation-duration: 700ms;
+}
+
+.bubble5 {
+  left: 100px;
+  -webkit-animation-duration: 800ms;
+}
+
+/* Foam */
+
+.beer-foam {
+  position: absolute;
+  bottom: 90%;
+  -webkit-animation-name: grow;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-duration: 1100ms;
+}
+
+.foam-1, .foam-2, .foam-3, .foam-4, 
+.foam-5, .foam-6, .foam-7 {
+  position: absolute;
+  z-index: 1;
+  width: 35px;
+  height: 35px;
+  border-radius: 30px;
+  background-color: #fff;
+  border: 1.5px solid #ddd;
+}
+
+@-webkit-keyframes grow {
+  0% {
+    bottom: 0;
+  }
+
+  50% {
+    bottom: 45%;
+  }
+
+  100% {
+    bottom: 90%;
+  }
+}
+
+.foam-1 {
+  top: -30px;
+  left: -1px;
+  z-index: 2;
+}
+.foam-2 {
+  top: -37.5px;
+  left: 10px; 
+  z-index: 1;
+}
+.foam-3 {
+  top: -27.5px;
+  left: 40px; 
+  z-index: 2;
+}
+.foam-4 {
+  top: -35px;
+  left: 60px; 
+  z-index: 2;
+}
+.foam-5 {
+  top: -30px;
+  left: 77.5px; 
+  z-index: 1;
+}
+.foam-6 {
+  top: -25px;
+  left: 85px; 
+  z-index: 1;
+}
+.foam-7 {
+  top: -32.5px;
+  left: 107px;
+  z-index: 2;
+}
+
+
+/* Drunk Text */
+/*
+.animated {
+  -webkit-animation-fill-mode:both;
+     -moz-animation-fill-mode:both;
+          animation-fill-mode:both;
+  
+  -webkit-animation-duration:5s;
+     -moz-animation-duration:5s;
+          animation-duration:5s;
+  
+  -webkit-animation-delay:3.5s; 
+     -moz-animation-delay:3.5s;
+          animation-delay:3.5s;
+}
+
+
+.animated.drunk {
+  -webkit-animation-duration:2s;
+     -moz-animation-duration:2s;
+          animation-duration:2s;
+}
+
+@-webkit-keyframes drunk {
+	0% { 
+    -webkit-transform: rotate(0); 
+    -webkit-transform-origin: top left; 
+    -webkit-animation-timing-function: ease-in-out; 
+  }
+  
+  20%, 60% { 
+    -webkit-transform: rotate(80deg); 
+    -webkit-transform-origin: top left; 
+    -webkit-animation-timing-function: ease-in-out; 
+  }	
+	40% { 
+    -webkit-transform: rotate(60deg); 
+    -webkit-transform-origin: top left; 
+    -webkit-animation-timing-function: ease-in-out; 
+  }	
+  
+	80% { 
+    -webkit-transform: rotate(60deg) translateY(0);  
+    -webkit-transform-origin: top left; 
+    -webkit-animation-timing-function: ease-in-out;
+    opacity: 1;
+  }	
+  
+	100% {
+	  -webkit-transform: translateY(700px); 
+    opacity: 0; 
+  }
+}
+
+@-moz-keyframes drunk {
+	0% { 
+    -moz-transform: rotate(0); 
+    -moz-transform-origin: top left; 
+    -moz-animation-timing-function: ease-in-out; 
+  }
+  
+	20%, 60% { 
+    -moz-transform: rotate(80deg); 
+    -moz-transform-origin: top left; 
+    -moz-animation-timing-function: ease-in-out; 
+  }	
+  
+	40% { 
+    -moz-transform: rotate(60deg); 
+    -moz-transform-origin: top left; 
+    -moz-animation-timing-function: ease-in-out; 
+  }
+  
+	80% {
+	  -moz-transform: rotate(60deg) translateY(0); opacity: 1; 
+    -moz-transform-origin: top left; 
+    -moz-animation-timing-function: ease-in-out; 
+  }
+  
+	100% { 
+    -moz-transform: translateY(700px); 
+    opacity: 0; 
+  }
+}
+
+@keyframes drunk {
+	0% { 
+    transform: rotate(0); 
+    transform-origin: top left; 
+    animation-timing-function: ease-in-out; 
+  }
+  
+	20%, 60% { 
+    transform: rotate(80deg); 
+    transform-origin: top left; 
+    animation-timing-function: ease-in-out; 
+  }
+  
+	40% { 
+    transform: rotate(60deg); 
+    transform-origin: top left; 
+    animation-timing-function: ease-in-out; 
+  }
+  
+	80% { 
+    transform: rotate(60deg) translateY(0); 
+    opacity: 1; transform-origin: top left; 
+    animation-timing-function: ease-in-out; 
+  }	
+	100% { 
+    transform: translateY(700px); 
+    opacity: 0; 
+  }
+}
+
+.drunk {
+	-webkit-animation-name: drunk;
+	-moz-animation-name: drunk;
+	animation-name: drunk;
+}
+*/
+
+.srm-1{
+  background-color: #FFE699;
+  border-color: #FFE699;
+}
+
+.srm-2{
+  background-color: #FFD878;
+  border-color: #FFD878;
+}
+
+.srm-3{
+  background-color: #FFD878;
+  border-color: #FFD878;
+}
+
+.srm-4{
+  background-color: #FFBF42;
+  border-color: #FFBF42;
+}
+
+.srm-5{
+  background-color: #FBB123;
+  border-color: #FBB123;
+}
+
+.srm-6{
+  background-color: #F8A600;
+  border-color: #F8A600;
+}
+
+.srm-7{
+  background-color: #F39C00;
+  border-color: #F39C00;
+}
+
+.srm-8{
+  background-color: #EA8F00;
+  border-color: #EA8F00;
+}
+
+.srm-9{
+  background-color: #E58500;
+  border-color: #E58500;
+}
+
+/*
+#DE7C00 -> 10 
+#D77200 -> 11 
+#CF6900 -> 12 
+#CB6200 -> 13 
+#C35900 -> 14 
+#BB5100 -> 15 
+#B54C00 -> 16 
+#B04500 -> 17
+#A63E00 -> 18
+#A13700 -> 19
+#9B3200 -> 20
+#952D00 -> 21
+#8E2900 -> 22
+#882300 -> 23
+#821E00 -> 24
+#7B1A00 -> 25
+#771900 -> 26
+#701400 -> 27
+#6A0E00 -> 28
+#660D00 -> 29
+#5E0B00 -> 30
+#5A0A02 -> 31
+#600903 -> 32
+#520907 -> 33
+#4C0505 -> 34
+#470606 -> 35
+#440607 -> 36
+#3F0708 -> 37
+#3B0607 -> 38
+#3A070B -> 39
+#36080A -> 40*/

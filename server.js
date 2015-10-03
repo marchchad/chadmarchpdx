@@ -1,8 +1,12 @@
 #!/bin/env node
 //  OpenShift sample Node application
 var express = require('express');
-var fs      = require('fs');
-
+var path = require('path');
+var fs = require('fs');
+var http = require('http');
+var debug = require('debug')('mynodeapp:server');
+var routes = require('./routes/index');
+var users = require('./routes/users');
 
 /**
  *  Define the sample application.
@@ -31,6 +35,18 @@ var SampleApp = function() {
             console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
             self.ipaddress = "127.0.0.1";
         };
+
+        var port = parseInt(self.port, 10);
+
+        if (isNaN(port)) {
+            // named pipe
+            self.port = port;
+        }
+
+        if (port >= 0) {
+            // port number
+            self.port = port;
+        }
     };
 
 
@@ -51,7 +67,9 @@ var SampleApp = function() {
      *  Retrieve entry (content) from cache.
      *  @param {string} key  Key identifying content to retrieve from cache.
      */
-    self.cache_get = function(key) { return self.zcache[key]; };
+    self.cache_get = function(key) { 
+        return self.zcache[key]; 
+    };
 
 
     /**
@@ -113,12 +131,43 @@ var SampleApp = function() {
      */
     self.initializeServer = function() {
         self.createRoutes();
-        self.app = express.createServer();
+        self.app = express();
 
+        self.app.set('views', path.join(__dirname, 'views'));
+        self.app.set('view engine', 'jade');
+
+        self.app.use(bodyParser.json());
+        self.app.use(bodyParser.urlencoded({ extended: false }));
         //  Add handlers for the app (from the routes).
-        for (var r in self.routes) {
+        /*for (var r in self.routes) {
             self.app.get(r, self.routes[r]);
+        }*/
+        self.app.use(express.static(path.join(__dirname, 'public')));
+        self.app.use('/', routes);
+
+        self.app.set('port', self.port);
+        // catch 404 and forward to error handler
+        self.app.use(function(req, res, next) {
+          var err = new Error('Not Found');
+          err.status = 404;
+          next(err);
+        });
+
+        // error handlers
+
+        // development error handler
+        // will print stacktrace
+        if (self.app.get('env') === 'development') {
+          self.app.use(function(err, req, res, next) {
+            res.status(err.status || 500);
+            res.render('error', {
+              message: err.message,
+              error: err
+            });
+          });
         }
+
+        self.server = http.createServer(self.app);
     };
 
 
@@ -140,13 +189,23 @@ var SampleApp = function() {
      */
     self.start = function() {
         //  Start the app on the specific interface (and port).
-        self.app.listen(self.port, self.ipaddress, function() {
+        /*self.app.listen(self.port, self.ipaddress, function() {
             console.log('%s: Node server started on %s:%d ...',
                         Date(Date.now() ), self.ipaddress, self.port);
-        });
+        });*/
+        self.server.listen(self.port);
+        self.server.on('error', self.onError);
+        self.server.on('listening', self.onListening);
     };
 
-};   /*  Sample Application.  */
+    self.onListening = function() {
+      var addr = self.server.address();
+      var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+      debug('Listening on ' + bind);
+
+    };   /*  Sample Application.  */
 
 
 
