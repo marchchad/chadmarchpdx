@@ -1,3 +1,4 @@
+#!/bin/env node
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -68,7 +69,8 @@ app.use(function(err, req, res, next) {
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '8080');
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 app.set('port', port);
 
 /**
@@ -81,7 +83,7 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, ipaddress);
 server.on('error', onError);
 server.on('listening', onListening);
 
