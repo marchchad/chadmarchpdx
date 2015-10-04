@@ -8,6 +8,9 @@ var bodyParser = require('body-parser');
 var debug = require('debug')('mynodeapp:server');
 var http = require('http');
 
+var routes = require('./routes/index');
+//var users = require('./routes/users');
+
 var app = express();
 
 // view engine setup
