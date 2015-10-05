@@ -6,10 +6,29 @@ html, body{
   overflow: hidden;
 }
 
+#homelink{
+  width: 100%;
+  padding: 0 5px;
+}
+
+#homelink div{
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#me{
+  background: url(../images/small-me.jpg) -70px -25px no-repeat;
+  height: 220px;
+  width: 100%;
+  border-radius: 50%;
+}
+
 a{
   text-decoration: none;
 }
 
+.navbar a,
 a:visited{
   color: #666;
 }
@@ -65,7 +84,7 @@ body::after{
 
 .navbar .top a{
   position: absolute;
-  top: 50%;
+  top: 44%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -87,17 +106,17 @@ body::after{
 }
 
 .content{
-  width: calc(100% - 200px);
+  width: calc(100% - 235px);
   display: inline-block;
-  height: 100%;
   position: absolute;
-}
-
-.container{
   overflow: auto;
-  height: calc(100% - 90px);
+  margin: 20px;
   padding: 5px 20px;
   box-sizing: border-box;
+  background-color: rgba(255,255,255,0.6);
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 7.5px #888;
 }
 
 .btn-default{

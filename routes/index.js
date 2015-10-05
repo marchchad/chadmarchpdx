@@ -8,11 +8,6 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET menu page. */
-router.get('/about', function(req, res, next) {
-  res.render('about');
-});
-
-/* GET menu page. */
 router.get('/ontap', function(req, res, next) {
   // TODO: Setup db to retrieve recipes for active taps
   // For now, we'll use these hard-coded mock objects.
