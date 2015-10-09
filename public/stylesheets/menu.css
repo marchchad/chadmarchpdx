@@ -238,9 +238,9 @@
   height: 200px;
   left: -40px;
   position: absolute;
-  transform: rotate(30deg);
-  -ms-transform: rotate(30deg);
-  -moz-transform: rotate(30deg);
+  transform: rotate(15deg);
+  -ms-transform: rotate(15deg);
+  -moz-transform: rotate(15deg);
   -webkit-transform: rotate(15deg);
   width: 110px;
 }
