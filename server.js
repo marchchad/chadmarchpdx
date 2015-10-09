@@ -26,11 +26,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-//app.use('/users', users);
-/*var router = express.Router();
-router.get('/', function(req, res, next) {
-  res.render('index', {title: 'Chad\'s Node App'});
-});*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -3,23 +3,19 @@ html
   head
     title= 'Chad\'s Node App'
     block styles
-      link(href='http://fonts.googleapis.com/css?family=Roboto', rel='stylesheet', type='text/css')
+      link(href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,300italic,400italic,700', rel='stylesheet', type='text/css')
       link(rel='stylesheet', href='/stylesheets/style.css')
     block scripts
   body.background
     .navbar.left
-      .top
-        a(href='/', class='btn' id='homelink') 
-          #me
-          div Hey Chad!
-      .bottom
-        h2 Whatchya...
-        ul.left
-          li
-            a(href='/projects', class='btn btn-default') ...tinkering on?
-          li
-            a(href='/ontap', class='btn btn-default') ...got on tap?
-          li
-            a(href='/brewing', class='btn btn-default') ...brewing?
+      ul.left
+        li
+          a(href='/', class='btn btn=default') Home
+        li
+          a(href='/projects', class='btn btn-default') Projects
+        li
+          a(href='/ontap', class='btn btn-default') On Tap
+        li
+          a(href='/brewing', class='btn btn-default') Brewing
     .content.left
       block content

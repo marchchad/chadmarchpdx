@@ -2,20 +2,35 @@ extends layout
 
 block content
   .container
-    h1= 'Whatchya all about?'
+    .page-header Chad March
+    hr
     p
-      | My name's Chad March and I am a GIS Developer for 
+      | I am a GIS Developer for 
       a(href='www.resdat.com') Resource Data Inc. 
-      | in Portland, Oregon. Currently I develop mostly Web GIS applications and have gotten 
-      | really interested in front end development and really like working with JavaScript.
-    h3= 'Whatchya like to do?'
-    p If it's winter, I'm itching to grab my board and get out on the mountain. I've been snowboarding since 2001 and am working on ticking off my mountain bucket list:
-    ul
-      li 
-        .checked Whistler
-        .year (2014)
-      li Vail
-      li Breckenridge
-      li
-        .checked Mammoth
-        .year (2005)
+      | in Portland, Oregon. 
+    #map
+    p I develop custom business applications, many of which require custom web maps. I do mostly front end development, specifically working with JavaScript to create fast custom map modules and beautiful sites.
+    .sub-header Skills
+    .skills
+      .group Web Development
+        ul
+          li 
+            p Fluent in front end technologies HTML4/5, CSS/3, and advanced methods in JavaScript; Including usage of the AMD (Async Module Definition) development methodology implemented by RequireJS, jQuery and DOJO.
+          li 
+            p Extensive experience developing enterprise applications using MVC.NET 4/5 using C# and Java Spring 3.4. Experience maintaining public facing business application using Django. Personal experience using Node.js.
+          li
+            p Extensive experience using the source control systems GitHub and BitBucket for Git and Microsoft's TFS.
+          li 
+            p Intermediate experience developing and maintaining enterprise level databases in SQL Server 2008 and above as well as Oracle 10g and above.
+          li
+            p Experience using IaaS solutions AWS EC2 and S3 as well as PaaS solutions DotCloud and OpenShift.
+      .group Geographic Information Systems (GIS) Development and Analysis
+        ul
+          li
+            p Academic and business level experience using ArcMap and ArcGIS for Server 9.2 and above. Academic usage of ERDAS for Remote Sensing analysis. Business level experience implementing Geocortext Essentials for local government.
+          li
+            p Extensive experience developing web map applications using Google Maps v3, Leaflet 0.7 and above, Bing Maps v7, Esri/ArcGIS Online, and MapBox.
+      .group Graphic Design
+        ul
+          li
+            p Intermediate experience using Adobe Illustrator and Photoshopto create custom cartographics. Experience using InDesign to produce departmental newletter for Cal. State University Northridge Department of Geography.

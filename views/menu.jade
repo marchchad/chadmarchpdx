@@ -1,10 +1,13 @@
 extends layout
 
 block content
-  h1= 'Whatchya got on tap?'
   .container
-    each recipe in recipes
-      div.item!= recipe
+    .page-header What's on tap?
+    hr
+    p Here's a live look in to what's on tap in my kegerator at home. I usually brew a 5 gallon batch about once a month in an attempt to keep 2 taps running. 
+    .recipes
+      each recipe in recipes
+        div.item!= recipe
 
 block append scripts
   script(src='https://cdn.socket.io/socket.io-1.2.0.js')
