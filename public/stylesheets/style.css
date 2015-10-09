@@ -110,7 +110,7 @@ hr {
   right: 50%;
   bottom: 0;
   background: #2098d1;
-  height: 4px;
+  height: 2px;
   -webkit-transition-property: left, right;
   transition-property: left, right;
   -webkit-transition-duration: 0.3s;
@@ -167,10 +167,11 @@ hr {
 
 .container{
   margin: 0 auto;
+  padding: 25px;
   max-width: 760px;
   background-color: rgba(255,255,255,0.7);
+  box-shadow: 0 0 15px #eee;
   box-sizing: border-box;
-  padding: 25px;
   -webkit-animation: fadein 1.3s; /* Safari, Chrome and Opera > 12.1 */
      -moz-animation: fadein 1.3s; /* Firefox < 16 */
       -ms-animation: fadein 1.3s; /* Internet Explorer */
