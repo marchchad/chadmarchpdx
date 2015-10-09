@@ -150,6 +150,12 @@
   animation-name: fillup;
   animation-timing-function: linear;
   animation-duration: 1100ms;
+  -ms-animation-name: fillup;
+  -ms-animation-timing-function: linear;
+  -ms-animation-duration: 1100ms;
+  -moz-animation-name: fillup;
+  -moz-animation-timing-function: linear;
+  -moz-animation-duration: 1100ms;
   -webkit-animation-name: fillup;
   -webkit-animation-timing-function: linear;
   -webkit-animation-duration: 1100ms;
@@ -233,6 +239,8 @@
   left: -40px;
   position: absolute;
   transform: rotate(30deg);
+  -ms-transform: rotate(30deg);
+  -moz-transform: rotate(30deg);
   -webkit-transform: rotate(15deg);
   width: 110px;
 }
@@ -241,6 +249,12 @@
   animation-name: bubble;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
+  -ms-animation-name: bubble;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-timing-function: linear;
+  -moz-animation-name: bubble;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
   -webkit-animation-name: bubble;
   -webkit-animation-iteration-count: infinite;
   -webkit-animation-timing-function: linear;
@@ -269,30 +283,40 @@
 .bubble1 {
   left: 10px;
   animation-duration: 1000ms;
+  -ms-animation-duration: 1000ms;
+  -moz-animation-duration: 1000ms;
   -webkit-animation-duration: 1000ms;
 }
 
 .bubble2 {
   left: 30px;
   animation-duration: 1100ms;
+  -ms-animation-duration: 1100ms;
+  -moz-animation-duration: 1100ms;
   -webkit-animation-duration: 1100ms;
 }
 
 .bubble3 {
   left: 60px;
   animation-duration: 1300ms;
+  -ms-animation-duration: 1300ms;
+  -moz-animation-duration: 1300ms;
   -webkit-animation-duration: 1300ms;
 }
 
 .bubble4 {
   left: 85px;
   animation-duration: 700ms;
+  -ms-animation-duration: 700ms;
+  -moz-animation-duration: 700ms;
   -webkit-animation-duration: 700ms;
 }
 
 .bubble5 {
   left: 100px;
   animation-duration: 800ms;
+  -ms-animation-duration: 800ms;
+  -moz-animation-duration: 800ms;
   -webkit-animation-duration: 800ms;
 }
 
@@ -305,6 +329,14 @@
   animation-iteration-count: 1;
   animation-timing-function: linear;
   animation-duration: 1100ms;
+  -ms-animation-name: grow;
+  -ms-animation-iteration-count: 1;
+  -ms-animation-timing-function: linear;
+  -moz-animation-duration: 1100ms;
+  -moz-animation-name: grow;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-timing-function: linear;
+  -ms-animation-duration: 1100ms;
   -webkit-animation-name: grow;
   -webkit-animation-iteration-count: 1;
   -webkit-animation-timing-function: linear;
