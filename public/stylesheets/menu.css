@@ -147,12 +147,71 @@
   border-radius: 0 0 25px 25px;
   left: 5px;
   bottom: 4px;
+  animation-name: fillup;
+  animation-timing-function: linear;
+  animation-duration: 1100ms;
   -webkit-animation-name: fillup;
   -webkit-animation-timing-function: linear;
   -webkit-animation-duration: 1100ms;
 }
 
-@-webkit-keyframes fillup {
+@keyframes fillup{
+  0% {
+    height: 10%;
+  }
+
+  50% {
+    height: 45%;
+  }
+
+  100% {
+    height: 90%;
+  }
+}
+/* Firefox < 16 */
+@-moz-keyframes fillup{
+  0% {
+    height: 10%;
+  }
+
+  50% {
+    height: 45%;
+  }
+
+  100% {
+    height: 90%;
+  }
+}
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fillup{
+  0% {
+    height: 10%;
+  }
+
+  50% {
+    height: 45%;
+  }
+
+  100% {
+    height: 90%;
+  }
+}
+/* Internet Explorer */
+@-ms-keyframes fillup{
+  0% {
+    height: 10%;
+  }
+
+  50% {
+    height: 45%;
+  }
+
+  100% {
+    height: 90%;
+  }
+}
+/* Opera < 12.1 */
+@-o-keyframes fillup {
   0% {
     height: 10%;
   }
@@ -179,6 +238,9 @@
 }
 
 .liquid .bubble {
+  animation-name: bubble;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
   -webkit-animation-name: bubble;
   -webkit-animation-iteration-count: infinite;
   -webkit-animation-timing-function: linear;
@@ -206,26 +268,31 @@
 
 .bubble1 {
   left: 10px;
+  animation-duration: 1000ms;
   -webkit-animation-duration: 1000ms;
 }
 
 .bubble2 {
   left: 30px;
+  animation-duration: 1100ms;
   -webkit-animation-duration: 1100ms;
 }
 
 .bubble3 {
   left: 60px;
+  animation-duration: 1300ms;
   -webkit-animation-duration: 1300ms;
 }
 
 .bubble4 {
   left: 85px;
+  animation-duration: 700ms;
   -webkit-animation-duration: 700ms;
 }
 
 .bubble5 {
   left: 100px;
+  animation-duration: 800ms;
   -webkit-animation-duration: 800ms;
 }
 
@@ -234,6 +301,10 @@
 .beer-foam {
   position: absolute;
   bottom: 90%;
+  animation-name: grow;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-duration: 1100ms;
   -webkit-animation-name: grow;
   -webkit-animation-iteration-count: 1;
   -webkit-animation-timing-function: linear;
@@ -251,7 +322,63 @@
   border: 1.5px solid #ddd;
 }
 
-@-webkit-keyframes grow {
+@keyframes grow{
+  0% {
+    bottom: 0;
+  }
+
+  50% {
+    bottom: 45%;
+  }
+
+  100% {
+    bottom: 90%;
+  }
+}
+/* Firefox < 16 */
+@-moz-keyframes grow{
+  0% {
+    bottom: 0;
+  }
+
+  50% {
+    bottom: 45%;
+  }
+
+  100% {
+    bottom: 90%;
+  }
+}
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes grow{
+  0% {
+    bottom: 0;
+  }
+
+  50% {
+    bottom: 45%;
+  }
+
+  100% {
+    bottom: 90%;
+  }
+}
+/* Internet Explorer */
+@-ms-keyframes grow{
+  0% {
+    bottom: 0;
+  }
+
+  50% {
+    bottom: 45%;
+  }
+
+  100% {
+    bottom: 90%;
+  }
+}
+/* Opera < 12.1 */
+@-o-keyframes grow {
   0% {
     bottom: 0;
   }
