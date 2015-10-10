@@ -172,36 +172,66 @@ hr {
   background-color: rgba(255,255,255,0.7);
   box-shadow: 0 0 15px #eee;
   box-sizing: border-box;
-  -webkit-animation: fadein 1.3s; /* Safari, Chrome and Opera > 12.1 */
-     -moz-animation: fadein 1.3s; /* Firefox < 16 */
-      -ms-animation: fadein 1.3s; /* Internet Explorer */
-       -o-animation: fadein 1.3s; /* Opera < 12.1 */
-          animation: fadein 1.3s;
+  -webkit-animation: fadein 666ms; /* Safari, Chrome and Opera > 12.1 */
+     -moz-animation: fadein 666ms; /* Firefox < 16 */
+      -ms-animation: fadein 666ms; /* Internet Explorer */
+       -o-animation: fadein 666ms; /* Opera < 12.1 */
+          animation: fadein 666ms;
 }
 
 @keyframes fadein{
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+    padding: 10px 25px;
+  }
+  to {
+    opacity: 1;
+    padding: 25px;
+  }
 }
 /* Firefox < 16 */
 @-moz-keyframes fadein{
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+    padding: 10px 25px;
+  }
+  to {
+    opacity: 1;
+    padding: 25px;
+  }
 }
 /* Safari, Chrome and Opera > 12.1 */
 @-webkit-keyframes fadein{
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+    padding: 10px 25px;
+  }
+  to {
+    opacity: 1;
+    padding: 25px;
+  }
 }
 /* Internet Explorer */
 @-ms-keyframes fadein{
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+    padding: 10px 25px;
+  }
+  to {
+    opacity: 1;
+    padding: 25px;
+  }
 }
 /* Opera < 12.1 */
 @-o-keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+    padding: 0;
+  }
+  to {
+    opacity: 1;
+    padding: 25px;
+  }
 }
 
 .btn-default{
