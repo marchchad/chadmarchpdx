@@ -1,25 +1,22 @@
 .recipes{
   display: flex;
+  justify-content: space-between;
 }
 
 .item{
-  flex: 1 100%;
+  width: 48%;
   margin: 0 5px;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0px #888;
+  background-color: rgba(255,255,255, 0.6);
+  box-sizing: border-box;
 }
 
 .item ul,
 .item ol{
   list-style-type: none;
   margin: 0;
-}
-
-.recipe{
-  overflow: auto;
-  padding: 5px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px 0px #888;
-  background-color: rgba(255,255,255, 0.6);
-  box-sizing: border-box;
 }
 
 .content h2,
@@ -29,10 +26,6 @@
   margin: 25px;
   display: inline-block;
   text-align: center;
-}
-
-.recipe{
-  min-width: 350px;
 }
 
 .recipe h2,
