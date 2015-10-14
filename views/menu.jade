@@ -9,9 +9,9 @@ block content
       each recipe in recipes
         div.item!= recipe
 
-//-block append scripts
+block append scripts
+  script(data-main='js/menu/main', src='js/lib/require.js')
   //-script(src='https://cdn.socket.io/socket.io-1.2.0.js')
-  //-script(src='/javascripts/menu/menu.js')
 
 block append styles
-  link(rel='stylesheet', href='/stylesheets/menu.css')
+  link(rel='stylesheet', href='/css/menu.css')
