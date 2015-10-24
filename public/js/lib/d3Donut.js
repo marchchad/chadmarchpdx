@@ -10,6 +10,10 @@ define(["d3"], function(d3){
   //    based on provided lookup values: lovibond for grains, hop name for hops.
   //  Derive 'dy' and label 'transform' values based on provided/derived
   //    height/width values so labels will appear within svg area.
+  //  Label items:
+  //    Easy: Include title attribute to path elements to label ingredient
+  //    Hard: Draw new label group the include label along same arc path so
+  //          user does not have to hove path element to see the ingredient label
   
   var d3Donut = function(props, targetNode){
     try{
