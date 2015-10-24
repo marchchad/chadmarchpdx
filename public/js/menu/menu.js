@@ -3,10 +3,58 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
   domReady(function() {
     // pass in url to server that will be emitting data.
 
-    var donut = new d3Donut({height: "30px"});
+    var donutProps = function(){
+      return {
+        height: 100,
+        width: 100,
+        radius: 33,
+        innerRadius: 20,
+        items: []
+      }
+    };
 
-    console.log(donut.height)
+    var donuts = [];
 
+    var donut1 = new donutProps();
+    donut1.items = [
+        {
+          "name": "American Pale 2-row",
+          "lovibond": 1.8,
+          "value": 9
+        },
+        {
+          "name": "Canadian Honey Malt",
+          "lovibond": 2.5,
+          "value": 1.5
+        }
+      ];
+    donut1.total = 10.5;
+    donuts.push({props: donut1, target: document.getElementsByClassName('grains')[0]});
+
+    var donut2 = new donutProps();
+    donut2.items = [
+        {
+          "name": "American Pale 2-row",
+          "lovibond": 1.8,
+          "value": 9
+        },
+        {
+          "name": "American Munich 10L",
+          "lovibond": 10,
+          "value": 2
+        },
+        {
+          "name": "Canadian Honey Malt",
+          "lovibond": 2.5,
+          "value": 1.5
+        }
+      ];
+    donut2.total = 12.5;
+    donuts.push({props: donut2, target: document.getElementsByClassName('grains')[1]});
+
+    for(var i = 0, len = donuts.length; i < len; i ++){
+      new d3Donut(donuts[i].props, donuts[i].target);
+    }
 
     /*var kegServer = io.connect("http://localhost:3001");
     kegServer.on('pour', function(data){
