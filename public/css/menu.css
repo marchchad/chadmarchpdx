@@ -77,21 +77,6 @@
   margin-left: 5px;
 }
 
-.grains input,
-.hops input{
-  clear: both;
-}
-
-.hops .left,
-.grains .left {
-    clear: both;
-}
-
-.grains *,
-.hops *{
-  margin-left: 7.5px;
-}
-
 .pour {
   position: absolute;
   left: 45%;

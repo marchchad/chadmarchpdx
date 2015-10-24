@@ -19,12 +19,14 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
     donut1.items = [
         {
           "name": "American Pale 2-row",
-          "lovibond": 1.8,
+          "colorValue": 1.8,
+          "colorLookup": "lovibond",
           "value": 9
         },
         {
           "name": "Canadian Honey Malt",
-          "lovibond": 2.5,
+          "colorValue": 25,
+          "colorLookup": "lovibond",
           "value": 1.5
         }
       ];
@@ -35,26 +37,31 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
     donut2.items = [
         {
           "name": "American Pale 2-row",
-          "lovibond": 1.8,
+          "colorValue": 1.8,
+          "colorLookup": "lovibond",
           "value": 9
         },
         {
           "name": "American Munich 10L",
-          "lovibond": 10,
+          "colorValue": 10,
+          "colorLookup": "lovibond",
           "value": 2
         },
         {
           "name": "Canadian Honey Malt",
-          "lovibond": 2.5,
+          "colorValue": 25,
+          "colorLookup": "lovibond",
           "value": 1.5
         }
       ];
     donut2.total = 12.5;
     donuts.push({props: donut2, target: document.getElementsByClassName('grains')[1]});
 
-    for(var i = 0, len = donuts.length; i < len; i ++){
-      new d3Donut(donuts[i].props, donuts[i].target);
-    }
+    setTimeout(function(){
+      for(var i = 0, len = donuts.length; i < len; i ++){
+        new d3Donut(donuts[i].props, donuts[i].target);
+      }
+    }, 300);
 
     /*var kegServer = io.connect("http://localhost:3001");
     kegServer.on('pour', function(data){
