@@ -154,14 +154,15 @@
   background-color: rgba(255, 255, 255, 0.25);
   bottom: -10px;
   height: 110%;
+  width: 90%;
   content: '';
   left: -40px;
   position: absolute;
+
   transform: rotate(15deg);
   -ms-transform: rotate(15deg);
   -moz-transform: rotate(15deg);
   -webkit-transform: rotate(15deg);
-  width: 90%;
 }
 
 @keyframes fillup{
@@ -213,12 +214,15 @@
   animation-name: bubble;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
+
   -ms-animation-name: bubble;
   -ms-animation-iteration-count: infinite;
   -ms-animation-timing-function: linear;
+
   -moz-animation-name: bubble;
   -moz-animation-iteration-count: infinite;
   -moz-animation-timing-function: linear;
+
   -webkit-animation-name: bubble;
   -webkit-animation-iteration-count: infinite;
   -webkit-animation-timing-function: linear;
@@ -246,6 +250,7 @@
 
 .bubble1 {
   left: 10px;
+
   animation-duration: 1000ms;
   -ms-animation-duration: 1000ms;
   -moz-animation-duration: 1000ms;
@@ -254,6 +259,7 @@
 
 .bubble2 {
   left: 30px;
+
   animation-duration: 1100ms;
   -ms-animation-duration: 1100ms;
   -moz-animation-duration: 1100ms;
@@ -262,6 +268,7 @@
 
 .bubble3 {
   left: 60px;
+
   animation-duration: 1300ms;
   -ms-animation-duration: 1300ms;
   -moz-animation-duration: 1300ms;
@@ -270,6 +277,7 @@
 
 .bubble4 {
   left: 85px;
+
   animation-duration: 700ms;
   -ms-animation-duration: 700ms;
   -moz-animation-duration: 700ms;
@@ -278,6 +286,7 @@
 
 .bubble5 {
   left: 100px;
+
   animation-duration: 800ms;
   -ms-animation-duration: 800ms;
   -moz-animation-duration: 800ms;
@@ -288,23 +297,35 @@
 
 .beer-foam {
   position: absolute;
-  bottom: 90%;
+  bottom: 0;
+
   animation-name: grow;
   animation-iteration-count: 1;
   animation-timing-function: linear;
-  animation-duration: 1100ms;
+  animation-duration: 1300ms;
+  animation-delay: 1100ms;
+  animation-fill-mode: forwards;
+
   -ms-animation-name: grow;
   -ms-animation-iteration-count: 1;
   -ms-animation-timing-function: linear;
-  -moz-animation-duration: 1100ms;
+  -ms-animation-duration: 1300ms;
+  -ms-animation-delay: 1100ms;
+  -ms-animation-fill-mode: forwards;
+
+  -moz-animation-duration: 1300ms;
   -moz-animation-name: grow;
   -moz-animation-iteration-count: 1;
   -moz-animation-timing-function: linear;
-  -ms-animation-duration: 1100ms;
+  -moz-animation-delay: 1100ms;
+  -moz-animation-fill-mode: forwards;
+
   -webkit-animation-name: grow;
   -webkit-animation-iteration-count: 1;
   -webkit-animation-timing-function: linear;
-  -webkit-animation-duration: 1100ms;
+  -webkit-animation-duration: 1300ms;
+  -webkit-animation-delay: 1100ms;
+  -webkit-animation-fill-mode: forwards;
 }
 
 .foam-1, .foam-2, .foam-3, .foam-4, 
