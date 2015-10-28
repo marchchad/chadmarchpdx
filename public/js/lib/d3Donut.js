@@ -14,7 +14,7 @@ define(["d3"], function(d3){
   //    Easy: Include title attribute to path elements to label ingredient
   //    Hard: Draw new label group the include label along same arc path so
   //          user does not have to hove path element to see the ingredient label
-  
+
   var d3Donut = function(props, targetNode){
     try{
       if(!targetNode
@@ -55,6 +55,10 @@ define(["d3"], function(d3){
         }
       }
       this.targetNode = targetNode;
+
+      var elementStyles = getComputedStyle(targetNode);
+      this.height = parseInt(elementStyles.width.replace("px", ""));
+      this.width = parseInt(elementStyles.width.replace("px", ""));
 
       this.setProperties = function(props){
         for(var prop in props){
@@ -149,11 +153,14 @@ define(["d3"], function(d3){
         //GROUP FOR LABELS
         this.label_group = this.vis.append("svg:g")
           .attr("class", "label_group")
+          .attr("font-size", "0.7em")
           .attr("transform", "translate(" + (this.width / 2) + "," + (this.height / 2) + ")");
 
         //GROUP FOR CENTER TEXT  
         this.center_group = this.vis.append("svg:g")
           .attr("class", "center_group")
+          .attr("font-size", "0.8em")
+          .attr("font-weight", "bold")
           .attr("transform", "translate(" + (this.width / 2) + "," + (this.height / 2) + ")");
 
         //PLACEHOLDER GRAY CIRCLE
@@ -166,29 +173,22 @@ define(["d3"], function(d3){
           .attr("fill", "white")
           .attr("r", this.innerRadius);
 
-        // "TOTAL" LABEL
-        this.totalLabel = this.center_group.append("svg:text")
-          .attr("class", "label")
-          .attr("dy",  - 15)
-          .attr("text-anchor", this.labelPlacement || "middle") // text-align: right
-          .text(this.totalLabel || "Total");
-
         //TOTAL VALUE
         this.totalValue = this.center_group.append("svg:text")
           .attr("class", "total")
-          .attr("dy", 7)
+          .attr("dy", -2)
           .attr("text-anchor", this.loadingMessagePlacement || "middle") // text-align: right
           .text(this.total || "Waiting...");
-          // TOOD: if no total value is provided, include waiting message
+          // TODO: if no total value is provided, include waiting message
           // then call a method to derive the total from the values provided
           // in the items array.
 
-        //UNITS LABEL
+        // TOTAL UNITS LABEL
         this.totalUnits = this.center_group.append("svg:text")
           .attr("class", "units")
-          .attr("dy", 21)
+          .attr("dy", 15)
           .attr("text-anchor", this.unitsLabelPlacement || "middle") // text-align: right
-          .text(this.unitsLabel || "");
+          .text(this.totalLabel || "");
 
         // Set values on items for drawing donut
         this.items = this.donut(this.items);

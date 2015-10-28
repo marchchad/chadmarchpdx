@@ -9,7 +9,6 @@ requirejs.config({
     baseUrl: 'js',
     paths: {
         app: '',
-        //jquery: 'jquery-2.1.3.min',
         d3: 'lib/d3.min',
         d3Donut: 'lib/d3Donut',
         domReady: 'lib/domReady'

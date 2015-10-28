@@ -1,21 +1,20 @@
 define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
 
   domReady(function() {
-    // pass in url to server that will be emitting data.
 
     var donutProps = function(){
       return {
-        height: 100,
-        width: 100,
         radius: 33,
-        innerRadius: 20,
+        innerRadius: 19.8, // Should be 60% of radius for best display results
         items: []
       }
     };
 
+    // TODO move height/width calculation to within the module.
+
     var donuts = [];
 
-    var donut1 = new donutProps();
+    var donut1 = new donutProps();    
     donut1.items = [
         {
           "name": "American Pale 2-row",
@@ -31,6 +30,7 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
         }
       ];
     donut1.total = 10.5;
+    donut1.totalLabel = "lbs.";
     donuts.push({props: donut1, target: document.getElementsByClassName('grains')[0]});
 
     var donut2 = new donutProps();
@@ -55,6 +55,7 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
         }
       ];
     donut2.total = 12.5;
+    donut2.totalLabel = "lbs.";
     donuts.push({props: donut2, target: document.getElementsByClassName('grains')[1]});
 
     setTimeout(function(){
@@ -63,7 +64,9 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
       }
     }, 300);
 
-    /*var kegServer = io.connect("http://localhost:3001");
+    /*
+    // pass in url to server that will be emitting data.
+    var kegServer = io.connect("http://localhost:3001");
     kegServer.on('pour', function(data){
       var node = document.createElement('H3');
       node.innerHTML = data.message
