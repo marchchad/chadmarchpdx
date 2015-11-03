@@ -2,15 +2,21 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
 
   domReady(function() {
 
+    var ranges = ["#FFE699","#FFE699","#FFD878","#FFD878","#FFBF42","#FBB123","#F8A600","#F39C00","#EA8F00","#E58500","#DE7C00","#D77200","#CF6900","#CB6200","#C35900","#BB5100","#B54C00","#B04500","#A63E00","#A13700","#9B3200","#952D00","#8E2900","#882300","#821E00","#7B1A00","#771900","#701400","#6A0E00","#660D00","#5E0B00","#5A0A02","#600903","#520907","#4C0505","#470606","#440607","#3F0708","#3B0607","#3A070B","#36080A"];
+
+    var domains = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40];
+
     var donutProps = function(){
       return {
+        domains: domains,
+        ranges: ranges,
+        colorKey: "color",
         radius: 33,
         innerRadius: 19.8, // Should be 60% of radius for best display results
-        items: []
+        items: [],
+        targetProp: "lbs"
       }
     };
-
-    // TODO move height/width calculation to within the module.
 
     var donuts = [];
 
@@ -18,15 +24,13 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
     donut1.items = [
         {
           "name": "American Pale 2-row",
-          "colorValue": 1.8,
-          "colorLookup": "lovibond",
-          "value": 9
+          "color": 2,
+          "lbs": 9
         },
         {
           "name": "Canadian Honey Malt",
-          "colorValue": 25,
-          "colorLookup": "lovibond",
-          "value": 1.5
+          "color": 33,
+          "lbs": 1.5
         }
       ];
     donut1.total = 10.5;
@@ -37,21 +41,18 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
     donut2.items = [
         {
           "name": "American Pale 2-row",
-          "colorValue": 1.8,
-          "colorLookup": "lovibond",
-          "value": 9
+          "color": 2,
+          "lbs": 9
         },
         {
           "name": "American Munich 10L",
-          "colorValue": 10,
-          "colorLookup": "lovibond",
-          "value": 2
+          "color": 13,
+          "lbs": 2
         },
         {
           "name": "Canadian Honey Malt",
-          "colorValue": 25,
-          "colorLookup": "lovibond",
-          "value": 1.5
+          "color": 33,
+          "lbs": 1.5
         }
       ];
     donut2.total = 12.5;

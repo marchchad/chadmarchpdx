@@ -67,20 +67,20 @@ define(["d3"], function(d3){
       };
 
       // Interpolate the arcs in data space.
-      this.pieTween = function(d, i) {
+      this.pieTween = function(d, i, items) {
         var s0;
         var e0;
-        if(this.items[i]){
-          s0 = this.items[i].startAngle;
-          e0 = this.items[i].endAngle;
+        if(items[i]){
+          s0 = items[i].startAngle;
+          e0 = items[i].endAngle;
         }
-        else if (!(this.items[i]) && this.items[i - 1]) {
-          s0 = this.items[i - 1].endAngle;
-          e0 = this.items[i - 1].endAngle;
+        else if (!(items[i]) && items[i - 1]) {
+          s0 = items[i - 1].endAngle;
+          e0 = items[i - 1].endAngle;
         }
-        else if(!(this.items[i - 1]) && this.items.length > 0){
-          s0 = this.items[this.items.length - 1].endAngle;
-          e0 = this.items[this.items.length - 1].endAngle;
+        else if(!(items[i - 1]) && items.length > 0){
+          s0 = items[items.length - 1].endAngle;
+          e0 = items[items.length - 1].endAngle;
         }
         else {
           s0 = 0;
@@ -88,12 +88,13 @@ define(["d3"], function(d3){
         }
 
         var inter = d3.interpolate({startAngle: s0, endAngle: e0}, {startAngle: d.startAngle, endAngle: d.endAngle});
-
-        return function(t) {
+        return inter;
+        /*return function(t) {
           var b = inter(t);
-          return this.arc(b);
-        }.bind(this);
+          return arc(b);
+        };*/
       };
+
       this.textTween = function(d, i) {
         var a;
         if(this.items[i]){
@@ -111,24 +112,27 @@ define(["d3"], function(d3){
         var b = (d.startAngle + d.endAngle - Math.PI) / 2;
 
         var fn = d3.interpolateNumber(a, b);
+
+        // Cache them locally to return a closure
+        var radius = this.radius;
+        var textOffset = this.textOffset;
         return function(t) {
           var val = fn(t);
-          return "translate(" + Math.cos(val) * (this.radius + this.textOffset) + "," + Math.sin(val) * (this.radius + this.textOffset) + ")";
-        }.bind(this);
+          return "translate(" + Math.cos(val) * (radius + textOffset) + "," + Math.sin(val) * (radius + textOffset) + ")";
+        };
       };
 
       this.createDonut = function(){
         //D3 helper function to populate pie slice parameters from array data
         this.donut = d3.layout.pie().value(function(d){
-          return d.value;
-        });
+          return d[this.targetProp];
+        }.bind(this));
 
         //D3 helper function to create colors from an ordinal scale of 20 categorical colors
-        this.color = d3.scale.category20c();
-
-        this.getColor = function(d, i) {
-          return this.color(i); 
-        };
+        // see: http://stackoverflow.com/questions/21208031/how-to-customize-the-color-scale-in-a-d3-line-chart
+        var color = d3.scale.ordinal()
+          .domain(this.domains)
+          .range(this.ranges);
 
         //D3 helper function to draw arcs, populates parameter "d" in path object
         this.arc = d3.svg.arc()
@@ -178,7 +182,7 @@ define(["d3"], function(d3){
           .attr("class", "total")
           .attr("dy", -2)
           .attr("text-anchor", this.loadingMessagePlacement || "middle") // text-align: right
-          .text(this.total || "Waiting...");
+          .text("Waiting...");
           // TODO: if no total value is provided, include waiting message
           // then call a method to derive the total from the values provided
           // in the items array.
@@ -192,58 +196,87 @@ define(["d3"], function(d3){
 
         // Set values on items for drawing donut
         this.items = this.donut(this.items);
+        this.arc_group.selectAll("circle").remove();
+
+        var targetProp = this.targetProp;
+        var filteredItems = this.items.filter(function(item, index, array){
+          item.value = array[index].data[targetProp];
+          item.name = targetProp;
+          return (item.value > 0);
+        });
+
+        var total = this.total;
+        this.totalValue.text(function(){
+          return total;
+        });
 
         //DRAW ARC PATHS
-        this.paths = this.arc_group.selectAll("path").data(this.items);
+        this.paths = this.arc_group.selectAll("path").data(filteredItems);
 
         this.paths.enter().append("svg:path")
           .attr("stroke", "white")
           .attr("stroke-width", 0.5)
-          .attr("fill", this.getColor.bind(this))
-          .transition()
-            .duration(this.tweenDuration)
-            .attrTween("d", this.pieTween.bind(this));
+          .attr("fill", function(d, i){
+            return color(d.data["color"]);
+          });
 
-        this.paths
-          .transition()
-            .duration(this.tweenDuration)
-            .attrTween("d", this.pieTween.bind(this));
+        var items = this.items;
+        var arc = this.arc;
+        this.paths.transition()
+          .duration(this.tweenDuration)
+          .attrTween("d", function(d, i) {
+            var s0;
+            var e0;
+            if(items[i]){
+              s0 = items[i].startAngle;
+              e0 = items[i].endAngle;
+            }
+            else if (!(items[i]) && items[i - 1]) {
+              s0 = items[i - 1].endAngle;
+              e0 = items[i - 1].endAngle;
+            }
+            else if(!(items[i - 1]) && items.length > 0){
+              s0 = items[items.length - 1].endAngle;
+              e0 = items[items.length - 1].endAngle;
+            }
+            else {
+              s0 = 0;
+              e0 = 0;
+            }
 
-        this.paths.exit()
-          .transition()
-            .duration(this.tweenDuration)
-            .remove();
+            var inter = d3.interpolate({startAngle: s0, endAngle: e0}, {startAngle: d.startAngle, endAngle: d.endAngle});
+            var a = arc;
+            return function(t) {
+              var b = inter(t);
+              return a(b);
+            };
+          });
 
         //DRAW TICK MARK LINES FOR LABELS
-        this.lines = this.label_group.selectAll("line").data(this.items);
+        this.lines = this.label_group.selectAll("line").data(filteredItems);
 
         this.lines.enter().append("svg:line")
           .attr("x1", 0)
           .attr("x2", 0)
           .attr("y1", -this.radius - 3)
           .attr("y2", -this.radius - 8)
-          .attr("stroke", "gray")
-          .attr("transform", function(d) {
-            return "rotate(" + (d.startAngle + d.endAngle) / 2 * (180 / Math.PI) + ")";
-          }.bind(this));
+          .attr("stroke", "gray");
 
         this.lines.transition()
           .duration(this.tweenDuration)
           .attr("transform", function(d) {
             return "rotate(" + (d.startAngle + d.endAngle) / 2 * (180 / Math.PI) + ")";
-          }.bind(this));
-
-        this.lines.exit().remove();
-
+          });
+          
         //DRAW LABELS WITH PERCENTAGE VALUES
-        this.valueLabels = this.label_group.selectAll("text.value").data(this.items)
+        this.valueLabels = this.label_group.selectAll("text.value").data(filteredItems)
           .attr("dy", function(d){
             if ((d.startAngle + d.endAngle) / 2 > Math.PI / 2 
               && (d.startAngle + d.endAngle) / 2 < Math.PI * 1.5
               ) {
-              return 5;
+              return 0;
             } else {
-              return -7;
+              return -2;
             }
           })
           .attr("text-anchor", function(d){
@@ -254,9 +287,9 @@ define(["d3"], function(d3){
             }
           })
           .text(function(d){
-            var percentage = (d.value / this.total) * 100;
-            return percentage.toFixed(1) + "%";
-          }.bind(this));
+            var percentage = (d.value / total) * 100;
+            return d.value;
+          });
 
         this.valueLabels.enter().append("svg:text")
           .attr("class", "value")
@@ -276,17 +309,18 @@ define(["d3"], function(d3){
             } else {
               return "end";
             }
-          }).text(function(d){
-            var percentage = (d.value / this.total) * 100;
-            return percentage.toFixed(1) + "%";
-          }.bind(this));
+          })
+          .text(function(d){
+            var percentage = (d.value / total) * 100;
+            return d.value;
+          });
 
-        this.valueLabels.transition().duration(this.tweenDuration).attrTween("transform", this.textTween.bind(this));
-
-        this.valueLabels.exit().remove();
+        this.valueLabels.transition()
+          .duration(this.tweenDuration)
+          .attrTween("transform", this.textTween.bind(this));
 
         //DRAW LABELS WITH ENTITY NAMES
-        this.nameLabels = this.label_group.selectAll("text.units").data(this.items)
+        this.nameLabels = this.label_group.selectAll("text.units").data(filteredItems)
           .attr("dy", function(d){
             if ((d.startAngle + d.endAngle) / 2 > Math.PI / 2 && (d.startAngle + d.endAngle) / 2 < Math.PI * 1.5 ) {
               return 17;
@@ -326,9 +360,9 @@ define(["d3"], function(d3){
             return d.name;
           });
 
-        this.nameLabels.transition().duration(this.tweenDuration).attrTween("transform", this.textTween.bind(this));
-
-        this.nameLabels.exit().remove();
+        this.nameLabels.transition()
+          .duration(this.tweenDuration)
+          .attrTween("transform", this.textTween.bind(this));
       };
       // End this.createDonut() method
 
