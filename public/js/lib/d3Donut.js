@@ -222,6 +222,9 @@ define(["d3"], function(d3){
 
         var items = this.items;
         var arc = this.arc;
+
+        // TODO: find out why this callback/pieTween function isn't
+        // working.
         this.paths.transition()
           .duration(this.tweenDuration)
           .attrTween("d", function(d, i) {
@@ -267,7 +270,7 @@ define(["d3"], function(d3){
           .attr("transform", function(d) {
             return "rotate(" + (d.startAngle + d.endAngle) / 2 * (180 / Math.PI) + ")";
           });
-          
+
         //DRAW LABELS WITH PERCENTAGE VALUES
         this.valueLabels = this.label_group.selectAll("text.value").data(filteredItems)
           .attr("dy", function(d){
