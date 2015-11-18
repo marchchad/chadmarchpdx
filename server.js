@@ -10,11 +10,12 @@ var http = require('http');
 
 // Get mysql library
 var mysql = require('mysql');
+// Create connection to db
 var db = mysql.createConnection({
   host: process.env.OPENSHIFT_MYSQL_DB_HOST,
   user: process.env.OPENSHIFT_MYSQL_DB_USERNAME,
   password: process.env.OPENSHIFT_MYSQL_DB_PASSWORD,
-  database: process.env.OPENSHIFT_APP_NAME
+  database: process.env.OPENSHIFT_APP_NAME // this might not be needed
 });
 
 var routes = require('./routes/index');

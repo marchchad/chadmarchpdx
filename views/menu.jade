@@ -8,6 +8,10 @@ block content
     .recipes
       each recipe in recipes
         div.item!= recipe
+  if hiddenMessage
+    p(style='display: none;')=hiddenMessage
+  if Error
+    p(style='display: none;')=Error
 
 block append scripts
   script(data-main='js/menu/main', src='js/lib/require.js')

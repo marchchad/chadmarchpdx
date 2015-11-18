@@ -7,7 +7,18 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Chad\'s Node App' });
+  var response = {};
+  try{
+    if(req.db){
+      db.connect();
+      response.hiddenMessage = "db enabled";
+      db.end();
+    }
+  }
+  catch(e){
+    response["Error"] = e;
+  }
+  res.render('index', response);
 });
 
 /* GET menu page. */
@@ -18,7 +29,6 @@ router.get('/ontap', function(req, res) {
   };
 
   try{
-    // TODO: Setup db to retrieve recipes for active taps
     // For now, we'll use these hard-coded mock objects.
     var _recipes = [
       {
@@ -45,6 +55,13 @@ router.get('/ontap', function(req, res) {
 
     for(var i = 0, len = _recipes.length; i < len; i++){
       response.recipes.push(jade.renderFile('./views/_recipe.jade', { recipe: _recipes[i] }));
+    }
+
+    // TODO: Setup db to retrieve recipes for active taps
+    if(req.db){
+      db.connect();
+      response["hiddenMessage"] = "db connected";
+      db.end();
     }
   }
   catch(e){
