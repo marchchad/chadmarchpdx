@@ -8,6 +8,15 @@ var bodyParser = require('body-parser');
 var debug = require('debug')('mynodeapp:server');
 var http = require('http');
 
+// Get mysql library
+var mysql = require('mysql');
+var db = mysql.createConnection({
+  host: process.env.OPENSHIFT_MYSQL_DB_HOST,
+  user: process.env.OPENSHIFT_MYSQL_DB_USERNAME,
+  password: process.env.OPENSHIFT_MYSQL_DB_PASSWORD,
+  database: process.env.OPENSHIFT_APP_NAME
+});
+
 var routes = require('./routes/index');
 
 var app = express();
@@ -23,6 +32,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Make our db accessible to our router
+// This must be declared before setting the app to use our routes.
+app.use(function(req,res,next){
+    req.db = db;
+    next();
+});
 
 app.use('/', routes);
 
