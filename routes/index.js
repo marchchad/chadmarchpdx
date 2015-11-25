@@ -10,9 +10,9 @@ router.get('/', function(req, res) {
   var response = {};
   try{
     if(req.db){
-      db.connect();
+      req.db.connect();
       response.hiddenMessage = "db enabled";
-      db.end();
+      req.db.end();
     }
   }
   catch(e){

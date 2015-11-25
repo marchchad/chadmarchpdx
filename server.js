@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Make our db accessible to our router
 // This must be declared before setting the app to use our routes.
-app.use(function(req,res,next){
+app.use(function(req, res, next){
     req.db = db;
     next();
 });
