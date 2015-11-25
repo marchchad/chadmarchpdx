@@ -59,9 +59,9 @@ router.get('/ontap', function(req, res) {
 
     // TODO: Setup db to retrieve recipes for active taps
     if(req.db){
-      db.connect();
+      req.db.connect();
       response["hiddenMessage"] = "db connected";
-      db.end();
+      req.db.end();
     }
   }
   catch(e){
@@ -88,7 +88,7 @@ router.get('/api', function(req, res){
 router.post('/api/keg', function(req, res){
   try{
     if(req.db){
-      db.connect();
+      req.db.connect();
     }
     res.render({ "Success": e });
   }
