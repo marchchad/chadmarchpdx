@@ -18,7 +18,7 @@ var mysql = require('mysql');
   database: process.env.OPENSHIFT_APP_NAME || 'test' // this might not be needed
 });*/
 var pool = mysql.createPool({
-  host: 'ipaapi',
+  host: process.env.OPENSHIFT_MYSQL_DB_HOST,
   user: 'ipaapi',
   password: 'ipaapi',
   database: 'ipaapi' // this might not be needed
