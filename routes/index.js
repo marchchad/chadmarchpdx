@@ -2,17 +2,18 @@ var express = require('express');
 var jade = require('jade');
 var router = express.Router();
 
-// There is middleware implemented in `server.js` that binds the db instance
+// There is middleware implemented in `server.js` that binds the pool instance
 // to the `req` object before any of these routes are hit.
 
 /* GET home page. */
 router.get('/', function(req, res) {
   var response = {};
   try{
-    if(req.db){
-      req.db.connect();
-      response.hiddenMessage = "db enabled";
-      req.db.end();
+    if(req.pool){
+      req.pool.getConnection(function(err, conn){
+        response.hiddenMessage = "pool enabled";
+        conn.release();
+      });
     }
   }
   catch(e){
@@ -29,46 +30,29 @@ router.get('/ontap', function(req, res) {
   };
 
   try{
-    // For now, we'll use these hard-coded mock objects.
-    var _recipes = [
-      {
-        keg: 2,
-        name: "Citra Pale Ale",
-        srm: 9,
-        ibu: 52,
-        abv: 5.2,
-        grains: ["Pale 2-Row", "Canadian Honey Malt", "American Munich 10L"],
-        hops: ["Centenniel", "Citra (Hop-Burst & Dry-Hop)"],
-        yeast: "Safale - American Ale Yeast US-05"
-      },
-      {
-        keg: 1,
-        name: "Honey Blonde Ale",
-        srm: 7,
-        ibu: 24,
-        abv: 4.8,
-        grains: ["Pale 2-Row", "Canadian Honey Malt"],
-        hops: ["Cascade", "Citra"],
-        yeast: "Wyeast - California Lager 2112"
-      },
-    ];
-
-    for(var i = 0, len = _recipes.length; i < len; i++){
-      response.recipes.push(jade.renderFile('./views/_recipe.jade', { recipe: _recipes[i] }));
-    }
-
-    // TODO: Setup db to retrieve recipes for active taps
-    if(req.db){
-      req.db.connect();
-      response["hiddenMessage"] = "db connected";
-      req.db.end();
+    if(req.pool){
+      req.pool.getConnection(function(err, conn){
+        conn.query('call get_recipes', function(err, results){
+          conn.release();
+          results = results[0];
+          for(var i = 0, len = results.length; i < len; i++){
+            if(results[i].hasOwnProperty("Name")){
+              results[i]["grains"] = results[i].grains.split(",");
+              results[i]["hops"] = results[i].hops.split(",");
+              
+              response.recipes.push(jade.renderFile('./views/_recipe.jade', { recipe: results[i] }));
+            }
+          }
+          res.render('menu', response);
+        });
+      });
     }
   }
   catch(e){
+    console.log(e)
     response["Error"] = e;
+    res.render('menu', response);
   }
-  console.log(response);
-  res.render('menu', response);
 });
 
 /* GET menu page. */
@@ -87,8 +71,8 @@ router.get('/api', function(req, res){
 
 router.post('/api/keg', function(req, res){
   try{
-    if(req.db){
-      req.db.connect();
+    if(req.pool){
+      req.pool.connect();
     }
     res.render({ "Success": e });
   }

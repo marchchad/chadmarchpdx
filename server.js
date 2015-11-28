@@ -10,12 +10,18 @@ var http = require('http');
 
 // Get mysql library
 var mysql = require('mysql');
-// Create connection to db
-var db = mysql.createConnection({
-  host: process.env.OPENSHIFT_MYSQL_DB_HOST,
-  user: process.env.OPENSHIFT_MYSQL_DB_USERNAME,
-  password: process.env.OPENSHIFT_MYSQL_DB_PASSWORD,
-  database: process.env.OPENSHIFT_APP_NAME // this might not be needed
+// Create connection pool
+/*var pool = mysql.createPool({
+  host: process.env.OPENSHIFT_MYSQL_DB_HOST || 'localhost',
+  user: process.env.OPENSHIFT_MYSQL_DB_USERNAME || 'root',
+  password: process.env.OPENSHIFT_MYSQL_DB_PASSWORD || 'admin',
+  database: process.env.OPENSHIFT_APP_NAME || 'test' // this might not be needed
+});*/
+var pool = mysql.createPool({
+  host: 'ipaapi',
+  user: 'ipaapi',
+  password: 'ipaapi',
+  database: 'ipaapi' // this might not be needed
 });
 
 var routes = require('./routes/index');
@@ -34,10 +40,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Make our db accessible to our router
+// Make our connection pool accessible to our routers
 // This must be declared before setting the app to use our routes.
 app.use(function(req, res, next){
-    req.db = db;
+    req.pool = pool;
     next();
 });
 
@@ -79,7 +85,7 @@ app.use(function(err, req, res, next) {
  */
 
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
-var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 app.set('port', port);
 
 /**
