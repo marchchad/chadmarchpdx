@@ -25,32 +25,45 @@ router.get('/', function(req, res) {
 /* GET menu page. */
 router.get('/ontap', function(req, res) {
 
-  var response = {
-    recipes: []
-  };
-
   try{
     if(req.pool){
       req.pool.getConnection(function(err, conn){
-        conn.query('call get_recipes', function(err, results){
-          conn.release();
-          results = results[0];
-          for(var i = 0, len = results.length; i < len; i++){
-            if(results[i].hasOwnProperty("Name")){
-              results[i]["grains"] = results[i].grains.split(",");
-              results[i]["hops"] = results[i].hops.split(",");
-              
-              response.recipes.push(jade.renderFile('./views/_recipe.jade', { recipe: results[i] }));
+        if(conn){
+          conn.query('call get_recipes', function(err, results){
+            conn.release();
+            if(err && err.errno > 0){
+              res.render('menu', {
+                error: err,
+                message: "Bummer, looks like we are having some technical difficulties. Check back soon to see what's next!"
+              });
             }
-          }
-          res.render('menu', response);
-        });
+            else{
+              results = results[0];
+              var _recipes = [];
+              for(var i = 0, len = results.length; i < len; i++){
+                if(results[i].hasOwnProperty("Name")){
+                  results[i]["grains"] = results[i].grains.split(",");
+                  results[i]["hops"] = results[i].hops.split(",");
+                  
+                  _recipes.push(jade.renderFile('./views/_recipe.jade', { recipe: results[i] }));
+                }
+              }
+              res.render('menu', { recipes: _recipes });
+            }
+          });
+        }
+        else{
+          res.render('menu', { message: "Bummer, looks like we are having some technical difficulties. Check back soon to see what's next!" });
+        }
       });
+    }
+    else{
+      res.render('menu', { message: "Bummer, doesn't look like we have anything on tap at the moment. Check back soon to see what's next!" });
     }
   }
   catch(e){
-    console.log(e)
-    response["Error"] = e;
+    console.log(e);
+    response["error"] = e;
     res.render('menu', response);
   }
 });

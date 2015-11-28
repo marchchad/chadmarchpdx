@@ -6,12 +6,17 @@ block content
     hr
     p Here's a live look in to what's on tap in my kegerator at home. I usually brew a 5 gallon batch about once a month in an attempt to keep 2 taps running. 
     .recipes
-      each recipe in recipes
-        div.item!= recipe
+      if recipes && recipes.length > 0
+        each recipe in recipes
+          div.item!= recipe
+      else
+        div.item!= message
+        if error
+          div(style='display: none;')!= error
   if hiddenMessage
-    p(style='display: none;')=hiddenMessage
+    p(style='display: none;')= hiddenMessage
   if Error
-    p(style='display: none;')=Error
+    p(style='display: none;')= error
 
 block append scripts
   script(data-main='js/menu/main', src='js/lib/require.js')
