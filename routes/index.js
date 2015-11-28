@@ -53,7 +53,10 @@ router.get('/ontap', function(req, res) {
           });
         }
         else{
-          res.render('menu', { message: "Bummer, looks like we are having some technical difficulties. Check back soon to see what's next!" });
+          res.render('menu', {
+            error: err,
+            message: "Bummer, looks like we are having some technical difficulties. Check back soon to see what's next!"
+          });
         }
       });
     }
