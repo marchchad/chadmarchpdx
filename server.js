@@ -11,18 +11,18 @@ var http = require('http');
 // Get mysql library
 var mysql = require('mysql');
 // Create connection pool
-/*var pool = mysql.createPool({
+var pool = mysql.createPool({
   host: process.env.OPENSHIFT_MYSQL_DB_HOST || 'localhost',
   user: process.env.OPENSHIFT_MYSQL_DB_USERNAME || 'root',
   password: process.env.OPENSHIFT_MYSQL_DB_PASSWORD || 'admin',
   database: process.env.OPENSHIFT_APP_NAME || 'test' // this might not be needed
-});*/
-var pool = mysql.createPool({
+});
+/*var pool = mysql.createPool({
   host: process.env.OPENSHIFT_MYSQL_DB_HOST,
   user: 'ipaapi',
   password: 'ipaapi',
   database: 'ipaapi' // this might not be needed
-});
+});*/
 
 var routes = require('./routes/index');
 
