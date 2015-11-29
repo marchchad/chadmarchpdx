@@ -1,0 +1,45 @@
+{
+  "name": "OpenShift-Sample-App",
+  "version": "0.5.0",
+  "description": "My name is Chad March and this site is my portfolio that documents my skills as well as my past and current projects.",
+  "keywords": [
+    "Chad March",
+    "Portfolio",
+    "Resume",
+    "openshift"
+  ],
+  "author": {
+    "name": "Chad March",
+    "email": "marchchad@gmail.com",
+    "url": "http://www.chadmarchpdx.com/"
+  },
+  "homepage": "http://www.chadmarchpdx.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marchchad/chadmarchpdx"
+  },
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
+  },
+  "scripts": {
+    "start": "node ./server.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "handlebars": "^3.0.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.6.1",
+    "mysql": "~2.9.0",
+    "requirejs": "^2.1.20",
+    "serve-favicon": "~2.3.0",
+    "socket.io": "^1.3.6"
+  },
+  "devDependencies": {},
+  "bundleDependencies": [],
+  "private": true,
+  "main": "server.js"
+}
