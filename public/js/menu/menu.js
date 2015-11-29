@@ -35,7 +35,10 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
       ];
     donut1.total = 10.5;
     donut1.totalLabel = "lbs.";
-    donuts.push({props: donut1, target: document.getElementsByClassName('grains')[0]});
+    donuts.push({ 
+      props: donut1,
+      target: document.getElementsByClassName('grains')[0]
+    });
 
     var donut2 = new donutProps();
     donut2.items = [
@@ -57,7 +60,10 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
       ];
     donut2.total = 12.5;
     donut2.totalLabel = "lbs.";
-    donuts.push({props: donut2, target: document.getElementsByClassName('grains')[1]});
+    donuts.push({
+      props: donut2,
+      target: document.getElementsByClassName('grains')[1]
+    });
 
     setTimeout(function(){
       for(var i = 0, len = donuts.length; i < len; i ++){

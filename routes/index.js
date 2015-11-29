@@ -40,15 +40,40 @@ router.get('/ontap', function(req, res) {
             else{
               results = results[0];
               var _recipes = [];
+              
+              var data = {
+                grains: [],
+                hops: []
+              };
+
               for(var i = 0, len = results.length; i < len; i++){
                 if(results[i].hasOwnProperty("Name")){
-                  results[i]["grains"] = results[i].grains.split(",");
-                  results[i]["hops"] = results[i].hops.split(",");
+
+                  var grains = results[i].grains.split("|");
+                  for(var j = 0, jlen = grains.length; j < jlen; j++){
+                    data.grains.push({
+                      name: grains[i][0],
+                      color: grains[i][1],
+                      lbs: grains[i][2]
+                    });
+                  }
+
+                  var hops = results[i].hops.split("|");
+                  for(var j = 0, jlen = hops.length; j < jlen; j++){
+                    data.hops.push({
+                      name: hops[i][0],
+                      oz: hops[i][1],
+                      time: hops[i][2]
+                    });
+                  }
                   
                   _recipes.push(jade.renderFile('./views/_recipe.jade', { recipe: results[i] }));
                 }
               }
-              res.render('menu', { recipes: _recipes });
+              res.render('menu', {
+                recipes: _recipes,
+                d3data: "var data = " + JSON.stringify(data) + ";"
+              });
             }
           });
         }
