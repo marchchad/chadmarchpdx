@@ -48,22 +48,26 @@ router.get('/ontap', function(req, res) {
 
               for(var i = 0, len = results.length; i < len; i++){
                 if(results[i].hasOwnProperty("Name")){
-
+                  // TODO: finish updating the parsing of this data to update
+                  // and return an object array of the data by recipe to replace
+                  // the hardcoded menu data objects in menu.js
                   var grains = results[i].grains.split("|");
                   for(var j = 0, jlen = grains.length; j < jlen; j++){
+                    var grain = grains[i].split(",");
                     data.grains.push({
-                      name: grains[i][0],
-                      color: grains[i][1],
-                      lbs: grains[i][2]
+                      name: grain[0],
+                      color: grain[1],
+                      lbs: grain[2]
                     });
                   }
 
                   var hops = results[i].hops.split("|");
                   for(var j = 0, jlen = hops.length; j < jlen; j++){
+                    var hop = hops[i].split(",");
                     data.hops.push({
-                      name: hops[i][0],
-                      oz: hops[i][1],
-                      time: hops[i][2]
+                      name: hop[0],
+                      oz: hop[1],
+                      time: hop[2]
                     });
                   }
                   
@@ -72,7 +76,7 @@ router.get('/ontap', function(req, res) {
               }
               res.render('menu', {
                 recipes: _recipes,
-                d3data: "var data = " + JSON.stringify(data) + ";"
+                data: data
               });
             }
           });

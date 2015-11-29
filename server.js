@@ -13,8 +13,8 @@ var mysql = require('mysql');
 // Create connection pool
 var pool = mysql.createPool({
   host: process.env.OPENSHIFT_MYSQL_DB_HOST || 'localhost',
-  user: 'ipaapi' || 'root',
-  password: 'ipaapi' || 'admin',
+  user: (process.env.OPENSHIFT_MYSQL_DB_HOST ? 'ipaapi' : 'root'),
+  password: (process.env.OPENSHIFT_MYSQL_DB_HOST ? 'ipaapi' : 'admin'),
   database: (process.env.OPENSHIFT_MYSQL_DB_HOST ? 'ipaapi' : 'test') // this might not be needed
 });
 
