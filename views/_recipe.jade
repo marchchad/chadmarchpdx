@@ -4,7 +4,7 @@ div(class='recipe' id='keg#{recipe.keg}')
     div.row
       div.left= 'ABV: ' + recipe.abv + '%'
     div.row
-      div.left= 'IBU: ' + recipe.IBU
+      div.left= 'IBU: ' + recipe.ibu
     div.row
       div.left= 'Yeast: ' + recipe.yeast
   div.pourData.right
@@ -28,6 +28,6 @@ div(class='recipe' id='keg#{recipe.keg}')
 
   if (recipe.grains.length > 0)
     div(id='keg#{recipe.keg}-grains' class='left')
-    
+
   if (recipe.hops.length > 0)
     div(id='keg#{recipe.keg}-hops' class='left')
