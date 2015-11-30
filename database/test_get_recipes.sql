@@ -8,9 +8,9 @@ create definer=`root`@`localhost` procedure `get_recipes`()
 begin
 	select r.*,
 		k.kegid as keg,
-		group_concat(distinct concat(g.name, ',', g.lovibond, ',', rg.amount) separator '|') as grains,
+		group_concat(distinct concat(g.name, ',', g.lovibond, ',', 'lovibond', ',', rg.amount) separator '|') as grains,
 		group_concat(distinct concat(h.name, ',', rh.amount, ',', hu.`use`, ',', rh.time) separator '|' ) as hops,
-		y.name as yeast
+		concat(y.lab, ' - ', y.name) as yeast
 	from recipes r
 	left join recipe_grains rg on r.id = rg.recipeid
 	left join grains g on rg.grainid = g.grainid

@@ -41,35 +41,41 @@ router.get('/ontap', function(req, res) {
               results = results[0];
               var _recipes = [];
               
-              var data = {
-                grains: [],
-                hops: []
-              };
+              var data = [];
 
               for(var i = 0, len = results.length; i < len; i++){
                 if(results[i].hasOwnProperty("Name")){
-                  // TODO: finish updating the parsing of this data to update
-                  // and return an object array of the data by recipe to replace
-                  // the hardcoded menu data objects in menu.js
+
+                  var recipe = {
+                    target: 'keg' + results[i].keg,
+                    grains: [],
+                    hops: []
+                  };
+
                   var grains = results[i].grains.split("|");
+                  var grainTotal = 0;
                   for(var j = 0, jlen = grains.length; j < jlen; j++){
-                    var grain = grains[i].split(",");
-                    data.grains.push({
+                    var grain = grains[j].split(",");
+                    recipe.grains.push({
                       name: grain[0],
                       color: grain[1],
-                      lbs: grain[2]
+                      colorType: grain[2],
+                      lbs: grain[3]
                     });
+                    grainTotal += grain[3];
                   }
 
                   var hops = results[i].hops.split("|");
                   for(var j = 0, jlen = hops.length; j < jlen; j++){
-                    var hop = hops[i].split(",");
-                    data.hops.push({
+                    var hop = hops[j].split(",");
+                    recipe.hops.push({
                       name: hop[0],
                       oz: hop[1],
                       time: hop[2]
                     });
                   }
+
+                  data.push(recipe);
                   
                   _recipes.push(jade.renderFile('./views/_recipe.jade', { recipe: results[i] }));
                 }

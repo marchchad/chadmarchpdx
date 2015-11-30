@@ -1,22 +1,12 @@
-div(class='recipe' id='keg-#{recipe.keg}')
+div(class='recipe' id='keg#{recipe.keg}')
   h2.left.recipe-name= recipe.Name
   div(class='recipeDetails left')
     div.row
       div.left= 'ABV: ' + recipe.abv + '%'
     div.row
-      di.left= 'IBU: ' + recipe.ibu
+      div.left= 'IBU: ' + recipe.IBU
     div.row
       div.left= 'Yeast: ' + recipe.yeast
-    div.row
-      if (recipe.grains.length > 0)
-        label.left Grains:
-        .grains
-    div.row
-      if (recipe.hops.length > 0)
-        label.left Hops:
-        .hops
-          each hop in recipe.hops
-            div.left= hop
   div.pourData.right
   .beer.left
     div(class='pour srm-#{recipe.srm}')
@@ -35,3 +25,9 @@ div(class='recipe' id='keg-#{recipe.keg}')
       .bubble.bubble3
       .bubble.bubble4
       .bubble.bubble5
+
+  if (recipe.grains.length > 0)
+    div(id='keg#{recipe.keg}-grains' class='left')
+    
+  if (recipe.hops.length > 0)
+    div(id='keg#{recipe.keg}-hops' class='left')

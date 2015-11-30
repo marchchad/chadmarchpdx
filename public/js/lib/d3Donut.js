@@ -3,7 +3,6 @@ define(["d3"], function(d3){
   // TODO: 
   //  Figure out why the animation is not happening.
   //  Provide alternative methods for setting the size of the donut
-  //    Derive the height/width/innerRadius based on a radius value.
   //    Derive the radius values based on the provide height and width values.
   //  Need to set color scale based on colors provided by properties
   //    Either extend this or create a new object to include a lookup method
@@ -17,11 +16,6 @@ define(["d3"], function(d3){
 
   var d3Donut = function(props, targetNode){
     try{
-      if(!targetNode
-        || !targetNode.tagName
-        || !targetNode.nodeName){
-        throw "Please provide a valid target dom element.";
-      }
       // Default propeties.
       this.arc = null;
       this.donut = null;
@@ -29,10 +23,8 @@ define(["d3"], function(d3){
       this.valueLabels = null;
       this.nameLabels = null;
       this.items = [];
-      this.width = 450;
-      this.height = 300;
       this.radius = 100;
-      this.innerRadius = 60;
+      this.innerRadius = (this.innerRadius * 0.6);
       this.textOffset = 14;
       this.tweenDuration = 500;
 
@@ -42,12 +34,21 @@ define(["d3"], function(d3){
         throw("No target node provided!");
       }
       else{
+        if(targetNode.split(" ").length > 1){
+          throw("Please provide a unique id for the target element value.");
+        }
+
         if(typeof targetNode == "string"){
           var node = document.getElementById(targetNode);
           if(!node){
             node = document.getElementByClassName(targetNode)[0];
           }
           targetNode = node;
+        }
+        else if(!targetNode
+          || !targetNode.tagName
+          || !targetNode.nodeName){
+          throw "Please provide a valid target dom element.";
         }
 
         while (targetNode.firstChild) {
@@ -57,8 +58,8 @@ define(["d3"], function(d3){
       this.targetNode = targetNode;
 
       var elementStyles = getComputedStyle(targetNode);
-      this.height = parseInt(elementStyles.width.replace("px", ""));
-      this.width = parseInt(elementStyles.width.replace("px", ""));
+      this.height = parseInt(elementStyles.width.replace("px", "")) || (this.radius + (this.radius * 0.5));
+      this.width = parseInt(elementStyles.width.replace("px", "")) || (this.radius + (this.radius * 0.5));
 
       this.setProperties = function(props){
         for(var prop in props){
@@ -192,7 +193,7 @@ define(["d3"], function(d3){
           .attr("class", "units")
           .attr("dy", 15)
           .attr("text-anchor", this.unitsLabelPlacement || "middle") // text-align: right
-          .text(this.totalLabel || "");
+          .text(this.targetProp || "");
 
         // Set values on items for drawing donut
         this.items = this.donut(this.items);
@@ -200,12 +201,19 @@ define(["d3"], function(d3){
 
         var targetProp = this.targetProp;
         var filteredItems = this.items.filter(function(item, index, array){
-          item.value = array[index].data[targetProp];
+          item.value = parseFloat(array[index].data[targetProp]);
           item.name = targetProp;
           return (item.value > 0);
         });
 
-        var total = this.total;
+        var total = this.total || (function(filteredItems, key){
+          var total = 0;
+          for(var j = 0, jlen = filteredItems.length; j < jlen; j++){
+            total += parseFloat(filteredItems[j].data[key]);
+          }
+          return total;
+        })(filteredItems, targetProp);
+
         this.totalValue.text(function(){
           return total;
         });
@@ -217,7 +225,11 @@ define(["d3"], function(d3){
           .attr("stroke", "white")
           .attr("stroke-width", 0.5)
           .attr("fill", function(d, i){
-            return color(d.data["color"]);
+            var colorVal = d.data["color"] || i + 1;
+            if(d.data.hasOwnProperty("colorType") && d.data["colorType"].toLowerCase() == 'lovibond'){
+              colorVal = Math.round((1.3546 * colorVal) - 0.76);
+            }
+            return color(colorVal);
           });
 
         var items = this.items;
