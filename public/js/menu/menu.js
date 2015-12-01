@@ -49,7 +49,7 @@ define(['d3Donut', 'donutProps', 'domReady'], function (d3Donut, donutProps, dom
     }
 
     // pass in url to server that will be emitting data.
-    var kegServer = io.connect("127.0.0.1");
+    var kegServer = io.connect(window.location.host);
 
     kegServer.on('pour', function(data){
       var node = document.createElement('H3');
