@@ -11,6 +11,7 @@ requirejs.config({
         app: '',
         d3: 'lib/d3.min',
         d3Donut: 'lib/d3Donut',
+        donutProps: 'lib/donutProps',
         domReady: 'lib/domReady'
     }
 });

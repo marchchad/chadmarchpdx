@@ -58,7 +58,7 @@ define(["d3"], function(d3){
       this.targetNode = targetNode;
 
       var elementStyles = getComputedStyle(targetNode);
-      this.height = parseInt(elementStyles.width.replace("px", "")) || (this.radius + (this.radius * 0.5));
+      this.height = parseInt(elementStyles.height.replace("px", "")) || (this.radius + (this.radius * 0.5));
       this.width = parseInt(elementStyles.width.replace("px", "")) || (this.radius + (this.radius * 0.5));
 
       this.setProperties = function(props){

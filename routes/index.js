@@ -24,7 +24,6 @@ router.get('/', function(req, res) {
 
 /* GET menu page. */
 router.get('/ontap', function(req, res) {
-
   try{
     if(req.pool){
       req.pool.getConnection(function(err, conn){
@@ -80,10 +79,13 @@ router.get('/ontap', function(req, res) {
                   _recipes.push(jade.renderFile('./views/_recipe.jade', { recipe: results[i] }));
                 }
               }
-              res.render('menu', {
+
+              var response = {
                 recipes: _recipes,
                 data: data
-              });
+              };
+
+              res.render('menu', response);
             }
           });
         }
@@ -120,15 +122,35 @@ router.get('/api', function(req, res){
   res.render('api');
 });
 
+router.get('/api/keg', function(req, res){
+  try{
+    if(req.pool){
+      req.pool.getConnection(function(err, conn){
+        if(conn){
+          res.send({ "Success": "Connected" });
+        }
+      });
+    }
+  }
+  catch(e){
+    res.send({ "Error": e });
+    console.log(e);
+  }
+});
+
 router.post('/api/keg', function(req, res){
   try{
     if(req.pool){
-      req.pool.connect();
+      req.pool.getConnection(function(err, conn){
+        if(conn){
+          res.send({ "Success": "Connected" });
+        }
+      });
     }
-    res.render({ "Success": e });
   }
   catch(e){
-    res.render({ "Error": e });
+    res.send({ "Error": e });
+    console.log(e);
   }
 });
 

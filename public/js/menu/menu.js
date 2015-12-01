@@ -1,4 +1,4 @@
-define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
+define(['d3Donut', 'donutProps', 'domReady'], function (d3Donut, donutProps, domReady) {
 
   domReady(function() {
 
@@ -10,43 +10,37 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
       var hopRanges = ['#c7e9c0','#a1d99b','#74c476','#31a354','#109618'];
       var hopDomains = [1,2,3,4,5];
 
-      var donutProps = function(targetProp){
-        return {
-          colorKey: "color",
-          radius: 33,
-          innerRadius: 19.8, // Should be 60% of radius for best display results
-          items: [],
-          targetProp: targetProp
-        }
-      };
-
       var donuts = [];
 
       for(var i = 0, len = d3data.length; i < len; i++){
-        var donut1 = new donutProps("lbs");
-        donut1["domains"] = grainDomains;
-        donut1["ranges"] = grainRanges;
-        donut1.items = d3data[i].grains;
 
         donuts.push({
-          props: donut1,
+          props: new donutProps({
+            targetProp: "lbs",
+            domains: grainDomains,
+            ranges: grainRanges,
+            items: d3data[i].grains
+          }),
           target: d3data[i].target + "-grains"
         });
 
-        var donut2 = new donutProps("oz");
-        donut2["domains"] = hopDomains;
-        donut2["ranges"] = hopRanges;
-        donut2.items = d3data[i].hops;
-
         donuts.push({
-          props: donut2,
+          props: new donutProps({
+            targetProp: "oz",
+            domains: hopDomains,
+            ranges: hopRanges,
+            items: d3data[i].hops
+          }),
           target: d3data[i].target + "-hops"
         });
       }
 
       setTimeout(function(){
         for(var i = 0, len = donuts.length; i < len; i ++){
-          new d3Donut(donuts[i].props, donuts[i].target);
+          var donut = new d3Donut(donuts[i].props, donuts[i].target);
+          if(donut.Error){
+            console.log(donut.Error);
+          }
         }
       }, 300);
     }
@@ -54,15 +48,15 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
       // TODO: handle no data situation
     }
 
-    /*
     // pass in url to server that will be emitting data.
-    var kegServer = io.connect("http://localhost:3001");
+    var kegServer = io.connect("127.0.0.1");
+
     kegServer.on('pour', function(data){
       var node = document.createElement('H3');
       node.innerHTML = data.message
       node.className = 'right';
       
-      var targetKeg = "keg-" + data.keg;
+      var targetKeg = "keg" + data.keg;
 
       var parent = document.getElementById(targetKeg);
       parent.insertBefore(node, parent.firstChild);
@@ -87,6 +81,5 @@ define(['d3Donut', 'domReady'], function (d3Donut, domReady) {
         }, 5000);
       });
     });
-    */
   });
 });
