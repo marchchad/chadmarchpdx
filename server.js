@@ -1,4 +1,5 @@
 #!/bin/env node
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -74,86 +75,58 @@ app.use(function(err, req, res, next) {
   });
 });
 
-/**
- * Get port from environment and store in Express.
- */
-
-var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+/*
+  Get port from environment and store in Express.
+*/
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "0.0.0.0";
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 app.set('port', port);
 
-/**
- * Create HTTP server.
- */
-
+/*
+  Create HTTP server.
+*/
 var server = http.createServer(app);
 
 var io = require('socket.io')(server);
 
-/*** Temp mock data and functions ***/
-var pourData = [
-// duration is in seconds
-// volume is in ounces
-  {
-    volume: 12.2,
-    duration: 80
-  },
-  {
-    volume: 16.4,
-    duration: 96
-  },
-  {
-    volume: 11.7,
-    duration: 54
-  }
-];
-
-function getPourData(){
-  var pour = getRandomInt(0, 2);
-  return pourData[pour];
-}
-
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-/*** Temp mock data and functions ***/
+// io.emit emits to all connected clients
+// socket.emit emits to only the connection made on that socket
 io.on('connection', function(socket){
-  console.log('connection made')
-  setTimeout(function(){
-    console.log('emitting')
+
+  // TODO: log connections made to run stats on visitors later
+  // Geolocate based on their IP for use in populating a visitors map
+  console.log('connection made');
+
+  /*
+    This is middleware to pass the data straight to the client
+    from the program reading from the flow meter
+  */
+  socket.on('emitTotalPourData', function(pourData){
+    console.log(pourData);
     socket.emit('pour', 
       {
-        keg: 1,
+        keg: pourData.keg,
         message: 'Now pouring!'
       }
     );
-  }, 5000);
-
-  socket.on('getPourData', function(){
-    var pourData = getPourData();
-    setTimeout(function(){
-      console.log(pourData);
-      io.emit('pourData', {data: pourData});
-    }, pourData.duration * 100);
+    io.emit('pourData', pourData);
   });
-
+  
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
 });
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-
+/*
+  Listen on provided port, on all network interfaces.
+*/
 server.listen(port, ipaddress);
 server.on('error', onError);
 server.on('listening', onListening);
 
-/**
- * Normalize a port into a number, string, or false.
- */
-
+/*
+  Normalize a port into a number, string, or false.
+*/
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
@@ -163,17 +136,15 @@ function normalizePort(val) {
   }
 
   if (port >= 0) {
-    // port number
     return port;
   }
 
   return false;
 }
 
-/**
- * Event listener for HTTP server "error" event.
- */
-
+/*
+  Event listener for HTTP server "error" event.
+*/
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
@@ -198,9 +169,9 @@ function onError(error) {
   }
 }
 
-/**
- * Event listener for HTTP server "listening" event.
- */
+/*
+  Event listener for HTTP server "listening" event.
+*/
 
 function onListening() {
   var addr = server.address();

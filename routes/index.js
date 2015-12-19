@@ -138,7 +138,7 @@ router.get('/api/keg', function(req, res){
   }
 });
 
-router.post('/api/keg', function(req, res){
+router.post('/api/pour', function(req, res){
   try{
     if(req.pool){
       req.pool.getConnection(function(err, conn){
