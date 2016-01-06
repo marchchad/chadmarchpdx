@@ -1,14 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
-// This routes to the http[s]://{site.com}/api/ homepage
-// not http[s]://{site.com}/
+// This catches all verbs matching to the /keg route to check
+// for the required `kegid` param and if it doesn't exist, then
+// it returns the response object outlining the issue.
 
 router.route('/keg*')
   .all(function(req, res, next){
     var kegid = req.params[0].replace("/", "");
     if(!kegid){
-      res.send({ 'ERROR': 'Please provide a kegid like so: /api/keg/1.' });
+      res.send({ 'success': false, 'message': 'Please provide a kegid like so: /api/keg/1.' });
     }
     else{
       next();
