@@ -2,9 +2,6 @@ var express = require('express');
 var jade = require('jade');
 var router = express.Router();
 
-// There is middleware implemented in `server.js` that binds the pool instance
-// to the `req` object before any of these routes are hit.
-
 /* GET home page. */
 router.get('/', function(req, res) {
   var response = {};
@@ -23,6 +20,9 @@ router.get('/', function(req, res) {
 });
 
 /* GET menu page. */
+// TODO:
+//   May want to implement ORM to abstract the error
+//   and data logic away from router
 router.get('/ontap', function(req, res) {
   try{
     if(req.pool){
@@ -118,48 +118,9 @@ router.get('/projects', function(req, res) {
   res.render('projects');
 });
 
-router.get('/api', function(req, res){
+/* GET API page. */
+router.get('/', function(req, res){
   res.render('api');
-});
-
-router.get('/api/keg', function(req, res){
-  try{
-    if(req.pool){
-      req.pool.getConnection(function(err, conn){
-        if(conn){
-          res.send({ "Success": "Connected" });
-        }
-      });
-    }
-  }
-  catch(e){
-    res.send({ "Error": e });
-    console.log(e);
-  }
-});
-
-router.post('/api/pour', function(req, res){
-  try{
-    if(req.pool){
-      req.pool.getConnection(function(err, conn){
-        if(conn){
-          res.send({ "Success": "Connected" });
-        }
-      });
-    }
-  }
-  catch(e){
-    res.send({ "Error": e });
-    console.log(e);
-  }
-});
-
-/* 
-  Catch all to route anything that doesn't 
-  match back to the home page. 
-*/
-router.get('/*', function(req, res) {
-  res.redirect('/');
 });
 
 module.exports = router;
