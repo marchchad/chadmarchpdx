@@ -2,9 +2,6 @@ var express = require('express');
 var jade = require('jade');
 var router = express.Router();
 
-// There is middleware implemented in `server.js` that binds the pool instance
-// to the `req` object before any of these routes are hit.
-
 /* GET home page. */
 router.get('/', function(req, res) {
   var response = {};
@@ -23,8 +20,10 @@ router.get('/', function(req, res) {
 });
 
 /* GET menu page. */
+// TODO:
+//   May want to implement ORM to abstract the error
+//   and data logic away from router
 router.get('/ontap', function(req, res) {
-
   try{
     if(req.pool){
       req.pool.getConnection(function(err, conn){
@@ -40,15 +39,53 @@ router.get('/ontap', function(req, res) {
             else{
               results = results[0];
               var _recipes = [];
+              
+              var data = [];
+
               for(var i = 0, len = results.length; i < len; i++){
                 if(results[i].hasOwnProperty("Name")){
-                  results[i]["grains"] = results[i].grains.split(",");
-                  results[i]["hops"] = results[i].hops.split(",");
+
+                  var recipe = {
+                    target: 'keg' + results[i].keg,
+                    grains: [],
+                    hops: []
+                  };
+
+                  var grains = results[i].grains.split("|");
+                  var grainTotal = 0;
+                  for(var j = 0, jlen = grains.length; j < jlen; j++){
+                    var grain = grains[j].split(",");
+                    recipe.grains.push({
+                      name: grain[0],
+                      color: grain[1],
+                      colorType: grain[2],
+                      lbs: grain[3]
+                    });
+                    grainTotal += grain[3];
+                  }
+
+                  var hops = results[i].hops.split("|");
+                  for(var j = 0, jlen = hops.length; j < jlen; j++){
+                    var hop = hops[j].split(",");
+                    recipe.hops.push({
+                      name: hop[0],
+                      oz: hop[1],
+                      time: hop[2]
+                    });
+                  }
+
+                  data.push(recipe);
                   
                   _recipes.push(jade.renderFile('./views/_recipe.jade', { recipe: results[i] }));
                 }
               }
-              res.render('menu', { recipes: _recipes });
+
+              var response = {
+                recipes: _recipes,
+                data: data
+              };
+
+              res.render('menu', response);
             }
           });
         }
@@ -81,28 +118,9 @@ router.get('/projects', function(req, res) {
   res.render('projects');
 });
 
-router.get('/api', function(req, res){
+/* GET API page. */
+router.get('/', function(req, res){
   res.render('api');
-});
-
-router.post('/api/keg', function(req, res){
-  try{
-    if(req.pool){
-      req.pool.connect();
-    }
-    res.render({ "Success": e });
-  }
-  catch(e){
-    res.render({ "Error": e });
-  }
-});
-
-/* 
-  Catch all to route anything that doesn't 
-  match back to the home page. 
-*/
-router.get('/*', function(req, res) {
-  res.redirect('/');
 });
 
 module.exports = router;

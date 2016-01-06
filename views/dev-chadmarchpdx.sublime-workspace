@@ -1,0 +1,783 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"tag",
+				"targetKeg"
+			],
+			[
+				"target",
+				"targetKeg"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"list",
+				"list-style-type"
+			],
+			[
+				"ren",
+				"renderFile"
+			],
+			[
+				"bubb",
+				"bubbleUp"
+			],
+			[
+				"getE",
+				"getElementsByClassName"
+			],
+			[
+				"get",
+				"getComputedStyle"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"_c",
+				"_createZoomTooltip"
+			],
+			[
+				"cus",
+				"customConfigsRemaining"
+			],
+			[
+				"Obs",
+				"Obstructions"
+			],
+			[
+				"req",
+				"requireError"
+			],
+			[
+				"detai",
+				"DetailView	class"
+			],
+			[
+				"Fro",
+				"FormView"
+			],
+			[
+				"Ta",
+				"TagAdmin	class"
+			],
+			[
+				"Tag",
+				"TagInline	class"
+			],
+			[
+				"Man",
+				"ManyToManyField	class"
+			],
+			[
+				"Ma",
+				"ManyToManyField	class"
+			],
+			[
+				"pad",
+				"padding-bottom"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"Im",
+				"ImageAdmin	class"
+			],
+			[
+				"Date",
+				"DateTimeField	class"
+			],
+			[
+				"B",
+				"BinaryField	class"
+			],
+			[
+				"lis",
+				"list-style-type"
+			],
+			[
+				"inlin",
+				"inline-block"
+			],
+			[
+				"li",
+				"link	Tag"
+			],
+			[
+				"Dat",
+				"DateField	class"
+			],
+			[
+				"Clien",
+				"ClientAdmin	class"
+			],
+			[
+				"Clie",
+				"ClientAdmin	class"
+			],
+			[
+				"Cli",
+				"ClientAdmin	class"
+			],
+			[
+				"Job",
+				"JobAdmin	class"
+			],
+			[
+				"U",
+				"UserViewSet	class"
+			],
+			[
+				"S",
+				"StaticHTMLRenderer	class"
+			],
+			[
+				"hig",
+				"highlight"
+			],
+			[
+				"Snippet",
+				"SnippetViewSet"
+			],
+			[
+				"Snip",
+				"SnippetViewSet"
+			],
+			[
+				"Snipp",
+				"SnippetViewSet"
+			],
+			[
+				"Use",
+				"UserViewSet	class"
+			],
+			[
+				"Sn",
+				"SnippetViewSet	class"
+			],
+			[
+				"H",
+				"HyperlinkedRelatedField	class"
+			],
+			[
+				"url",
+				"urlpatterns	statement"
+			],
+			[
+				"format",
+				"format_suffix_patterns	function"
+			],
+			[
+				"vi",
+				"view_name	param"
+			],
+			[
+				"rest",
+				"rest_framework	module"
+			],
+			[
+				"List",
+				"ListAPIView	class"
+			],
+			[
+				"con",
+				"contrib	module"
+			],
+			[
+				"P",
+				"PrimaryKeyRelatedField	class"
+			],
+			[
+				"fo",
+				"formatters	module"
+			],
+			[
+				"GET",
+				"get_lexer_by_name	function"
+			],
+			[
+				"F",
+				"ForeignKey	class"
+			],
+			[
+				"R",
+				"RetrieveUpdateDestroyAPIView	class"
+			],
+			[
+				"mi",
+				"mixins	module"
+			],
+			[
+				"Sni",
+				"SnippetSerializer"
+			],
+			[
+				"ur",
+				"urlpatterns	statement"
+			],
+			[
+				"for",
+				"format_suffix_patterns	function"
+			],
+			[
+				"re",
+				"rest_framework	module"
+			],
+			[
+				"HTTP",
+				"HTTP_400_BAD_REQUEST"
+			],
+			[
+				"stat",
+				"status	module"
+			],
+			[
+				"snipp",
+				"snippet_list	function"
+			],
+			[
+				"JS",
+				"JSONParser	class"
+			],
+			[
+				"Json",
+				"JSONResponse	class"
+			],
+			[
+				"SNi",
+				"SnippetSerializer"
+			],
+			[
+				"JSON",
+				"JSONResponse	class"
+			],
+			[
+				"J",
+				"JSONRenderer	class"
+			],
+			[
+				"vali",
+				"validated_data"
+			],
+			[
+				"val",
+				"validated_data"
+			],
+			[
+				"Sty",
+				"STYLE_CHOICES	array"
+			],
+			[
+				"L",
+				"LANGUAGE_CHOICES	statement"
+			],
+			[
+				"st",
+				"styles	module"
+			],
+			[
+				"world",
+				"WorldBorder"
+			],
+			[
+				"try",
+				"try	Try/Except/Finally"
+			],
+			[
+				"wor",
+				"world_mapping"
+			],
+			[
+				"qu",
+				"question"
+			],
+			[
+				"l",
+				"latest_question_list"
+			],
+			[
+				"ase",
+				"assertQuerysetEqual"
+			],
+			[
+				"creat",
+				"create_question"
+			],
+			[
+				"pub",
+				"pub_date"
+			],
+			[
+				"q",
+				"question_text"
+			],
+			[
+				"question",
+				"question_text"
+			],
+			[
+				"time",
+				"timezone"
+			],
+			[
+				"tim",
+				"timezone"
+			],
+			[
+				"old",
+				"old_question"
+			],
+			[
+				"fu",
+				"future_question"
+			],
+			[
+				"sel",
+				"selected_choice"
+			],
+			[
+				"Choice",
+				"ChoiceInline"
+			],
+			[
+				"Quest",
+				"QuestionAdmin"
+			],
+			[
+				"pu",
+				"pub_date"
+			],
+			[
+				"que",
+				"question_text"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/Git/dev/index.html",
+			"settings":
+			{
+				"buffer_size": 6694,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Preferences: Browse Packages"
+			]
+		],
+		"width": 400.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Git/dev",
+		"/C/Git/dev/.openshift",
+		"/C/Git/dev/node_modules"
+	],
+	"file_history":
+	[
+		"/C/Git/keg-vis/views/brewing.jade",
+		"/C/Git/keg-vis/app.js",
+		"/C/Git/keg-vis/package.json",
+		"/C/Git/keg-vis/views/index.jade",
+		"/C/Git/keg-vis/bin/www",
+		"/C/Git/keg-vis/npm-debug.log",
+		"/C/Git/keg-vis/views/menu.jade",
+		"/C/Git/keg-vis/routes/index.js",
+		"/C/Git/keg-vis/views/about.jade",
+		"/C/Git/keg-vis/public/javascripts/menu/menu.js",
+		"/C/Git/keg-vis/public/stylesheets/style.css",
+		"/C/Git/keg-vis/views/projects.jade",
+		"/C/Git/keg-vis/views/_recipe.jade",
+		"/C/Git/keg-vis/public/stylesheets/menu.css",
+		"/C/Git/keg-vis/.gitignore",
+		"/C/Git/keg-vis/views/layout.jade",
+		"/C/Git/keg-vis/node_modules/express/lib/router/index.js",
+		"/C/Git/keg-vis/node_modules/express/index.js",
+		"/C/Users/marchchad/node/qfcall.js",
+		"/C/Git/keg-vis/public/stylesheets/bootstrap.css",
+		"/C/Git/keg-vis/public/javascripts/menu.js",
+		"/C/Users/marchchad/mynodeapp/keg-vis.sublime-project",
+		"/C/Users/marchchad/mynodeapp/views/about.jade",
+		"/C/Users/marchchad/mynodeapp/views/layout.jade",
+		"/C/Users/marchchad/mynodeapp/views/brewing.jade",
+		"/C/Users/marchchad/mynodeapp/views/projects.jade",
+		"/C/Users/marchchad/mynodeapp/views/menu.jade",
+		"/C/Users/marchchad/mynodeapp/views/index.jade",
+		"/C/Users/marchchad/mynodeapp/public/stylesheets/style.css",
+		"/C/Users/marchchad/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/marchchad/DjangoTutorial/mysite/polls/static/polls/styles.css",
+		"/C/Users/marchchad/mynodeapp/public/stylesheets/bootstrap.css",
+		"/C/Users/marchchad/mynodeapp/public/javascripts/bootstrap.js",
+		"/C/Users/marchchad/mynodeapp/routes/index.js",
+		"/C/Users/marchchad/mynodeapp/bin/www",
+		"/C/Users/marchchad/mynodeapp/app.js",
+		"/C/Users/marchchad/node/node_modules/introtowebgl/assets/BoilerplateApp/scripts/app.js",
+		"/C/Users/marchchad/node/importantRule.js",
+		"/C/Users/marchchad/node/scope4.js",
+		"/C/Users/marchchad/node/firstio.js",
+		"/C/Git/pacaf-viewer/web/config/aobs/layers.js",
+		"/C/Git/pacaf-viewer/web/js/startup.js",
+		"/C/Git/pacaf-viewer/web/js/main.js",
+		"/C/Git/pacaf-viewer/web/js/widgets/MapLocations/mapLocations.js",
+		"/C/Git/pacaf-viewer/web/config/aobs/basemaps.js",
+		"/C/Git/pacaf-viewer/web/config/aobs/application.js",
+		"/C/Git/pacaf-viewer/web/config/geocmt/geo.js",
+		"/C/Git/pacaf-viewer/web/config/geocmt/lods.js",
+		"/C/Git/pacaf-viewer/web/config/geocmt/search.js",
+		"/C/Git/pacaf-viewer/web/config/geocmt/basemaps.js",
+		"/C/Git/pacaf-viewer/web/config/geocmt/customized.js",
+		"/C/Git/pacaf-viewer/web/js/widgets/TableOfContents/TableOfContents.js",
+		"/C/Users/marchchad/gator_dev/gator_dev/settings.py",
+		"/C/Users/marchchad/gator_dev/jobs/views.py",
+		"/C/Users/marchchad/gator_dev/jobs/urls.py",
+		"/C/Users/marchchad/gator_dev/jobs/templates/registration/login.html",
+		"/C/Users/marchchad/gator_dev/jobs/static/jobs/css/bootstrap.css",
+		"/C/Users/marchchad/gator_dev/jobs/static/jobs/config.json",
+		"/C/Users/marchchad/gator_dev/jobs/static/jobs/css/styles.css",
+		"/C/Users/marchchad/gator_dev/jobs/models.py",
+		"/C/Users/marchchad/gator_dev/jobs/templates/jobs/index.html",
+		"/C/Users/marchchad/gator_dev/jobs/admin.py",
+		"/C/Users/marchchad/gator_dev/jobs/templates/layout.html",
+		"/C/Users/marchchad/gator_dev/jobs/templates/jobs/details.html",
+		"/C/Users/marchchad/gator_dev/jobs/templates/jobs/login.html",
+		"/C/Users/marchchad/gator_dev/jobs/templates/jobs/registration/login.html",
+		"/C/Users/marchchad/gator_dev/jobs/templates/404.html",
+		"/C/Users/marchchad/gator_dev/gator_dev/urls.py",
+		"/C/Users/marchchad/resttutorial/snippets/urls.py",
+		"/C/Users/marchchad/resttutorial/resttutorial/urls.py",
+		"/C/Users/marchchad/gator_dev/jobs/static/jobs/js/site.js",
+		"/C/Users/marchchad/DjangoTutorial/pyvenv.cfg",
+		"/C/Users/marchchad/GeoDjangoTutorial/geodjango/templates/admin/pagination.html",
+		"/C/Users/marchchad/DjangoTutorial/mysite/templates/registration/password_change_done.html",
+		"/C/Users/marchchad/DjangoTutorial/Lib/site-packages/easy-install.pth",
+		"/C/Users/marchchad/gator_dev/jobs/templatetags/template_helpers.py",
+		"/C/Users/marchchad/gator_dev/jobs/templatetags/__init__.py",
+		"/C/Users/marchchad/gator_dev/jobs/templates/jobs/about.html",
+		"/C/Users/marchchad/gator_dev/jobs/templates/jobs/_layout.html",
+		"/C/Users/marchchad/DjangoTutorial/mysite/polls/templates/polls/detail.html",
+		"/C/Users/marchchad/DjangoTutorial/mysite/polls/urls.py",
+		"/C/Users/marchchad/DjangoTutorial/mysite/polls/models.py",
+		"/C/Users/marchchad/DjangoTutorial/mysite/polls/admin.py",
+		"/C/Users/marchchad/resttutorial/snippets/admin.py",
+		"/C/Users/marchchad/resttutorial/snippets/models.py",
+		"/C/Users/marchchad/resttutorial/resttutorial/settings.py",
+		"/C/Users/marchchad/GeoDjangoTutorial/geodjango/world/models.py",
+		"/C/Users/marchchad/DjangoTutorial/mysite/mysite/urls.py",
+		"/C/Users/marchchad/DjangoTutorial/mysite/mysite/settings.py",
+		"/C/Users/marchchad/DjangoTutorial/mysite/polls/__init__.py",
+		"/C/Users/marchchad/resttutorial/snippets/views.py",
+		"/C/Users/marchchad/resttutorial/snippets/serializers.py",
+		"/C/Users/marchchad/resttutorial/snippets/permissions.py",
+		"/C/Users/marchchad/GeoDjangoTutorial/geodjango/world/load.py",
+		"/C/Users/marchchad/GeoDjangoTutorial/geodjango/world/admin.py",
+		"/C/Users/marchchad/GeoDjangoTutorial/geodjango/world/views.py",
+		"/C/Users/marchchad/GeoDjangoTutorial/geodjango/geodjango/urls.py",
+		"/C/Users/marchchad/GeoDjangoTutorial/geodjango/geodjango/settings.py",
+		"/C/Users/marchchad/GeoDjangoTutorial/geodjango/templates/admin/app_index.html",
+		"/C/Users/marchchad/GeoDjangoTutorial/geodjango/world/templates/world/index.html",
+		"/C/Users/marchchad/DjangoTutorial/mysite/polls/views.py",
+		"/C/Users/marchchad/DjangoTutorial/mysite/polls/templates/polls/index.html",
+		"/C/Users/marchchad/GeoDjangoTutorial/geodjango/geodjango/wsgi.py",
+		"/C/Users/marchchad/DjangoTutorial/mysite/mysite/wsgi.py",
+		"/C/Users/marchchad/DjangoTutorial/mysite/manage.py",
+		"/C/Users/marchchad/GeoDjangoTutorial/geodjango/world/static/world/styles.css",
+		"/C/Users/marchchad/DjangoTutorial/mysite/templates/admin/pagination.html",
+		"/C/Users/marchchad/DjangoTutorial/Lib/tcl8.6/init.tcl",
+		"/C/Users/marchchad/DjangoTutorial/mysite/templates/admin/invalid_setup.html",
+		"/C/Users/marchchad/DjangoTutorial/Lib/site-packages/pip-1.4.1-py3.4.egg/pip/commands/install.py",
+		"/C/Users/marchchad/DjangoTutorial/Scripts/unicodedata.pyd",
+		"/C/Users/marchchad/DjangoTutorial/mysite/templates/admin/submit_line.html",
+		"/C/Users/marchchad/DjangoTutorial/mysite/django-polls/setup.py",
+		"/C/Python34/Lib/site-packages/django/apps/config.py",
+		"/C/Users/marchchad/DjangoTutorial/mysite/django-polls/polls/views.py",
+		"/C/Users/marchchad/DjangoTutorial/mysite/mysite/__init__.py",
+		"/C/Users/marchchad/DjangoTutorial/mysite/django-polls/polls/templates/polls/index.html",
+		"/C/Users/marchchad/DjangoTutorial/mysite/django-polls/polls/templates/polls/detail.html",
+		"/C/Users/marchchad/DjangoTutorial/mysite/django-polls/README.rst",
+		"/C/Users/marchchad/DjangoTutorial/mysite/django-polls/MANIFEST.in",
+		"/C/Users/marchchad/DjangoTutorial/mysite/django-polls/LICENSE",
+		"/C/Users/marchchad/DjangoTutorial/mysite/polls/templates/polls/results.html",
+		"/C/Users/marchchad/DjangoTutorial/mysite/polls/tests.py",
+		"/C/Users/marchchad/DjangoTutorial/mysite/templates/admin/index.html",
+		"/C/Users/marchchad/DjangoTutorial/mysite/templates/admin/404.html",
+		"/C/Users/marchchad/DjangoTutorial/mysite/mysite/templates/admin/base_site.html",
+		"/C/Users/marchchad/DjangoTutorial/mysite/mysite/templates/admin/templates/admin/base_site.html"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"http",
+			"debug",
+			"var",
+			"}\n",
+			";",
+			"Pour ",
+			"socket",
+			"var net = require('net');\nvar server = net.createServer(function(c) { //'connection' listener\n  console.log('client connected');\n  c.on('end', function() {\n    console.log('client disconnected');\n  });\n  c.write('hello\\r\\n');\n  c.pipe(c);\n});\nserver.listen(8124, function() { //'listening' listener\n  console.log('server bound');\n});",
+			"');\n",
+			"right",
+			"container",
+			"half",
+			".row",
+			"label",
+			"xs-",
+			"even",
+			" ol li",
+			"ol li:nth-child(even) ",
+			"content",
+			"#liquid",
+			"#beaker",
+			"EA8F00",
+			"F39C00",
+			"F8A600",
+			"FBB123",
+			"FFBF42",
+			"FFD878",
+			"FFE699",
+			" #",
+			"E58500",
+			"grain",
+			"}",
+			"}\n",
+			"#{",
+			"abv",
+			"data.",
+			"BE8C3A",
+			"bd841a",
+			"edaf32",
+			"bubbleUp",
+			"50",
+			"50px",
+			"header",
+			"../fonts",
+			"fonts",
+			"parsePromise",
+			"this.config",
+			"registry",
+			"_createZoomTooltip",
+			"_init",
+			"this.config",
+			"customConfig",
+			"loadCustomConfig",
+			"debounce",
+			"LOGOUT_REDIRECT_URL",
+			"#555555	",
+			"#555555",
+			"urlparse",
+			"HttpResponseRedirect",
+			"}\"",
+			"model",
+			"Model",
+			"model",
+			"JSONResponse",
+			"psycopg2",
+			"contrig",
+			"polls/question_list.html",
+			"question_list.html",
+			"question_list"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"../../fonts",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Git/dev/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6694,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								506,
+								506
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 3806.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "dev-chadmarchpdx.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"C:\\Git\\keg-vis\\keg-vis.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 161.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

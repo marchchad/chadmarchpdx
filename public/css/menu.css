@@ -100,27 +100,6 @@
   width: 140px;
 }
 
-/*
-.beaker:before,
-.beaker:after {
-  border: 10px solid #ccc;
-  border-bottom: 0;
-  border-radius: 15px 15px 0 0;
-  content: '';
-  height: 15px;
-  position: absolute;
-  top: -25px;
-  width: 15px;
-}
-
-.beaker:before { 
-  left: -35px;
-}
-.beaker:after {
-  right: -35px;
-}
-*/
-
 .liquid {
   overflow: hidden;
   width: 140px;
@@ -154,6 +133,8 @@
   -webkit-timing-function: linear;
   -webkit-animation-duration: 1300ms;
   -webkit-animation-fill-mode: forwards;
+
+  transform: translateZ(0);
 }
 
 .liquid:after {
@@ -232,6 +213,9 @@
   -webkit-animation-name: bubble;
   -webkit-animation-iteration-count: infinite;
   -webkit-animation-timing-function: linear;
+
+  transform: translateZ(0);
+
   background-color: rgba(255, 255, 255, 0.5);
   bottom: 0;
   border-radius: 10px;
@@ -261,6 +245,8 @@
   -ms-animation-duration: 1000ms;
   -moz-animation-duration: 1000ms;
   -webkit-animation-duration: 1000ms;
+
+  transform: translateZ(0);
 }
 
 .bubble2 {
@@ -270,6 +256,8 @@
   -ms-animation-duration: 1100ms;
   -moz-animation-duration: 1100ms;
   -webkit-animation-duration: 1100ms;
+
+  transform: translateZ(0);
 }
 
 .bubble3 {
@@ -279,6 +267,8 @@
   -ms-animation-duration: 1300ms;
   -moz-animation-duration: 1300ms;
   -webkit-animation-duration: 1300ms;
+
+  transform: translateZ(0);
 }
 
 .bubble4 {
@@ -288,6 +278,8 @@
   -ms-animation-duration: 700ms;
   -moz-animation-duration: 700ms;
   -webkit-animation-duration: 700ms;
+
+  transform: translateZ(0);
 }
 
 .bubble5 {
@@ -297,6 +289,8 @@
   -ms-animation-duration: 800ms;
   -moz-animation-duration: 800ms;
   -webkit-animation-duration: 800ms;
+
+  transform: translateZ(0);
 }
 
 /* Foam */
@@ -450,129 +444,6 @@
   left: 107px;
   z-index: 2;
 }
-
-
-/* Drunk Text */
-/*
-.animated {
-  -webkit-animation-fill-mode:both;
-     -moz-animation-fill-mode:both;
-          animation-fill-mode:both;
-  
-  -webkit-animation-duration:5s;
-     -moz-animation-duration:5s;
-          animation-duration:5s;
-  
-  -webkit-animation-delay:3.5s; 
-     -moz-animation-delay:3.5s;
-          animation-delay:3.5s;
-}
-
-
-.animated.drunk {
-  -webkit-animation-duration:2s;
-     -moz-animation-duration:2s;
-          animation-duration:2s;
-}
-
-@-webkit-keyframes drunk {
-	0% { 
-    -webkit-transform: rotate(0); 
-    -webkit-transform-origin: top left; 
-    -webkit-animation-timing-function: ease-in-out; 
-  }
-  
-  20%, 60% { 
-    -webkit-transform: rotate(80deg); 
-    -webkit-transform-origin: top left; 
-    -webkit-animation-timing-function: ease-in-out; 
-  }	
-	40% { 
-    -webkit-transform: rotate(60deg); 
-    -webkit-transform-origin: top left; 
-    -webkit-animation-timing-function: ease-in-out; 
-  }	
-  
-	80% { 
-    -webkit-transform: rotate(60deg) translateY(0);  
-    -webkit-transform-origin: top left; 
-    -webkit-animation-timing-function: ease-in-out;
-    opacity: 1;
-  }	
-  
-	100% {
-	  -webkit-transform: translateY(700px); 
-    opacity: 0; 
-  }
-}
-
-@-moz-keyframes drunk {
-	0% { 
-    -moz-transform: rotate(0); 
-    -moz-transform-origin: top left; 
-    -moz-animation-timing-function: ease-in-out; 
-  }
-  
-	20%, 60% { 
-    -moz-transform: rotate(80deg); 
-    -moz-transform-origin: top left; 
-    -moz-animation-timing-function: ease-in-out; 
-  }	
-  
-	40% { 
-    -moz-transform: rotate(60deg); 
-    -moz-transform-origin: top left; 
-    -moz-animation-timing-function: ease-in-out; 
-  }
-  
-	80% {
-	  -moz-transform: rotate(60deg) translateY(0); opacity: 1; 
-    -moz-transform-origin: top left; 
-    -moz-animation-timing-function: ease-in-out; 
-  }
-  
-	100% { 
-    -moz-transform: translateY(700px); 
-    opacity: 0; 
-  }
-}
-
-@keyframes drunk {
-	0% { 
-    transform: rotate(0); 
-    transform-origin: top left; 
-    animation-timing-function: ease-in-out; 
-  }
-  
-	20%, 60% { 
-    transform: rotate(80deg); 
-    transform-origin: top left; 
-    animation-timing-function: ease-in-out; 
-  }
-  
-	40% { 
-    transform: rotate(60deg); 
-    transform-origin: top left; 
-    animation-timing-function: ease-in-out; 
-  }
-  
-	80% { 
-    transform: rotate(60deg) translateY(0); 
-    opacity: 1; transform-origin: top left; 
-    animation-timing-function: ease-in-out; 
-  }	
-	100% { 
-    transform: translateY(700px); 
-    opacity: 0; 
-  }
-}
-
-.drunk {
-	-webkit-animation-name: drunk;
-	-moz-animation-name: drunk;
-	animation-name: drunk;
-}
-*/
 
 .srm-1{
   background-color: #FFE699;
