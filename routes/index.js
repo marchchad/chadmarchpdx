@@ -102,7 +102,7 @@ router.get('/ontap', function(req, res) {
     }
   }
   catch(e){
-    console.log(e);
+    console.log({'Error': e});
     response["error"] = e;
     res.render('menu', response);
   }

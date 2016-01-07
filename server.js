@@ -47,6 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //   Authenticate users here.
 app.use(function(req, res, next){
   req.pool = pool;
+  req.env = app.env;
   next();
 });
 
@@ -80,7 +81,7 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
-    err.env = app.env;
+    err.env = app.get('env');
     res.status(err.status || 500);
     res.render('error', { err: err });
   });

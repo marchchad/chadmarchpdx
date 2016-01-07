@@ -1,84 +1,134 @@
 var express = require('express');
 var router = express.Router();
 
-// This catches all verbs matching to the /keg route to check
-// for the required `kegid` param and if it doesn't exist, then
-// it returns the response object outlining the issue.
+router.get('/', function(req, res){
+  res.render('api');
+});
 
-router.route('/keg*')
+router.route('/keg/:kegid')
+  .get(function(req, res){
+    try{
+      var kegid = req.params.kegid;
+      if(!kegid){
+        res.status = 400;
+        res.send({ 'success': false, 'message': 'Please provide a kegid like so: `/api/keg/1`.' });
+      }
+      else{
+        if(req.pool){
+          var response = {
+            'success': false
+          };
+          req.pool.getConnection(function(err, conn){
+            if(conn){
+              var query = conn.query('select * from kegs where ?', req.params.kegid, function(err, result){
+                if(err){
+                  res.send({ 'error': err });
+                }
+                else{
+                  res.send({ 'result': result });
+                }
+              });
+              conn.release();
+            }
+          });
+        }
+      }
+    }
+    catch(e){
+      res.send({ 'Error': e });
+      console.log({ 'Error': e });
+    }
+  });
+
+router.post('/keg/', function(req, res){
+  try{
+    if(req.pool){
+      var response = {
+        'success': false
+      };
+      // Note:
+      //  Form successfully posting, now wire up the db insert
+      req.pool.getConnection(function(err, conn){
+        if(conn){
+          // TODO:
+          //  Check for currently active keg for specified id
+          //  and prompt user to confirm they want to deactivate
+          //  the previous entry for the current entry.
+          /*var query = conn.query('insert into kegs SET ?', req.params, function(err, result){
+            if(err){
+              res.send({ 'error': err });
+            }
+            else{
+              res.send({ 'success': 'Keg data posted successfully.', 'kegid': results.insertId });
+            }
+          });*/
+          conn.release();
+        }
+      });
+    }
+  }
+  catch(e){
+    res.send({ 'Error': e });
+    console.log({ 'Error': e });
+  }
+});
+
+router.route('/pour*')
   .all(function(req, res, next){
-    var kegid = req.params[0].replace("/", "");
+    var kegid = req.params[0].replace('/', '');
     if(!kegid){
-      res.send({ 'success': false, 'message': 'Please provide a kegid like so: /api/keg/1.' });
+      res.send({ 'success': false, 'message': 'Please provide a kegid like so: `/api/pour/1`.' });
     }
     else{
       next();
     }
   });
 
-router.route('/keg/:kegid')
-  .get(function(req, res){
-    try{
-      if(req.pool){
-        var response = {
-          'success': false
-        };
-        req.pool.getConnection(function(err, conn){
-          if(conn){
-            // TODO: get keg information with id
-            response.success = true;
-            response.params = req.params;
-            res.send(response);
-          }
-        });
-      }
-    }
-    catch(e){
-      res.send({ "Error": e });
-      console.log(e);
-    }
-  })
-  .post(function(req, res){
+router.get('/pour/:pourid', function(req, res){
   try{
     if(req.pool){
-      var response = {
-        'success': false
-      };
       req.pool.getConnection(function(err, conn){
         if(conn){
-          // TODO: update keg information with id
-          response.success = true;
-          response.params = {
-            req: req.params,
-            resp: req.body
-          };
-          res.send(response);
+          var query = conn.query('select * from pours where ?', req.params.pourid, function(err, result){
+            if(err){
+              res.send({ 'error': err });
+            }
+            else{
+              res.send({ 'result': result });
+            }
+          });
+          conn.release();
         }
       });
     }
   }
   catch(e){
-    res.send({ "Error": e });
-    console.log(e);
+    res.send({ 'Error': e });
+    console.log({ 'Error': e });
   }
 });
 
-router.post('/pour', function(req, res){
+router.post('/pour/', function(req, res){
   try{
     if(req.pool){
       req.pool.getConnection(function(err, conn){
         if(conn){
-          // TODO:
-          //      Send post data to db stored proc to insert
-          //      pour data.
-          res.send({ "Success": "Connected" });
+          var query = conn.query('insert into pours SET ?', req.params, function(err, result){
+            if(err){
+              res.send({ 'error': err });
+            }
+            else{
+              res.send({ 'success': 'Pour posted successfully.', 'pourid': results.insertId });
+            }
+          });
+          conn.release();
         }
       });
     }
   }
   catch(e){
-    res.send({ "Error": e });
-    console.log(e);
+    res.send({ 'Error': e });
+    console.log({ 'Error': e });
   }
 });
 

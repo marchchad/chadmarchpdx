@@ -67,6 +67,17 @@ hr {
     padding: 0; 
 }
 
+label{
+  float: left;
+  width: 33%;
+  margin: 0 auto;
+}
+
+input, select, button{
+  float: left;
+  display: inline-block;
+}
+
 .navbar{
   width: 200px;
   height: 100%;
