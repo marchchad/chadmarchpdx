@@ -11,8 +11,10 @@ router.get('/', function(req, res) {
   try{
     if(req.pool){
       req.pool.getConnection(function(err, conn){
-        response.hiddenMessage = "pool enabled";
-        conn.release();
+        if(conn){
+          response.hiddenMessage = "pool enabled";
+          conn.release();
+        }
       });
     }
   }
