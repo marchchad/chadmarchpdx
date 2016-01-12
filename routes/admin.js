@@ -4,8 +4,8 @@ var regex = require('regex');
 
 // Pull in the correct config for the environment we're running.
 // Default to dev though just in case
-//var config = process.env.NODE_ENV === 'production' ? 'config-prod' : 'config';
-var config = 'config-prod'
+var config = process.env.NODE_ENV === 'production' ? 'config-prod' : 'config';
+
 config = _rootRequire(config);
 
 // Pull in authentication libraries and set up
@@ -126,8 +126,6 @@ router.route('/login')
   .post(function(req, res){
     var response = {};
     try{
-      // TODO:
-      //  Check for password and against pattern.
       var validPassword = ValidPassword(req.params.password);
       if(!validPassword.valid){
         res.render('admin/login', validPassword);
