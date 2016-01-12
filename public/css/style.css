@@ -436,7 +436,6 @@ input[type=range]:focus::-ms-fill-upper {
   float: left;
   clear: both;
   margin: 5px 0;
-  overflow: auto;
 }
 
 .full-row{

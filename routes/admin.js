@@ -31,20 +31,29 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-passport.serializeUser(function(user, callback){
-  console.log('serializing user.');
-  callback(null, user.id);
+passport.serializeUser(function(user, done){
+  done(null, user);
 });
 
-passport.deserializeUser(function(user, callback){
-  console.log('deserialize user.');
-  callback(null, user.id);
+// If you serialize the enitre user object,
+// then that is what you will get back as the 'user'
+// callback param in the deserialize function and is
+// what you will deserialize
+
+// If you serialize only the user.id,
+// then the 'user' callback param will be the
+// user.id value.
+
+passport.deserializeUser(function(user, done){
+  done(null, user);
 });
 
 // Get instance of router
 var router = express.Router();
 
 function ensureAuthenticated(req, res, next) {
+  console.log('is authenticated: ' + req.isAuthenticated());
+  console.log('user: ' + req.user);
   if(req.isAuthenticated()){
     return next();
   }
@@ -115,24 +124,29 @@ router.route('/login')
     res.render('admin/login');
   })
   .post(function(req, res){
-  var response = {};
-  try{
-    // TODO:
-    //  Check for password and against pattern.
-    var validPassword = ValidPassword(req.params.password);
-    if(!validPassword.valid){
-      res.render('admin/login', validPassword);
-    }
-    else{
+    var response = {};
+    try{
       // TODO:
-      // Check that users params are valid then redirect
-      res.redirect('admin/admin');
+      //  Check for password and against pattern.
+      var validPassword = ValidPassword(req.params.password);
+      if(!validPassword.valid){
+        res.render('admin/login', validPassword);
+      }
+      else{
+        // TODO:
+        // Check that users params are valid then redirect
+        res.redirect('admin/admin');
+      }
     }
-  }
-  catch(e){
-    response["Error"] = e;
-  }
-  res.render('admin/login', response);
+    catch(e){
+      response["Error"] = e;
+    }
+    res.render('admin/login', response);
+  });
+
+router.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
 });
 
 router.get('/google', 

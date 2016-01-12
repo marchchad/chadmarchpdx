@@ -4,15 +4,18 @@ block content
   .container
     .page-header Login
     hr
-    form(action='/login' method='POST' style='width: 30%')
-      div.row
-        label(for='username') Username
-        input(id='username' required)
-      div.row
-        label(for='password') Password
-        input(id='password' type='password' size='8' pattern='/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/')
-      div.row
-        button(id='signup').left Sign Up
-        button(type='submit').right Login
-    div.row
-      a(href='/admin/google') Login with Google
+    div.login-methods(style='width: 60%; margin: 0 auto; overflow: auto; position: relative;')
+      div.left
+        form(action='/login' method='POST' style='margin: 0;')
+          div.row.full-row
+            label(for='username') Username
+            input(id='username' required).row
+          div.row.full-row
+            label(for='password') Password
+            input(id='password' type='password').row
+          div.row.full-row
+            button(id='signup').left Sign Up
+            button(type='submit').right Login
+      div.left(style='height: 100%; width: 215px; right: 0; position: absolute; border-left: 1px solid #888; box-sizing: border-box;')
+        div(style='transform: translate(20%, 80%); height: 50%; width: 80%;')
+          a(href='/admin/google') Login with Google
