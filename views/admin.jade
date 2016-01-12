@@ -5,23 +5,48 @@ block content
     .page-header Admin
     hr
     p Coming soon: manage the profile and keg information.
-    h3 Configure your system
-    form.row
-      label.row
-    h3 Configure a Keg
+    h3 Add a Keg
+    form.row.full-row(action='/api/system' method='POST')
+      div.row.full-row
+        label(for='kegsize') Keg Size
+        input.row(id='kegsize' name='kegsize' type='range' min='1' max='15.5' step='0.5')
+        
+      div.row.full-row
+        label(for='kegcount') Count
+          sup *To add multiple kegs of the same size at the same time
+        input.row(id='kegcount' name='kegcount' type='range' min='1' max='99')
+
+      div.row
+        button(type='submit') Add
+
+    h3 Configure a FlowMeter
     form.row(action='/api/keg/' method='POST')
-      label.row(for='kegid') Keg ID
-      input(id='kegid' name='kegid' type='number' min='1' max='2')
-      label.row(for='volume') Volume (gallons)
-      input(id='volume' name='volume' type='number' min='0' max='99')
-      label.row(for='pressure') Pressure (psi)
-      input(id='pressure' name='pressure' type='number' min='0' max ='40')
-      label.row(for='keggedon') Date Kegged
-      input(id='keggedon' name='keggedon' type='date')
-      label.row(for='recipeid') Recipe
-      select(id='recipeid' name='recipeid')
-        for recipe in data.recipes
-          option(value=recipe.id) #{recipe.name}
+      div.row.full-row
+        label Keg ID
+        div.row.full-row
+          label 1
+            input(name='kegid' type='radio' value='1')
+          label 2
+            input(name='kegid' type='radio' value='2')
+
+      div.row.full-row
+        label(for='volume') Volume (gallons)
+        input.row(id='volume' name='volume' type='range' min='0' max='99')
+
+      div.row.full-row
+        label(for='pressure') Pressure (psi)
+        input.row(id='pressure' name='pressure' type='range' min='0' max ='40')
+
+      div.row.full-row
+        label(for='keggedon') Date Kegged
+        input.row(id='keggedon' name='keggedon' type='date')
+
+      div.row.full-row
+        label(for='recipeid') Recipe
+        select.row(id='recipeid' name='recipeid')
+          for recipe in data.recipes
+            option(value=recipe.id) #{recipe.name}
+
       div.row
         button(type='submit') Submit
       if data.message

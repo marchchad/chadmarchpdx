@@ -52,5 +52,18 @@ define([], function () {
     return data;
   };
 
+  returnObj['CreateElement'] = function(type, options){
+    var elem = document.createElement(type);
+    var keys = Object.keys(options);
+    for(var i = 0; i < keys.length; i++){
+      elem.setAttribute(keys[i], options[keys[i]]);
+    }
+    return elem;
+  };
+
+  returnObj['InsertAfter'] = function(referenceNode, newNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+  };
+
   return returnObj;
 });

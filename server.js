@@ -1,7 +1,11 @@
 #!/bin/env node
 
+// Import custom module to allow for root relative imports
+require("./_rootRequire");
+
 // Import libraries to set up application
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -9,22 +13,26 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var debug = require('debug')('mynodeapp:server');
 var http = require('http');
+var passport = require('passport');
 
 // Get mysql library
 var mysql = require('mysql');
+
+// Begin express app creation
+var app = express();
 
 // Get routes for application
 var routes = require('./routes/index');
 var apiRoutes = require('./routes/api');
 var adminRoutes = require('./routes/admin');
 
-// Application config that stores JWT secret, db connection info,
+// Application config that stores JWT secret (once configured), db connection info,
 // and other application secrets that we want to abstract away
 // from the main codebase.
-var config = require('./config.js');
-
-// Begin express app creation
-var app = express();
+//
+// Pull in the correct config for the environment we're running.
+var config = process.env.NODE_ENV === 'production' ? './config-prod' : './config';
+config = require(config);
 
 // Create connection pool
 var pool = mysql.createPool(config.dburi);
@@ -40,6 +48,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  'secret': config.secret,
+  'resave': true,
+  'saveUninitialized': true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Make our connection pool accessible to our routers
 // This must be declared before setting the app to use our routes.

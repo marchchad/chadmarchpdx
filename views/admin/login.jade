@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  .container
+    .page-header Login
+    hr
+    form(action='/login' method='POST' style='width: 30%')
+      div.row
+        label(for='username') Username
+        input(id='username' required)
+      div.row
+        label(for='password') Password
+        input(id='password' type='password' size='8' pattern='/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/')
+      div.row
+        button(id='signup').left Sign Up
+        button(type='submit').right Login
+    div.row
+      a(href='/admin/google') Login with Google

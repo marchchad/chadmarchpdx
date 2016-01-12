@@ -1,5 +1,8 @@
+// Import required libraries
 var express = require('express');
 var jade = require('jade');
+
+// Get instance of router
 var router = express.Router();
 
 /* GET home page. */
