@@ -7,8 +7,8 @@ var config = {
   'database': (process.env.OPENSHIFT_MYSQL_DB_HOST ? 'ipaapi' : 'test'),
   'google': {
     'client': {
-      'id': '<your-generated-client-id>.apps.googleusercontent.com',
-      'secret': '<your-generated-client-secret>'
+      'id': '685058428888-g0g53l1u488k4oo0plpjbalaihjb7jl8.apps.googleusercontent.com',
+      'secret': 'TxMRF0z2Qkc4qq3CRdrOQKOE'
     }
   }
 };
