@@ -31,7 +31,7 @@ var adminRoutes = require('./routes/admin');
 // from the main codebase.
 //
 // Pull in the correct config for the environment we're running.
-var config = process.env.NODE_ENV === 'production' ? './config-prod' : './config';
+var config = process.env.NODE_ENV !== 'development' ? './config-prod' : './config';
 config = require(config);
 
 // Create connection pool
