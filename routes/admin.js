@@ -4,7 +4,7 @@ var regex = require('regex');
 
 // Pull in the correct config for the environment we're running.
 // Default to dev though just in case
-var config = process.env.NODE_ENV === 'production' ? 'config-prod' : 'config';
+var config = process.env.NODE_ENV !== 'development' ? 'config-prod' : 'config';
 
 config = _rootRequire(config);
 
