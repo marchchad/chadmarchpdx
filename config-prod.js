@@ -8,7 +8,8 @@ var config = {
     'client': {
       'id': '507842711005-h5i3q8d9m5gpofi2u2c1rg4km5grc831.apps.googleusercontent.com',
       'secret': 'aukNOCjJ4xgW73rW8Gfg7GoF'
-    }
+    },
+    'google': 'http://www.chadmarchpdx.com/admin/google/callback'
   }
 };
 

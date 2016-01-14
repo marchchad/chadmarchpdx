@@ -16,7 +16,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 passport.use(new GoogleStrategy({
     clientID: config.google.client.id,
     clientSecret: config.google.client.secret,
-    callbackURL: 'http://127.0.0.1:3000/admin/google/callback'
+    callbackURL: config.google.callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...

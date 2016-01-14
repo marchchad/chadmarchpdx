@@ -9,7 +9,8 @@ var config = {
     'client': {
       'id': '685058428888-g0g53l1u488k4oo0plpjbalaihjb7jl8.apps.googleusercontent.com',
       'secret': 'TxMRF0z2Qkc4qq3CRdrOQKOE'
-    }
+    },
+    'google': 'http://127.0.0.1:3000/admin/google/callback'
   }
 };
 
