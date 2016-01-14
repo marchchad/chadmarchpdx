@@ -31,4 +31,4 @@ build/Release
 *.sublime-workspace
 
 # Specifically ignored files
-config-prod.js
+# config-prod.js
