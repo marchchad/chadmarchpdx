@@ -81,7 +81,7 @@ router.get('/ontap', function(req, res) {
 
                   data.push(recipe);
                   
-                  _recipes.push(jade.renderFile('./views/_recipe.jade', { recipe: results[i] }));
+                  _recipes.push(jade.renderFile('./views/shared/_recipe.jade', { recipe: results[i] }));
                 }
               }
 

@@ -1,5 +1,6 @@
 var config = {
   'secret': 'mybrewpisecret',
+  'sessionId': 'mybrewpisession',
   'host': process.env.OPENSHIFT_MYSQL_DB_HOST || 'localhost',
   'user': (process.env.OPENSHIFT_MYSQL_DB_HOST ? 'ipaapi' : 'root'),
   'password': (process.env.OPENSHIFT_MYSQL_DB_HOST ? 'ipaapi' : 'admin'),

@@ -7,11 +7,12 @@ var regex = require('regex');
 var config = process.env.NODE_ENV !== 'development' ? 'config-prod' : 'config';
 
 config = _rootRequire(config);
+var User = _rootRequire('models/user');
 
 // Pull in authentication libraries and set up
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+/*var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 passport.use(new GoogleStrategy({
     clientID: config.google.client.id,
@@ -27,6 +28,27 @@ passport.use(new GoogleStrategy({
       // to associate the Google account with a user record in your database,
       // and return that user instead.
       return done(null, profile);
+    });
+  }
+));*/
+
+passport.use(new LocalStrategy({
+    passReqToCallback: true, // pass the req so the user model has access to the db conn pool
+  },
+  function(req, username, password, done) {
+    var params = new User.UserObject({ 'username': username, 'password': password });
+    console.log('in local Strategy  checker');
+    // This User method also checks the password
+    User.FindUserByUsername(req, params, function(err, user) {
+      if (err) {
+        console.log(err);
+        return done(err);
+      }
+      if (!user) {
+        console.log(user);
+        return done(null, false);
+      }
+      return done(null, user);
     });
   }
 ));
@@ -60,38 +82,6 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/admin/login');
 }
 
-function ValidPassword(password){
-  var hasCapital = new regex('^[A-Z]*$');
-  var hasSpecial = new regex(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
-
-  var response = {
-    'valid': null,
-    'message': 'You are missing the following requirements:'
-  };
-
-  if(!hasCapital(password)){
-    response.valid = false;
-    response.message += '<br>Password must contain at least 1 uppercase letter';
-  }
-
-  if(!hasSpecial(password)){
-    response.valid = false;
-    response.message += '<br>Password must contain at least 1 special character.';
-  }
-
-  if(password.length < 7){
-    response.valid = false;
-    repsonse.message += '<br>Password must be at least 8 characters.';
-  }
-
-  if(!response.valid){
-    return response;
-  }
-
-  // If we've gotten this far, the password is valid.
-  return true;
-};
-
 // This routes to the http[s]://{site.com}/admin/ homepage
 // not http[s]://{site.com}/
 router.get('/', ensureAuthenticated, function(req, res){
@@ -101,7 +91,7 @@ router.get('/', ensureAuthenticated, function(req, res){
         if(conn){
           var query = conn.query('select id, Name as name from recipes', function(err, result){
             if(err){
-              console.log('error: ', err);
+              console.error('error: ', err);
               res.send({ 'error': err });
             }
             else{
@@ -115,7 +105,7 @@ router.get('/', ensureAuthenticated, function(req, res){
   }
   catch(e){
     res.send({ 'Error': e, 'env': req.env });
-    console.log({ 'Error': e, 'env': req.env });
+    console.error({ 'Error': e, 'env': req.env });
   }
 });
 
@@ -123,24 +113,49 @@ router.route('/login')
   .get(function(req, res){
     res.render('admin/login');
   })
-  .post(function(req, res){
+  .post(passport.authenticate('local', { failureRedirect: '/admin/login' }), function(req, res){
     var response = {};
+    console.log('in post')
     try{
-      var validPassword = ValidPassword(req.params.password);
+      /*var validPassword = ValidPassword(req.params.password);
       if(!validPassword.valid){
         res.render('admin/login', validPassword);
-      }
-      else{
-        // TODO:
-        // Check that users params are valid then redirect
-        res.redirect('admin/admin');
-      }
+      }*/
+      res.redirect('admin/admin');
     }
     catch(e){
       response["Error"] = e;
     }
     res.render('admin/login', response);
   });
+
+router.route('/signup')
+  .get(function(req, res){
+    res.render('admin/signup');
+  })
+  .post(function(req, res){
+  var response = {};
+    try{
+      console.log(req.params);
+      user.AddUser(req, req.params, function(err, user){
+        if(err){
+          console.error(err);
+          res.render('admin/signup', err);
+        }
+        
+        if(user){
+          console.log(user);
+          res.redirect('admin/admin');
+        }
+      });
+
+      
+    }
+    catch(e){
+      response["Error"] = e;
+    }
+    res.render('admin/login', response);
+});
 
 router.get('/logout', function(req, res){
   req.logout();

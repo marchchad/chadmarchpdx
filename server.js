@@ -14,6 +14,7 @@ var bodyParser = require('body-parser');
 var debug = require('debug')('mynodeapp:server');
 var http = require('http');
 var passport = require('passport');
+var helmet = require('helmet');
 
 // Get mysql library
 var mysql = require('mysql');
@@ -48,13 +49,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('trust proxy', 1) // trust first proxy
 app.use(session({
   'secret': config.secret,
   'resave': true,
-  'saveUninitialized': true
+  'saveUninitialized': true,
+  'name': config.sessionId
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(helmet());
 
 // Make our connection pool accessible to our routers
 // This must be declared before setting the app to use our routes.
@@ -87,7 +91,7 @@ if(routes){
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-  res.render('fourohfour');
+  res.render('error/fourohfour');
 });
 
 // error handlers
@@ -98,7 +102,7 @@ if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     err.env = app.get('env');
     res.status(err.status || 500);
-    res.render('error', { err: err });
+    res.render('error/error', { err: err });
   });
 }
 
@@ -106,7 +110,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', { err: err });
+  res.render('error/error', { err: err });
 });
 
 /*
