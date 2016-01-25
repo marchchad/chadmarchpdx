@@ -4,10 +4,18 @@
  * @param  {String}
  * @return {Object}
  */
+var linuxStyle = '/';
 var rootRequire = function(module) {
-  // production env is linux, dev env is windows.
-  var pathDelim = process.env.NODE_ENV !== 'development' ? '/' : '\\';
-  module = module.indexOf(pathDelim) === -1 ? pathDelim + module : module;
+  // set the correct path delim
+  var pathDelim = process.env.OS.toLowerCase().indexOf('windows') === -1 ? '/' : '\\';
+  if(pathDelim === linuxStyle){
+    module = module.replace('\\', '/');
+  }
+  else{
+    module = module.replace('/', '\\');
+  }
+  // If it's already prefixed, don't add another
+  module = module.indexOf(pathDelim) === 0 ? module : pathDelim + module;
   return require(__dirname + module);
 }
 module.exports = GLOBAL._rootRequire = rootRequire;

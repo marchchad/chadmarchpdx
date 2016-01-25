@@ -1,5 +1,8 @@
 #!/bin/env node
 
+// Some env variables are only set on the production env
+process.env.deploy_env = process.env.OPENSHIFT_NODEJS_IP != null ? 'production' : 'development';
+
 // Import custom module to allow for root relative imports
 require("./_rootRequire");
 
@@ -32,7 +35,8 @@ var adminRoutes = require('./routes/admin');
 // from the main codebase.
 //
 // Pull in the correct config for the environment we're running.
-var config = process.env.NODE_ENV !== 'development' ? './config-prod' : './config';
+var config = process.env.deploy_env !== 'development' ? './config-prod' : './config';
+
 config = require(config);
 
 // Create connection pool
