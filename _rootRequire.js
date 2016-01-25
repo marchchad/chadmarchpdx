@@ -7,7 +7,7 @@
 var linuxStyle = '/';
 var rootRequire = function(module) {
   // set the correct path delim
-  var pathDelim = process.env.OS.toLowerCase().indexOf('windows') === -1 ? '/' : '\\';
+  var pathDelim = process.env.OS === undefined || process.env.OS.toLowerCase().indexOf('windows') === -1 ? '/' : '\\';
   if(pathDelim === linuxStyle){
     module = module.replace('\\', '/');
   }
