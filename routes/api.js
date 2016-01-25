@@ -54,7 +54,7 @@ router.post('/keg/', function(req, res){
           //  Check for currently active keg for specified id
           //  and prompt user to confirm they want to deactivate
           //  the previous entry for the current entry.
-          /*var query = conn.query('insert into kegs SET ?', req.params, function(err, result){
+          /*var query = conn.query('insert into kegs SET ?', req.body, function(err, result){
             if(err){
               res.send({ 'error': err });
             }
@@ -113,7 +113,7 @@ router.post('/pour/', function(req, res){
     if(req.pool){
       req.pool.getConnection(function(err, conn){
         if(conn){
-          var query = conn.query('insert into pours SET ?', req.params, function(err, result){
+          var query = conn.query('insert into pours SET ?', req.body, function(err, result){
             if(err){
               res.send({ 'error': err });
             }

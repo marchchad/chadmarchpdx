@@ -49,7 +49,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.set('trust proxy', 1) // trust first proxy
 app.use(session({
   'secret': config.secret,
   'resave': true,
@@ -62,8 +61,6 @@ app.use(helmet());
 
 // Make our connection pool accessible to our routers
 // This must be declared before setting the app to use our routes.
-// TODO:
-//   Authenticate users here.
 app.use(function(req, res, next){
   req.pool = pool;
   req.env = app.env;

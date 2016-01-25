@@ -1,5 +1,3 @@
-"use strict"
-
 var PasswordHash = require('password-hash');
 
 var user = {
@@ -12,12 +10,17 @@ var user = {
     }
   },
   'UserParams': function(params){
+
     var validParams = user.FilterParams(params);
-    var params = new user.UserObject();
-    if(validParams){
-      for(var i = 0; i < validParams.params.length; i++){
-        var param = validParams.params[i];
-        params[param] = params[param];
+    var userParams = new user.UserObject();
+
+    if(validParams.length < 0){
+      return false;
+    }
+    else{
+      for(var i = 0; i < validParams.length; i++){
+        var param = validParams[i];
+        userParams[param] = params[param];
       }
     }
 
@@ -49,26 +52,31 @@ var user = {
    * @return {undefined}
    */
   'FindUserByUsername': function(req, params, callback){
-    console.log("in FindUserByUsername")
-    var validParams = user.FilterParams(params);
+    var validParams = user.UserParams(params);
     if(validParams && req.pool){
       req.pool.getConnection(function(err, conn){
         if(conn){
           var query = conn.query('select username, password from users where username = ?', params.username, function(err, result){
             if(err){
-              callback({ 'error: ': err });
+              console.log('error: ', err);
+              callback({ 'error': err });
             }
-            else if(results.length > 0){
-              if(PasswordHash.verify(params.password, results[0].password)){
-                callback(null, { 'username': params.username });
+            else if(result.length > 0){
+              console.log(' found matching user ');
+              if(PasswordHash.verify(params.password, result[0].password)){
+                callback(null, { 'username': result[0].username });
               }
-              callback({ 'error': 'Password does not match.' });
+              else{
+                console.log('Password does not match.');
+                callback({ 'error': 'Password does not match.' });
+              }
             }
             else{
+              console.log('dunno what happened');
               callback(null, false);
             }
           });
-          console.log(query,sql);
+          console.log(query.sql);
           conn.release();
         }
       });
@@ -78,42 +86,37 @@ var user = {
     }
   },
   'AddUser': function(req, params, callback){
-    console.log("in AddUser")
-    if(req.pool){
+    var userParams = user.UserParams(params);
+    if(userParams && req.pool){
       req.pool.getConnection(function(err, conn){
         if(conn){
-          console.log('got connection')
           var validPassword = user.ValidPassword(params.password);
-          // Check if username already exists.
-          user.FindUserByUsername(req, params, function(err, user){
 
+          if(!validPassword.valid){
+            callback({ 'error': validPassword.message });
+            return;
+          }
+          // Check if username already exists.
+          user.FindUserByUsername(req, params, function(err, result){
             if(err){
-              callback({ 'error: ': err });
+              callback({ 'error': err });
             }
-            if(user){
-              callback(null, false);
+            if(result){
+              callback({ 'error': 'User already exists' });
             }
             else {
-              var params = user.FilterParams(params);
               // We won't ever store the plain text password so overwrite it with
               // the generated hashed value.
-              var sqlparams = GetCreateUserParams(params);
-              console.log(sqlparams)
+              var sqlparams = user.GetCreateUserParams(params);
               params.password = PasswordHash.generate(params.password);
-              console.log(params);
-              var query = conn.query('insert into users (' + sqlparams + ') SET ?', params, function(err, result){
+              var query = conn.query('insert into users SET ?', params, function(err, results){
                 if(err){
-                  callback({ 'error: ': err });
+                  callback({ 'error': err });
                 }
-                else if(results.length > 0){
-                  if(PasswordHash.verify(params.password, results[0].password)){
-                    callback(null, { 'username': params.username });
-                  }
-                  callback({ 'error': 'Password does not match.' });
+                else if(results.affectedRows > 0){
+                  callback(null, { 'username': params.username });
                 }
-                callback({ 'error': 'Could not find user.' });
               });
-              console.log(query, sql);
               conn.release();
             }
           });
@@ -144,20 +147,26 @@ var user = {
     return values;
   },
   'ValidPassword': function(password){
-    var hasCapital = new regex('^[A-Z]*$');
-    var hasSpecial = new regex(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
-
     var response = {
       'valid': null,
       'message': 'You are missing the following requirements:'
     };
 
-    if(!hasCapital(password)){
+    if(!password){
+      response.valid = false;
+      response.message = 'You must provide a password.';
+      return response;
+    }
+
+    var hasCapital = new RegExp(/[A-Z]/);
+    var hasSpecial = new RegExp(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
+
+    if(hasCapital.test(password) !== true){
       response.valid = false;
       response.message += '<br>Password must contain at least 1 uppercase letter';
     }
 
-    if(!hasSpecial(password)){
+    if(hasSpecial.test(password) !== true){
       response.valid = false;
       response.message += '<br>Password must contain at least 1 special character.';
     }
@@ -167,13 +176,18 @@ var user = {
       repsonse.message += '<br>Password must be at least 8 characters.';
     }
 
-    if(!response.valid){
-      return response;
-    }
-
     // If we've gotten this far, the password is valid.
+    response.valid = true;
+    response.message = "";
+    return response;
+  },
+  'ValidUser': function(username){
+    var hasSpecial = new regex(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
+    if(hasSpecial.test(username)){
+      return false;
+    }
     return true;
   }
 };
 
-module.export = user;
+module.exports = user;

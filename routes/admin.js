@@ -1,6 +1,5 @@
 // Import required libraries
 var express = require('express');
-var regex = require('regex');
 
 // Pull in the correct config for the environment we're running.
 // Default to dev though just in case
@@ -32,28 +31,30 @@ passport.use(new GoogleStrategy({
   }
 ));*/
 
-passport.use(new LocalStrategy({
+passport.use('local', new LocalStrategy({
     passReqToCallback: true, // pass the req so the user model has access to the db conn pool
   },
   function(req, username, password, done) {
-    var params = new User.UserObject({ 'username': username, 'password': password });
-    console.log('in local Strategy  checker');
+    var params = new User.UserParams({ 'username': username, 'password': password });
+    console.log('in param checker');
     // This User method also checks the password
     User.FindUserByUsername(req, params, function(err, user) {
       if (err) {
-        console.log(err);
+        console.log(' err finding user: ', err);
         return done(err);
       }
       if (!user) {
-        console.log(user);
+        console.log(' no user found: ', user);
         return done(null, false);
       }
+      console.log(' found user: ', user);
       return done(null, user);
     });
   }
 ));
 
 passport.serializeUser(function(user, done){
+  console.log('serializeUser: ', user);
   done(null, user);
 });
 
@@ -67,6 +68,7 @@ passport.serializeUser(function(user, done){
 // user.id value.
 
 passport.deserializeUser(function(user, done){
+  console.log('deserializeUser: ', user);
   done(null, user);
 });
 
@@ -95,7 +97,7 @@ router.get('/', ensureAuthenticated, function(req, res){
               res.send({ 'error': err });
             }
             else{
-              res.render('admin', { data: { recipes: result } });
+              res.render('admin/admin', { data: { recipes: result } });
             }
           });
           conn.release();
@@ -104,8 +106,8 @@ router.get('/', ensureAuthenticated, function(req, res){
     }
   }
   catch(e){
-    res.send({ 'Error': e, 'env': req.env });
     console.error({ 'Error': e, 'env': req.env });
+    res.send({ 'Error': e, 'env': req.env });
   }
 });
 
@@ -115,54 +117,49 @@ router.route('/login')
   })
   .post(passport.authenticate('local', { failureRedirect: '/admin/login' }), function(req, res){
     var response = {};
-    console.log('in post')
     try{
-      /*var validPassword = ValidPassword(req.params.password);
-      if(!validPassword.valid){
-        res.render('admin/login', validPassword);
-      }*/
-      res.redirect('admin/admin');
+      console.log(' success, should redirect');
+      res.redirect('/admin');
     }
     catch(e){
+      console.log(' in error: ', e)
       response["Error"] = e;
+      res.render('admin/login', response);
     }
-    res.render('admin/login', response);
   });
 
-router.route('/signup')
+/*router.route('/signup')
   .get(function(req, res){
     res.render('admin/signup');
   })
   .post(function(req, res){
-  var response = {};
+    var response = {};
     try{
-      console.log(req.params);
-      user.AddUser(req, req.params, function(err, user){
+      User.AddUser(req, req.body, function(err, user){
         if(err){
-          console.error(err);
-          res.render('admin/signup', err);
+          console.log('err adding user: ', err);
+          response["Error"] = err;
+          res.render('admin/signup', response);
         }
-        
         if(user){
-          console.log(user);
-          res.redirect('admin/admin');
+          console.log('created user: ', user);
+          res.redirect('/admin');
         }
       });
-
-      
     }
     catch(e){
+      console.log(' in catch, err: ', e);
       response["Error"] = e;
+      res.render('admin/signup', response);
     }
-    res.render('admin/login', response);
-});
+});*/
 
 router.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
 
-router.get('/google', 
+/*router.get('/google', 
   passport.authenticate('google', {
     scope: ['https://www.googleapis.com/auth/plus.login']
   }),
@@ -176,6 +173,6 @@ router.get('/google/callback',
     successRedirect: '/admin',
     failureRedirect: '/admin/login'
   })
-);
+);*/
 
 module.exports = router;

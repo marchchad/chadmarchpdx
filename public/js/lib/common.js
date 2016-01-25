@@ -3,36 +3,49 @@ define([], function () {
   var returnObj = {};
 
   returnObj['Request'] = function(url, method, params, async, type){
-    var _req = new XMLHttpRequest();
-    _req.onload = function(e) {
-      return { response: e, success: true, message: 'POST succeeded!' };
-    };
-    _req.onerror = function(e){
-      return { response: e, success: false, message: 'POST failed!' };
-    };
-    _req.open(method.toUpperCase(), url, !!async);
-    type = type.toLowerCase() === 'json' ? 'application/json;charset=UTF-8' : 
-           type.toLowerCase() === 'form' ? 'application/x-www-form-urlencoded' :
-           'text/plain';
+    return new Promise(function (resolve, reject) {
+      var _req = new XMLHttpRequest();
 
-    _req.setRequestHeader('Content-type', type);
+      _req.onload = function () {
+        if (this.status >= 200 && this.status < 300) {
+          resolve(_req.response);
+        } else {
+          reject({
+            status: this.status,
+            statusText: _req.statusText
+          });
+        }
+      };
+      _req.onerror = function () {
+        reject({
+          status: this.status,
+          statusText: _req.statusText
+        });
+      };
 
-    if(params !== null){
-      if(typeof params === 'string'){
-        _req.send(params);
+      _req.open(method.toUpperCase(), url, !!async);
+      
+      type = type.toLowerCase() === 'json' ? 'application/json;charset=UTF-8' : 
+             type.toLowerCase() === 'form' ? 'application/x-www-form-urlencoded' :
+             'text/plain';
+
+      _req.setRequestHeader('Content-type', type);
+
+      if(params !== null){
+        if(typeof params === 'string'){
+          _req.send(params);
+        }
+        else if(typeof params === 'object'){
+          _req.send(JSON.stringify(params));
+        }
       }
-      else if(typeof params === 'object'){
-        _req.send(JSON.stringify(params));
-      }
-    }
-    return _req;
+    });
   };
 
   returnObj['SerializeForm'] = function(form){
     var data = {};
-    var kids = form.children;
-    for(var i = 0; i < kids.length; i++){
-      var kid = kids[i];
+    for(var i = 0; i < form.length; i++){
+      var kid = form[i];
       var targetProp = kid.name;
       if(targetProp && targetProp.trim()){
         var value = kid.value || '';

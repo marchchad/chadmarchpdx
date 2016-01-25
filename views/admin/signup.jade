@@ -9,19 +9,17 @@ block content
         form(action='/admin/signup' method='POST' style='margin: 0;')
           div.row.full-row
             label(for='username') Username
-            input(id='username' required).row
+            input(id='username' name='username' required).row
           div.row.full-row
             label(for='email') Email
-            input(id='email' type='email' required).row
+            input(id='email' type='email' name='email' required).row
           div.row.full-row
             label(for='password') Password
-            input(id='password' type='password').row
+            input(id='password' type='password' name='password').row
           div.row.full-row
             button(type='submit').left Sign Up
+          div.row.full-row#errors
+            p(style='color: red;') #{Error.error}
 
 block scripts
-  script(data-main='/js/admin/main', src='/js/lib/require.js')
-
-if Error
-  script.
-    var Error = !{JSON.stringify(Error)};
+  //script(data-main='/js/admin/main', src='/js/lib/require.js' type='text/javascript')

@@ -13,6 +13,17 @@ define(['/js/lib/common.js', '/js/lib/domReady.js'], function (common, domReady)
     var params = common.SerializeForm(e.target);
     var post = common.Request(e.target.action, e.target.method, params, true, 'JSON');
     console.log(post);
+    if(post.then){
+      post.then(function(resp){
+        console.log(resp);
+      }
+      ,function(err){
+        console.error(err);
+        var errors = document.getElementById('errors');
+        errors.innerHTML = err.error;
+      }
+      );
+    }
   };
 
   var _bindForms = function(){
@@ -24,9 +35,6 @@ define(['/js/lib/common.js', '/js/lib/domReady.js'], function (common, domReady)
 
   var _init = function() {
     _bindForms();
-    if(Error){
-      console.error(Error);
-    }
   };
 
   // Public object for reference to functions and properties
