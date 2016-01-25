@@ -5,7 +5,8 @@
  * @return {Object}
  */
 var rootRequire = function(module) {
-  module = module.indexOf("/") === -1 ? "/" + module : module;
+  var pathDelim = process.env.NODE_ENV !== 'development' ? '/' : '\\';
+  module = module.indexOf(pathDelim) === -1 ? pathDelim + module : module;
   return require(__dirname + module);
 }
 module.exports = GLOBAL._rootRequire = rootRequire;
