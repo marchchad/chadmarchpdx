@@ -5,6 +5,7 @@
  * @return {Object}
  */
 var rootRequire = function(module) {
+  // production env is linux, dev env is windows.
   var pathDelim = process.env.NODE_ENV !== 'development' ? '/' : '\\';
   module = module.indexOf(pathDelim) === -1 ? pathDelim + module : module;
   return require(__dirname + module);
