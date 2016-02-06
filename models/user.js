@@ -72,7 +72,7 @@ var user = {
               }
             }
             else{
-              console.log('dunno what happened');
+              console.log('dunno what happened\n', result);
               callback(null, false);
             }
           });

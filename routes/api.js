@@ -1,5 +1,16 @@
 var express = require('express');
+var passport = require('passport');
+
 var router = express.Router();
+
+function ensureAuthenticated(req, res, next) {
+  console.log('is authenticated: ' + req.isAuthenticated());
+  console.log('user: ' + req.user);
+  if(req.isAuthenticated()){
+    return next();
+  }
+  res.redirect('/admin/login');
+}
 
 router.get('/', function(req, res){
   res.render('api');
@@ -40,7 +51,7 @@ router.route('/keg/:kegid')
     }
   });
 
-router.post('/keg/', function(req, res){
+router.post('/keg/', ensureAuthenticated, function(req, res){
   try{
     if(req.pool){
       var response = {
@@ -108,7 +119,7 @@ router.get('/pour/:pourid', function(req, res){
   }
 });
 
-router.post('/pour/', function(req, res){
+router.post('/pour/', ensureAuthenticated, function(req, res){
   try{
     if(req.pool){
       req.pool.getConnection(function(err, conn){

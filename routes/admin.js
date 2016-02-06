@@ -94,10 +94,16 @@ router.get('/', ensureAuthenticated, function(req, res){
           var query = conn.query('select id, Name as name from recipes', function(err, result){
             if(err){
               console.error('error: ', err);
-              res.send({ 'error': err });
+              res.send({
+                'error': err
+              });
             }
             else{
-              res.render('admin/admin', { data: { recipes: result } });
+              res.render('admin/admin', {
+                'data': {
+                  'recipes':result
+                }
+              });
             }
           });
           conn.release();
@@ -106,8 +112,14 @@ router.get('/', ensureAuthenticated, function(req, res){
     }
   }
   catch(e){
-    console.error({ 'Error': e, 'env': req.env });
-    res.send({ 'Error': e, 'env': req.env });
+    console.error({
+      'Error': e,
+       'env': req.env
+     });
+    res.send({
+      'Error': e,
+       'env': req.env
+     });
   }
 });
 
@@ -115,6 +127,9 @@ router.route('/login')
   .get(function(req, res){
     res.render('admin/login');
   })
+  // TODO:
+  //  The post login should not use the passport authentication,
+  //  only pages that require an authenticated user
   .post(passport.authenticate('local', { failureRedirect: '/admin/login' }), function(req, res){
     var response = {};
     try{
