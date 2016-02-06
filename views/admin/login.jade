@@ -15,8 +15,8 @@ block content
             input(id='password' name='password' type='password').row
           div.row.full-row
             button(type='submit').right Login
-          div.row.full-row#errors
-            p(style='color: red;') #{Error.error}
+      div.row.full-row#errors
+        p(style='color: red;') #{Error.error}
 
 block scripts
-  //script(data-main='/js/admin/main', src='/js/lib/require.js')
+  script(data-main='/js/admin/main', src='/js/lib/require.js')

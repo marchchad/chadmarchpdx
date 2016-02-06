@@ -54,13 +54,14 @@ router.route('/keg/:kegid')
 router.post('/keg/', ensureAuthenticated, function(req, res){
   try{
     if(req.pool){
-      var response = {
-        'success': false
-      };
       // Note:
       //  Form successfully posting, now wire up the db insert
       req.pool.getConnection(function(err, conn){
         if(conn){
+          res.send({
+            'success': true,
+            'params': req.body
+          });
           // TODO:
           //  Check for currently active keg for specified id
           //  and prompt user to confirm they want to deactivate

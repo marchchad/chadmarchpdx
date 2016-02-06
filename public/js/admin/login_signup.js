@@ -12,14 +12,26 @@ define(['/js/lib/common.js', '/js/lib/domReady.js'], function (common, domReady)
     e.stopPropagation();
     var params = common.SerializeForm(e.target);
     var post = common.Request(e.target.action, e.target.method, params, true, 'JSON');
-    console.log(post);
+    var errors = document.getElementById('errors');
     if(post.then){
       post.then(function(resp){
+        resp = JSON.parse(resp);
         console.log(resp);
+        if(resp.success){
+          if(resp.redirectUrl){
+            window.location = [window.origin, resp.redirectUrl].join("/");
+          }
+          else{
+            window.location = [window.origin, "admin"].join("/");
+          }
+        }
+        else{
+          console.error(resp);
+          errors.innerHTML = resp.error;
+        }
       }
       ,function(err){
         console.error(err);
-        var errors = document.getElementById('errors');
         errors.innerHTML = err.error;
       }
       );

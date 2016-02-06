@@ -41,11 +41,11 @@ passport.use('local', new LocalStrategy({
     User.FindUserByUsername(req, params, function(err, user) {
       if (err) {
         console.log(' err finding user: ', err);
-        return done(err);
+        return done({ 'error': err });
       }
       if (!user) {
         console.log(' no user found: ', user);
-        return done(null, false);
+        return done({ 'error': 'Sorry, we didn\'t find a user by that username.' }, false);
       }
       console.log(' found user: ', user);
       return done(null, user);
@@ -113,11 +113,11 @@ router.get('/', ensureAuthenticated, function(req, res){
   }
   catch(e){
     console.error({
-      'Error': e,
+      'error': e,
        'env': req.env
      });
     res.send({
-      'Error': e,
+      'error': e,
        'env': req.env
      });
   }
@@ -130,17 +130,26 @@ router.route('/login')
   // TODO:
   //  The post login should not use the passport authentication,
   //  only pages that require an authenticated user
-  .post(passport.authenticate('local', { failureRedirect: '/admin/login' }), function(req, res){
-    var response = {};
+  .post(passport.authenticate('local', {
+    failWithError: true
+    /*failureRedirect: '/admin/login'*/
+  }), function(req, res){
+    var response = {
+      'success': false
+    };
     try{
-      console.log(' success, should redirect');
-      res.redirect('/admin');
+      response.success = true;
+      response['redirectUrl'] = 'admin';
     }
     catch(e){
-      console.log(' in error: ', e)
-      response["Error"] = e;
-      res.render('admin/login', response);
+      console.log(' in error: ', e);
+      response["error"] = e;
     }
+    res.send(response);
+  },
+  function(err, req, res, next) {
+    // handle error
+    return res.send(err);
   });
 
 /*router.route('/signup')

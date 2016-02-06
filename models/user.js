@@ -72,7 +72,7 @@ var user = {
               }
             }
             else{
-              console.log('dunno what happened\n', result);
+              console.log('No matching user found.\n', result);
               callback(null, false);
             }
           });
