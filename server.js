@@ -17,16 +17,16 @@ var bodyParser = require('body-parser');
 var debug = require('debug')('mynodeapp:server');
 var http = require('http');
 var passport = require('passport');
-var passportSocketIo = require("passport.socketio");
+//var passportSocketIo = require("passport.socketio");
 var helmet = require('helmet');
 
 // Get mysql library
 var mysql = require('mysql');
 // Middleware to use MySQL as session store
 var MySQLStore = require('express-mysql-session');
-var SessionStore = new MySQLStore ({
+/*var SessionStore = new MySQLStore ({
     'useConnectionPooling': true
-  }, pool);
+  }, pool);*/
 
 // Begin express app creation
 var app = express();
@@ -64,7 +64,7 @@ app.use(session({
   'resave': true,
   'saveUninitialized': true,
   'name': config.sessionId,
-  'store': SessionStore
+  //'store': SessionStore
 }));
 app.use(passport.initialize());
 app.use(passport.session());
