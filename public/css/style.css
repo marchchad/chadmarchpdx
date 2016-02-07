@@ -106,7 +106,6 @@ input, select, button{
 input:not([type='range']), select{
   border-radius: 2px;
   border: 1px solid #ccc;
-  box-shadow: 0 0 7px -3px #3100A9;
   box-sizing: border-box;
   margin: 5px;
   padding: 5px 5px 5px 7.5px;
@@ -212,6 +211,45 @@ input[type=range]::-ms-fill-upper {
 }
 input[type=range]:focus::-ms-fill-upper {
   background: #367ebd;
+}
+input[type=radio]{
+  vertical-align: baseline;
+}
+
+#confirm {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.5);
+  opacity: 0;
+  border: 1px solid #120A42;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+#confirm .content{
+  position: relative;
+  transform: translate(87.5%, 100%);
+  background: #fff;
+  height: 150px;
+  width: 450px;
+  padding: 25px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  box-shadow: 0 0 10px #333;
+}
+
+#confirm button{
+  position: absolute;
+  bottom: 25px;
+}
+
+#confirm button.left{
+  left: 25px;
+}
+
+#confirm button.right{
+  right: 25px;
 }
 
 .navbar{
@@ -439,6 +477,9 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .full-row{
+  float: left;
+  clear: both;
+  margin: 5px 0;
   width: 100%;
 }
 
@@ -459,6 +500,21 @@ input[type=range]:focus::-ms-fill-upper {
   width: 47.5px;
   margin: 0 2.5px;
   padding: 5px 0 5px 5px;
+}
+
+.warning {
+  color: #EC9E12;
+  border-color: #EC9E12;
+}
+
+.error {
+  color: #A60100;
+  border-color: #A60100;
+}
+
+.success {
+  color: #00B120;
+  border-color: #00B120;
 }
 
 .col-12 {

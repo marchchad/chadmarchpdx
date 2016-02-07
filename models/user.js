@@ -58,16 +58,16 @@ var user = {
         if(conn){
           var query = conn.query('select username, password from users where username = ?', params.username, function(err, result){
             if(err){
-              console.log('error: ', err);
+              console.error('error: ', err);
               callback({ 'error': err });
             }
             else if(result.length > 0){
-              console.log(' found matching user ');
               if(PasswordHash.verify(params.password, result[0].password)){
+                console.log(' found matching user ');
                 callback(null, { 'username': result[0].username });
               }
               else{
-                console.log('Password does not match.');
+                console.error('Password does not match.');
                 callback({ 'error': 'Password does not match.' });
               }
             }

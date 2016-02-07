@@ -31,14 +31,26 @@ router.route('/keg/:kegid')
           };
           req.pool.getConnection(function(err, conn){
             if(conn){
-              var query = conn.query('select * from kegs where ?', req.params.kegid, function(err, result){
+              var query = conn.query('\
+                select\
+                  k.volume\
+                  ,k.pressure\
+                  ,k.keggedon\
+                from kegs k\
+                where ?\
+                and k.active = 1\
+                ', req.params, function(err, result){
                 if(err){
                   res.send({ 'error': err });
                 }
+                else if(result.length === 0){
+                  res.send({ 'result': [], 'message': 'There\'s no info for the provided data.', 'data': req.params });
+                }
                 else{
-                  res.send({ 'result': result });
+                  res.send({ 'result': result[0] });
                 }
               });
+              console.log(query.sql);
               conn.release();
             }
           });
@@ -46,8 +58,8 @@ router.route('/keg/:kegid')
       }
     }
     catch(e){
-      res.send({ 'Error': e });
-      console.log({ 'Error': e });
+      res.send({ 'error': e });
+      console.error({ 'error': e });
     }
   });
 
@@ -80,15 +92,15 @@ router.post('/keg/', ensureAuthenticated, function(req, res){
     }
   }
   catch(e){
-    res.send({ 'Error': e });
-    console.log({ 'Error': e });
+    res.send({ 'error': e });
+    console.error({ 'error': e });
   }
 });
 
 router.route('/pour*')
   .all(function(req, res, next){
     var kegid = req.params[0].replace('/', '');
-    if(!kegid){
+    if(!kegid && !req.body){
       res.send({ 'success': false, 'message': 'Please provide a kegid like so: `/api/pour/1`.' });
     }
     else{
@@ -96,14 +108,17 @@ router.route('/pour*')
     }
   });
 
-router.get('/pour/:pourid', function(req, res){
+router.get('/keg/:kegid/pour/:pourid', function(req, res){
   try{
     if(req.pool){
       req.pool.getConnection(function(err, conn){
         if(conn){
-          var query = conn.query('select * from pours where ?', req.params.pourid, function(err, result){
+          var query = conn.query('select volume, pourstart, pourend, temperature from pours where `kegid` = ? and `pourid` = ?', [req.params.kegid, req.params.pourid], function(err, result){
             if(err){
               res.send({ 'error': err });
+            }
+            else if(result.length === 0){
+              res.send({ 'result': [], 'message': 'There\'s no info for the provided data.', 'data': req.params });
             }
             else{
               res.send({ 'result': result });
@@ -115,8 +130,8 @@ router.get('/pour/:pourid', function(req, res){
     }
   }
   catch(e){
-    res.send({ 'Error': e });
-    console.log({ 'Error': e });
+    res.send({ 'error': e });
+    console.error({ 'error': e });
   }
 });
 
@@ -130,7 +145,7 @@ router.post('/pour/', ensureAuthenticated, function(req, res){
               res.send({ 'error': err });
             }
             else{
-              res.send({ 'success': 'Pour posted successfully.', 'pourid': results.insertId });
+              res.send({ 'success': 'Pour posted successfully.', 'pourid': result.insertId });
             }
           });
           conn.release();
@@ -139,8 +154,8 @@ router.post('/pour/', ensureAuthenticated, function(req, res){
     }
   }
   catch(e){
-    res.send({ 'Error': e });
-    console.log({ 'Error': e });
+    res.send({ 'error': e });
+    console.error({ 'error': e });
   }
 });
 

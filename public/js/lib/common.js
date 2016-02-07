@@ -78,5 +78,33 @@ define([], function () {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
   };
 
+  returnObj['Confirm'] = function(message, func){
+    var confirm = document.getElementById('confirm');
+    confirm.style.opacity = 1;
+    confirm.style['pointer-events']= "all";
+    
+    var content = document.getElementById('confirm-content');
+    content.innerHTML = message;
+
+    var no = document.getElementById('confirm-no');
+    no.onclick = function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      confirm.style.opacity = 0;
+      confirm.style['pointer-events']= "none";
+    }
+
+    var yes = document.getElementById('confirm-yes');
+    yes.onclick = function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      confirm.style.display = 0;
+      confirm.style['pointer-events']= "none";
+      if(func){
+        func();
+      }
+    }
+  };
+
   return returnObj;
 });

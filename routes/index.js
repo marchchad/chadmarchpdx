@@ -96,7 +96,7 @@ router.get('/ontap', function(req, res) {
         }
         else{
           res.render('menu', {
-            error: err,
+            'error': err,
             message: "Bummer, looks like we are having some technical difficulties. Check back soon to see what's next!"
           });
         }

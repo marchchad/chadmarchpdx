@@ -36,7 +36,6 @@ passport.use('local', new LocalStrategy({
   },
   function(req, username, password, done) {
     var params = new User.UserParams({ 'username': username, 'password': password });
-    console.log('in param checker');
     // This User method also checks the password
     User.FindUserByUsername(req, params, function(err, user) {
       if (err) {
@@ -54,7 +53,6 @@ passport.use('local', new LocalStrategy({
 ));
 
 passport.serializeUser(function(user, done){
-  console.log('serializeUser: ', user);
   done(null, user);
 });
 
@@ -68,7 +66,6 @@ passport.serializeUser(function(user, done){
 // user.id value.
 
 passport.deserializeUser(function(user, done){
-  console.log('deserializeUser: ', user);
   done(null, user);
 });
 
@@ -91,7 +88,7 @@ router.get('/', ensureAuthenticated, function(req, res){
     if(req.pool){
       req.pool.getConnection(function(err, conn){
         if(conn){
-          var query = conn.query('select id, Name as name from recipes', function(err, result){
+          var recipes = conn.query('call get_admin_data', function(err, result){
             if(err){
               console.error('error: ', err);
               res.send({
@@ -101,7 +98,8 @@ router.get('/', ensureAuthenticated, function(req, res){
             else{
               res.render('admin/admin', {
                 'data': {
-                  'recipes':result
+                  'recipes': result[0],
+                  'kegs': result[1]
                 }
               });
             }
@@ -127,12 +125,8 @@ router.route('/login')
   .get(function(req, res){
     res.render('admin/login');
   })
-  // TODO:
-  //  The post login should not use the passport authentication,
-  //  only pages that require an authenticated user
   .post(passport.authenticate('local', {
     failWithError: true
-    /*failureRedirect: '/admin/login'*/
   }), function(req, res){
     var response = {
       'success': false

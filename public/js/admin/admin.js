@@ -13,19 +13,10 @@ define(['common', 'domReady'], function (common, domReady) {
     }
   };
 
-  var _onSubmit = function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var params = common.SerializeForm(e.target);
-    var post = common.Request(e.target.action, e.target.method, params, true, 'JSON');
+  var submitForm = function(form){
+    var params = common.SerializeForm(form);
+    var post = common.Request(form.action, form.method, params, true, 'JSON');
     console.log(post);
-  };
-
-  var _bindForms = function(){
-    var forms = document.getElementsByTagName('form');
-    for(var i = 0; i < forms.length; i++){
-      forms[i].onsubmit = _onSubmit;
-    }
   };
 
   var _setupInputs = function(){
@@ -38,7 +29,8 @@ define(['common', 'domReady'], function (common, domReady) {
           'min': '1',
           'max': '15.5',
           'step': '0.5',
-          'class': 'range-input'
+          'class': 'range-input',
+          'value': _input.value
         });
         common.InsertAfter(_input, _sibling);
         _input.oninput = _populateSibling;
@@ -48,7 +40,25 @@ define(['common', 'domReady'], function (common, domReady) {
 
   var _init = function() {
     _setupInputs();
-    _bindForms();
+    
+    var configure = document.getElementById('configure');
+    configure.onclick = function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var form = e.target.parentNode.parentNode;
+      submitForm(form);
+    };
+
+    var deactivate = document.getElementById('deactivate');
+    deactivate.onclick = function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var resp = common.Confirm("Are you sure you want to deactivate this keg?");
+      if(resp){
+        var form = e.target.parentNode.parentNode;
+        submitForm(form);
+      }
+    }
   };
 
   // Public object for reference to functions and properties

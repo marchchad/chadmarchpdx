@@ -5,39 +5,41 @@ block content
     .page-header Admin
     hr
     p Coming soon: manage the profile and keg information.
-    h3 Add a Keg
-    form.row(action='/api/system' method='POST')
+    h3 Add a Keg to the system
+    form.left.col-6(action='/api/system' method='POST')
       label.row(for='kegsize') Keg Size
-      input(id='kegsize' name='kegsize' type='range' min='1' max='15.5' step='0.5')
+      input.row(id='kegsize' name='kegsize' type='range' min='1' max='15.5' step='0.5' value='5')
       label.row(for='kegcount') Count
-        sup *To add multiple kegs of the same size at the same time
-      input(id='kegcount' name='kegcount' type='range' min='1' max='99')
+      sup.row *To add multiple kegs of the same size at the same time
+      input.row(id='kegcount' name='kegcount' type='range' min='1' max='99' value='1')
       div.row
         button(type='submit') Submit
-    h3 Configure a FlowMeter
-    form.row(action='/api/keg/' method='POST')
+    h3 Configure a Keg
+    form.right.col-6(action='/api/keg/' method='POST')
+      h3 TODO: Extend the admin js to dynamically check what kegs are active and have the user deactive keg first.
       label.row Keg ID
-      label 1
-        input(name='kegid' type='radio' value='1')
-      label 2
-        input(name='kegid' type='radio' value='2')
+      for keg in data.kegs
+        label(style='margin: 3px 15px;')
+          input(name='kegid' type='radio' value='#{keg.kegid')
+          |#{keg.kegid}
 
       label.row(for='volume') Volume (gallons)
-      input(id='volume' name='volume' type='range' min='0' max='99')
+      input.row(id='volume' name='volume' type='range' min='0' max='99' value='5')
 
       label.row(for='pressure') Pressure (psi)
-      input(id='pressure' name='pressure' type='range' min='0' max ='40')
+      input.row(id='pressure' name='pressure' type='range' min='0' max ='40' value='10')
 
       label.row(for='keggedon') Date Kegged
-      input(id='keggedon' name='keggedon' type='date')
+      input.row(id='keggedon' name='keggedon' type='date')
 
       label.row(for='recipeid') Recipe
-      select(id='recipeid' name='recipeid')
+      select.row(id='recipeid' name='recipeid' style="margin: 0 5px;")
         for recipe in data.recipes
           option(value=recipe.id) #{recipe.name}
 
-      div.row
-        button(type='submit') Submit
+      div.full-row
+        button.right(type='button' id='configure') Configure
+        button.left.warning(type='button' id='deactivate') Deactivate
       if data.message
         h3=data.message
 
