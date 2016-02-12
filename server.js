@@ -18,7 +18,7 @@ var debug = require('debug')('mynodeapp:server');
 var http = require('http');
 var passport = require('passport');
 //var passportSocketIo = require("passport.socketio");
-var helmet = require('helmet');
+//var helmet = require('helmet');
 
 // Get mysql library
 var mysql = require('mysql');
@@ -70,7 +70,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(helmet());
+//app.use(helmet());
 
 // Make our connection pool accessible to our routers
 // This must be declared before setting the app to use our routes.

@@ -1,6 +1,6 @@
-"use strict"
+"use strict";
 
-define(['/js/lib/common.js', '/js/lib/domReady.js'], function (common, domReady) {
+define(['common', 'domReady'], function (common, domReady) {
   /**
    * Serializes then posts form to configured action and method.
    * @param  {HTMLFormElement} form

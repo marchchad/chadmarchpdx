@@ -4,7 +4,7 @@
 //except for 'app' ones, which are in a sibling
 //directory.
 requirejs.config({
-    baseUrl: 'js',
+    baseUrl: '/js',
     paths: {
         app: '',
         common: 'lib/common',

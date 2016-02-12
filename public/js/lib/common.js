@@ -1,8 +1,8 @@
 define(['domReady'], function (domReady) {
 
-  var returnObj = {};
+  var Common = {};
 
-  returnObj['Request'] = function(url, method, params, async, type){
+  Common['Request'] = function(url, method, params, async, type){
     return new Promise(function (resolve, reject) {
       var _req = new XMLHttpRequest();
 
@@ -42,7 +42,7 @@ define(['domReady'], function (domReady) {
     });
   };
 
-  returnObj['SerializeForm'] = function(form){
+  Common['SerializeForm'] = function(form){
     var data = {};
     for(var i = 0; i < form.length; i++){
       var kid = form[i];
@@ -65,7 +65,7 @@ define(['domReady'], function (domReady) {
     return data;
   };
 
-  returnObj['Confirm'] = function(message){
+  Common['Confirm'] = function(message){
     return new Promise(function(resolve, reject){
 
       var confirm = document.getElementById('confirm');
@@ -89,7 +89,7 @@ define(['domReady'], function (domReady) {
         backgroundShadow.style.opacity = 0;
 
         resolve(false);
-      }
+      };
 
       var yes = document.getElementById('confirm-yes');
       yes.onclick = function(e){
@@ -106,7 +106,7 @@ define(['domReady'], function (domReady) {
     });
   };
 
-  var _createElement = function(type, options){
+  Common['CreateElement'] = function(type, options){
     var elem = document.createElement(type);
     var keys = Object.keys(options);
     for(var i = 0; i < keys.length; i++){
@@ -115,13 +115,9 @@ define(['domReady'], function (domReady) {
     return elem;
   };
 
-  returnObj['CreateElement'] = _createElement;
-
-  var _insertAfter = function(referenceNode, newNode) {
+  Common['InsertAfter'] = function(referenceNode, newNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
   };
-
-  returnObj['InsertAfter'] = _insertAfter;
 
 
   /*var counter = 0;
@@ -132,7 +128,7 @@ define(['domReady'], function (domReady) {
     var height = e.offsetHeight;
     var width = e.offsetWidth;
 
-    var hoverTip = _createElement('div', {
+    var hoverTip = Common._createElement('div', {
       'id': (e.id || e.name || counter++) + '_hovertip',
       'class': 'hovertip',
       'innerHTML': e.getAttribute('data-disabled-title')
@@ -156,5 +152,5 @@ define(['domReady'], function (domReady) {
   // When the document is loaded, apply formatting, and bind events
   domReady(_init);
 
-  return returnObj;
+  return Common;
 });
