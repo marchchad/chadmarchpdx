@@ -1,6 +1,9 @@
-"use strict"
+"use strict";
 
 define(['common', 'domReady'], function (common, domReady) {
+
+  var configure = null;
+  var deactivate = null;
 
   // Private variables and functions
   var _populateSibling = function(e){
@@ -16,10 +19,10 @@ define(['common', 'domReady'], function (common, domReady) {
   var submitForm = function(form){
     var params = common.SerializeForm(form);
     var post = common.Request(form.action, form.method, params, true, 'JSON');
-    console.log(post);
+    console.log('post response: ', post);
   };
 
-  var _setupInputs = function(){
+  var _setupRangeInputs = function(){
     var inputs = document.getElementsByTagName('input');
     for(var i = 0; i < inputs.length; i++){
       var _input = inputs[i];
@@ -38,10 +41,29 @@ define(['common', 'domReady'], function (common, domReady) {
     }
   };
 
-  var _init = function() {
-    _setupInputs();
-    
-    var configure = document.getElementById('configure');
+  var _activateButtons = function(){
+    configure = configure || document.getElementById('configure');
+    configure.disabled = false;
+
+    deactivate = deactivate || document.getElementById('deactivate');
+    deactivate.disabled = false;
+  };
+
+  var _bindFormRules = function(){
+    // Get references to the keg configuration buttons
+    configure = document.getElementById('configure');
+    deactivate = document.getElementById('deactivate');
+
+    // Get the inputs to find the radio buttons
+    var inputs = document.getElementsByTagName('input');
+    for(var i = 0; i < inputs.length; i++){
+      var input = inputs[i];
+      if(input.type == 'radio'){
+        input.onclick = _activateButtons;
+      }
+    }
+
+    // Bind their click events
     configure.onclick = function(e){
       e.preventDefault();
       e.stopPropagation();
@@ -49,20 +71,29 @@ define(['common', 'domReady'], function (common, domReady) {
       submitForm(form);
     };
 
-    var deactivate = document.getElementById('deactivate');
     deactivate.onclick = function(e){
       e.preventDefault();
       e.stopPropagation();
+
       var resp = common.Confirm("Are you sure you want to deactivate this keg?");
-      if(resp){
-        var form = e.target.parentNode.parentNode;
-        submitForm(form);
-      }
+      resp.then(function(deactivate){
+        if(deactivate){
+          var form = e.target.parentNode.parentNode;
+          //submitForm(form);
+          console.log('deactivate: ', deactivate);
+          console.log('form: ', form);
+        }
+      });
     }
   };
 
+  var _init = function() {
+    _setupRangeInputs();
+    _bindFormRules();
+  };
+
   // Public object for reference to functions and properties
-  var adminObj = {}
+  var adminObj = {};
 
   // When the document is loaded, apply formatting, and bind events
   domReady(_init);

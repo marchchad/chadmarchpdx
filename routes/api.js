@@ -97,6 +97,31 @@ router.post('/keg/', ensureAuthenticated, function(req, res){
   }
 });
 
+router.delete('/keg/:kegid', ensureAuthenticated, function(req, res){
+  try{
+    if(req.pool){
+      req.pool.getConnection(function(err, conn){
+        if(conn){
+          var query = conn.query('update kegs SET `active` = 0 where `kegsessionid` = ?', req.params.kegid, function(err, result){
+            if(err){
+              res.send({ 'error': err });
+            }
+            else{
+              res.send({ 'success': 'Keg successfully deactivated.', 'kegid': req.params.kegid });
+            }
+          });
+          console.log(query.sql);
+        }
+        conn.release();
+      })
+    }
+  }
+  catch(e){
+    res.send({ 'error': e });
+    console.error({ 'error': e });
+  }
+})
+
 router.route('/pour*')
   .all(function(req, res, next){
     var kegid = req.params[0].replace('/', '');

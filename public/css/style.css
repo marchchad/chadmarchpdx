@@ -1,8 +1,8 @@
-*{
+* {
   outline: none;
 }
 
-html, body{
+html, body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -22,11 +22,20 @@ body::after {
   z-index: -1;
 }
 
-p{
+*:disabled{
+  cursor: not-allowed !important;
+  color: #999 !important;
+}
+
+*:disabled:hover{
+  box-shadow: 0 0 10px -2px #e00;
+}
+
+p {
   font-weight: 300;
 }
 
-a{
+a {
   text-decoration: none;
   color: #5647AB;
   -webkit-transform: translateZ(0);
@@ -62,11 +71,11 @@ a:active:before {
   color: #5647AB;
 }
 
-form{
+form {
   margin: 0 auto;
 }
 
-button{
+button {
   border: 1px solid #120A42;
   border-radius: 2.5px;
   padding: 5px 10px;
@@ -74,7 +83,8 @@ button{
   color: #120A42;
   margin: 5px;
 }
-button:hover{
+
+button:hover {
   box-shadow: 0 0 10px #666;
   cursor: pointer;
 }
@@ -93,17 +103,17 @@ sup {
   margin: 0 5px;
 }
 
-label{
+label {
   float: left;
   margin: 0 auto;
 }
 
-input, select, button{
+input, select, button {
   float: left;
   display: inline-block;
 }
 
-input:not([type='range']), select{
+input:not([type='range']), select {
   border-radius: 2px;
   border: 1px solid #ccc;
   box-sizing: border-box;
@@ -111,11 +121,11 @@ input:not([type='range']), select{
   padding: 5px 5px 5px 7.5px;
 }
 
-input:not([type='range']):hover, select:hover{
+input:not([type='range']):not([type='radio']):hover, select:hover {
   box-shadow: 0 0 8px -3px #3100A9;
 }
 
-input:not([type='range']):focus, select:focus{
+input:not([type='range']):not([type='radio']):focus, select:focus {
   box-shadow: 0 0 10px -2px #0859E0;
 }
 
@@ -216,18 +226,25 @@ input[type=radio]{
   vertical-align: baseline;
 }
 
-#confirm {
+#background-shadow{
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#background-shadow, #confirm {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: rgba(0,0,0,0.5);
   opacity: 0;
   border: 1px solid #120A42;
-  pointer-events: none;
   transition: all 0.3s ease;
+  pointer-events: none;
 }
 
-#confirm .content{
+#confirm {
+  z-index: 1;
+}
+
+#confirm .content {
   position: relative;
   transform: translate(87.5%, 100%);
   background: #fff;
@@ -239,20 +256,20 @@ input[type=radio]{
   box-shadow: 0 0 10px #333;
 }
 
-#confirm button{
+#confirm button {
   position: absolute;
   bottom: 25px;
 }
 
-#confirm button.left{
+#confirm button.left {
   left: 25px;
 }
 
-#confirm button.right{
+#confirm button.right {
   right: 25px;
 }
 
-.navbar{
+.navbar {
   width: 200px;
   height: 100%;
   background-color: #120A42;

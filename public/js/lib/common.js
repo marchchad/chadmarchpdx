@@ -1,4 +1,4 @@
-define([], function () {
+define(['domReady'], function (domReady) {
 
   var returnObj = {};
 
@@ -65,7 +65,48 @@ define([], function () {
     return data;
   };
 
-  returnObj['CreateElement'] = function(type, options){
+  returnObj['Confirm'] = function(message){
+    return new Promise(function(resolve, reject){
+
+      var confirm = document.getElementById('confirm');
+      confirm.style.opacity = 1;
+      confirm.style['pointer-events']= "all";
+
+      var backgroundShadow = document.getElementById('background-shadow');
+      backgroundShadow.style.opacity = 1;
+      
+      var content = document.getElementById('confirm-content');
+      content.innerHTML = message;
+
+      var no = document.getElementById('confirm-no');
+      no.onclick = function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        confirm.style.opacity = 0;
+        confirm.style['pointer-events']= "none";
+        
+        backgroundShadow.style.opacity = 0;
+
+        resolve(false);
+      }
+
+      var yes = document.getElementById('confirm-yes');
+      yes.onclick = function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        confirm.style.opacity = 0;
+        confirm.style['pointer-events']= "none";
+        
+        backgroundShadow.style.opacity = 0;
+        
+        resolve(true);
+      }
+    });
+  };
+
+  var _createElement = function(type, options){
     var elem = document.createElement(type);
     var keys = Object.keys(options);
     for(var i = 0; i < keys.length; i++){
@@ -74,37 +115,46 @@ define([], function () {
     return elem;
   };
 
-  returnObj['InsertAfter'] = function(referenceNode, newNode) {
+  returnObj['CreateElement'] = _createElement;
+
+  var _insertAfter = function(referenceNode, newNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
   };
 
-  returnObj['Confirm'] = function(message, func){
-    var confirm = document.getElementById('confirm');
-    confirm.style.opacity = 1;
-    confirm.style['pointer-events']= "all";
-    
-    var content = document.getElementById('confirm-content');
-    content.innerHTML = message;
+  returnObj['InsertAfter'] = _insertAfter;
 
-    var no = document.getElementById('confirm-no');
-    no.onclick = function(e){
-      e.preventDefault();
-      e.stopPropagation();
-      confirm.style.opacity = 0;
-      confirm.style['pointer-events']= "none";
-    }
 
-    var yes = document.getElementById('confirm-yes');
-    yes.onclick = function(e){
-      e.preventDefault();
-      e.stopPropagation();
-      confirm.style.display = 0;
-      confirm.style['pointer-events']= "none";
-      if(func){
-        func();
+  /*var counter = 0;
+  // TODO: Finish custom tooltip
+  var _showHoverTip = function(e){
+    var top = e.offsetTop;
+    var left = e.offsetLeft;
+    var height = e.offsetHeight;
+    var width = e.offsetWidth;
+
+    var hoverTip = _createElement('div', {
+      'id': (e.id || e.name || counter++) + '_hovertip',
+      'class': 'hovertip',
+      'innerHTML': e.getAttribute('data-disabled-title')
+    });
+
+    _insertAfter(e, hoverTip);
+  }*/
+
+  var _init = function() {
+    var disabledElems = document.querySelectorAll('[disabled]');
+    for(var i = 0; i < disabledElems.length; i++){
+      var elem = disabledElems[i];
+      var title = elem.getAttribute('data-disabled-title');
+      if(title){
+        elem.title = title;
+        //elem.onhover = _showHoverTip;
       }
     }
   };
+
+  // When the document is loaded, apply formatting, and bind events
+  domReady(_init);
 
   return returnObj;
 });

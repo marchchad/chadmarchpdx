@@ -38,8 +38,8 @@ block content
           option(value=recipe.id) #{recipe.name}
 
       div.full-row
-        button.right(type='button' id='configure') Configure
-        button.left.warning(type='button' id='deactivate') Deactivate
+        button.right(type='button' id='configure' data-disabled-title='Please select a keg first' disabled) Configure
+        button.left.warning(type='button' id='deactivate' data-disabled-title='Please select a keg first' disabled) Deactivate
       if data.message
         h3=data.message
 

@@ -24,9 +24,11 @@ var helmet = require('helmet');
 var mysql = require('mysql');
 // Middleware to use MySQL as session store
 var MySQLStore = require('express-mysql-session');
-/*var SessionStore = new MySQLStore ({
+/*
+var SessionStore = new MySQLStore ({
     'useConnectionPooling': true
-  }, pool);*/
+  }, pool);
+*/
 
 // Begin express app creation
 var app = express();
