@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+  .container
+    .page-header Login
+    hr
+    div.login-methods(style='width: 60%; margin: 0 auto; overflow: auto; position: relative;')
+      div.left
+        form(action='/admin/login' method='POST' style='margin: 0;')
+          div.row.full-row
+            label(for='username') Username
+            input(id='username' name='username' required).row
+          div.row.full-row
+            label(for='password') Password
+            input(id='password' name='password' type='password').row
+          div.row.full-row
+            button(type='submit').right Login
+      div.row.full-row#errors
+        p(style='color: red;') #{Error.error}
+
+block scripts
+  script(data-main='/js/admin/main', src='/js/lib/require.js')

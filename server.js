@@ -1,7 +1,14 @@
 #!/bin/env node
 
+// Some env variables are only set on the production env
+process.env.deploy_env = process.env.OPENSHIFT_NODEJS_IP != null ? 'production' : 'development';
+
+// Import custom module to allow for root relative imports
+require("./_rootRequire");
+
 // Import libraries to set up application
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -9,22 +16,36 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var debug = require('debug')('mynodeapp:server');
 var http = require('http');
+var passport = require('passport');
+//var passportSocketIo = require("passport.socketio");
+var helmet = require('helmet');
 
 // Get mysql library
 var mysql = require('mysql');
+// Middleware to use MySQL as session store
+var MySQLStore = require('express-mysql-session');
+/*
+var SessionStore = new MySQLStore ({
+    'useConnectionPooling': true
+  }, pool);
+*/
+
+// Begin express app creation
+var app = express();
 
 // Get routes for application
 var routes = require('./routes/index');
 var apiRoutes = require('./routes/api');
 var adminRoutes = require('./routes/admin');
 
-// Application config that stores JWT secret, db connection info,
+// Application config that stores JWT secret (once configured), db connection info,
 // and other application secrets that we want to abstract away
 // from the main codebase.
-var config = require('./config.js');
+//
+// Pull in the correct config for the environment we're running.
+var config = process.env.deploy_env !== 'development' ? './config-prod' : './config';
 
-// Begin express app creation
-var app = express();
+config = require(config);
 
 // Create connection pool
 var pool = mysql.createPool(config.dburi);
@@ -40,13 +61,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  'secret': config.secret,
+  'resave': true,
+  'saveUninitialized': true,
+  'name': config.sessionId,
+  //'store': SessionStore
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(helmet());
 
 // Make our connection pool accessible to our routers
 // This must be declared before setting the app to use our routes.
-// TODO:
-//   Authenticate users here.
 app.use(function(req, res, next){
   req.pool = pool;
+  req.env = app.env;
   next();
 });
 
@@ -71,7 +101,7 @@ if(routes){
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-  res.render('fourohfour');
+  res.render('error/fourohfour');
 });
 
 // error handlers
@@ -80,9 +110,9 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
-    err.env = app.env;
+    err.env = app.get('env');
     res.status(err.status || 500);
-    res.render('error', { err: err });
+    res.render('error/error', { err: err });
   });
 }
 
@@ -90,7 +120,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', { err: err });
+  res.render('error/error', { err: 'Sorry, an error occurred.' });
 });
 
 /*
@@ -107,6 +137,33 @@ var server = http.createServer(app);
 
 // Setup TCP server
 var io = require('socket.io')(server);
+
+/*
+function onAuthorizeFail(data, message, error, accept){
+  // error indicates whether the fail is due to an error or just a unauthorized client
+  if(error){
+    throw new Error(message);
+  }
+  // send the (not-fatal) error-message to the client and deny the connection
+  return accept(new Error(message));
+}
+
+
+function onAuthorizeSuccess(data, accept){
+  console.log('successful connection to socket.io');
+  accept();
+}
+
+// Setup session authoriziation
+io.use(passportSocketIo.authorize({
+  cookieParser: cookieParser, //optional your cookie-parser middleware function. Defaults to require('cookie-parser')
+  key:          config.sessionId,       //make sure is the same as in your session settings in app.js
+  secret:       config.sectet,      //make sure is the same as in your session settings in app.js
+  store:        SessionStore,        //you need to use the same sessionStore you defined in the app.use(session({... in app.js
+  success:      onAuthorizeSuccess,  // *optional* callback on success
+  fail:         onAuthorizeFail,     // *optional* callback on fail/error
+}));
+*/
 
 // io.emit emits to all connected clients
 // socket.emit emits to only the connection made on that socket

@@ -1,5 +1,8 @@
+// Import required libraries
 var express = require('express');
 var jade = require('jade');
+
+// Get instance of router
 var router = express.Router();
 
 /* GET home page. */
@@ -8,8 +11,10 @@ router.get('/', function(req, res) {
   try{
     if(req.pool){
       req.pool.getConnection(function(err, conn){
-        response.hiddenMessage = "pool enabled";
-        conn.release();
+        if(conn){
+          response.hiddenMessage = "pool enabled";
+          conn.release();
+        }
       });
     }
   }
@@ -76,7 +81,7 @@ router.get('/ontap', function(req, res) {
 
                   data.push(recipe);
                   
-                  _recipes.push(jade.renderFile('./views/_recipe.jade', { recipe: results[i] }));
+                  _recipes.push(jade.renderFile('./views/shared/_recipe.jade', { recipe: results[i] }));
                 }
               }
 
@@ -91,7 +96,7 @@ router.get('/ontap', function(req, res) {
         }
         else{
           res.render('menu', {
-            error: err,
+            'error': err,
             message: "Bummer, looks like we are having some technical difficulties. Check back soon to see what's next!"
           });
         }
@@ -102,7 +107,7 @@ router.get('/ontap', function(req, res) {
     }
   }
   catch(e){
-    console.log(e);
+    console.log({'Error': e});
     response["error"] = e;
     res.render('menu', response);
   }

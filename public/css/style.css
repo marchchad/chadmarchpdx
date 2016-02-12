@@ -1,4 +1,8 @@
-html, body{
+* {
+  outline: none;
+}
+
+html, body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -18,11 +22,20 @@ body::after {
   z-index: -1;
 }
 
-p{
+*:disabled{
+  cursor: not-allowed !important;
+  color: #999 !important;
+}
+
+*:disabled:hover{
+  box-shadow: 0 0 10px -2px #e00;
+}
+
+p {
   font-weight: 300;
 }
 
-a{
+a {
   text-decoration: none;
   color: #5647AB;
   -webkit-transform: translateZ(0);
@@ -58,16 +71,205 @@ a:active:before {
   color: #5647AB;
 }
 
-hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #120A42;
-    margin: 1em 0;
-    padding: 0; 
+form {
+  margin: 0 auto;
 }
 
-.navbar{
+button {
+  border: 1px solid #120A42;
+  border-radius: 2.5px;
+  padding: 5px 10px;
+  background: transparent;
+  color: #120A42;
+  margin: 5px;
+}
+
+button:hover {
+  box-shadow: 0 0 10px #666;
+  cursor: pointer;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #120A42;
+  margin: 1em 0;
+  padding: 0; 
+}
+
+sup {
+  font-size: 0.6em;
+  margin: 0 5px;
+}
+
+label {
+  float: left;
+  margin: 0 auto;
+}
+
+input, select, button {
+  float: left;
+  display: inline-block;
+}
+
+input:not([type='range']), select {
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  margin: 5px;
+  padding: 5px 5px 5px 7.5px;
+}
+
+input:not([type='range']):not([type='radio']):hover, select:hover {
+  box-shadow: 0 0 8px -3px #3100A9;
+}
+
+input:not([type='range']):not([type='radio']):focus, select:focus {
+  box-shadow: 0 0 10px -2px #0859E0;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  margin: 7.5px 0;
+  height: 25px;
+  padding: 0 5px;
+}
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid #000000;
+  height: 24px;
+  width: 14px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  margin-top: -8px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
+}
+
+/* All the same stuff for Firefox */
+input[type=range]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 20px;
+  width: 14px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+/* All the same stuff for IE */
+input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 20px;
+  width: 14px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #367ebd;
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  border-width: 16px 0;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #2a6495;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #3071a9;
+}
+input[type=range]::-ms-fill-upper {
+  background: #3071a9;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #367ebd;
+}
+input[type=radio]{
+  vertical-align: baseline;
+}
+
+#background-shadow{
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#background-shadow, #confirm {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  border: 1px solid #120A42;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+#confirm {
+  z-index: 1;
+}
+
+#confirm .content {
+  position: relative;
+  transform: translate(87.5%, 100%);
+  background: #fff;
+  height: 150px;
+  width: 450px;
+  padding: 25px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  box-shadow: 0 0 10px #333;
+}
+
+#confirm button {
+  position: absolute;
+  bottom: 25px;
+}
+
+#confirm button.left {
+  left: 25px;
+}
+
+#confirm button.right {
+  right: 25px;
+}
+
+.navbar {
   width: 200px;
   height: 100%;
   background-color: #120A42;
@@ -171,6 +373,7 @@ hr {
   max-width: 760px;
   background-color: rgba(255,255,255,0.7);
   box-shadow: 0 0 15px #eee;
+  overflow: auto;
   box-sizing: border-box;
   -webkit-animation: fadein 666ms; /* Safari, Chrome and Opera > 12.1 */
      -moz-animation: fadein 666ms; /* Firefox < 16 */
@@ -285,9 +488,16 @@ hr {
 }
 
 .row{
-  width: 100%;
+  float: left;
+  clear: both;
   margin: 5px 0;
-  overflow: auto;
+}
+
+.full-row{
+  float: left;
+  clear: both;
+  margin: 5px 0;
+  width: 100%;
 }
 
 .note{
@@ -301,6 +511,27 @@ hr {
 
 .skills ul li{
   color: #555;
+}
+
+.range-input{
+  width: 47.5px;
+  margin: 0 2.5px;
+  padding: 5px 0 5px 5px;
+}
+
+.warning {
+  color: #EC9E12;
+  border-color: #EC9E12;
+}
+
+.error {
+  color: #A60100;
+  border-color: #A60100;
+}
+
+.success {
+  color: #00B120;
+  border-color: #00B120;
 }
 
 .col-12 {

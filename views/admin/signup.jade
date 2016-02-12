@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+  .container
+    .page-header Sign Up
+    hr
+    div.login-methods(style='width: 60%; margin: 0 auto; overflow: auto; position: relative;')
+      div.left
+        form(action='/admin/signup' method='POST' style='margin: 0;')
+          div.row.full-row
+            label(for='username') Username
+            input(id='username' name='username' required).row
+          div.row.full-row
+            label(for='email') Email
+            input(id='email' type='email' name='email' required).row
+          div.row.full-row
+            label(for='password') Password
+            input(id='password' type='password' name='password').row
+          div.row.full-row
+            button(type='submit').left Sign Up
+          div.row.full-row#errors
+            p(style='color: red;') #{Error.error}
+
+block scripts
+  //script(data-main='/js/admin/main', src='/js/lib/require.js' type='text/javascript')

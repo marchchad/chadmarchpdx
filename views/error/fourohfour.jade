@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+  .container
+    .page-header 404 - Page Not Found
+    h3 Sorry, that page doesn't seem to exist. These are all the pages we've got:
+    ul
+      li
+        a(href='/', class='btn btn=default') Home
+      li
+        a(href='/projects', class='btn btn-default') Projects
+      li
+        a(href='/ontap', class='btn btn-default') On Tap
+      li
+        a(href='/brewing', class='btn btn-default') Brewing
+      li
+        a(href='/api', class='btn btn-default') API

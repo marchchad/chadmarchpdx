@@ -1,4 +1,4 @@
-//Load common code that includes config, then load the app logic for this page.
-require(['../common'], function () {
+//Load the config, then load the app logic for this page.
+require(['../config'], function () {
     require(['menu/menu']);
 });
