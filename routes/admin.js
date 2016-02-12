@@ -91,7 +91,7 @@ router.get('/', ensureAuthenticated, function(req, res){
           var recipes = conn.query('call get_admin_data', function(err, result){
             if(err){
               console.error('error: ', err);
-              res.send({
+              res.render('admin/admin', {
                 'error': err
               });
             }
