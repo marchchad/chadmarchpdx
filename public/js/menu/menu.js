@@ -125,8 +125,10 @@ define(['d3Donut', 'donutProps', 'domReady'], function (d3Donut, donutProps, dom
     }.bind(this));
   }.bind(this);
 
-  domReady(function() {
-    this.connectSockets();
+  domReady(function () {
+    if(io){
+      this.connectSockets();
+    }
     this.buildDonuts(window.d3data);
   }).bind(this);
 });
