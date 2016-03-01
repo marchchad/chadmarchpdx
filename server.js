@@ -71,13 +71,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
+/*app.use(session({
   'secret': config.secret,
   'resave': true,
   'saveUninitialized': true,
   'name': config.sessionId,
   //'store': SessionStore
-}));
+}));*/
 app.use(passport.initialize());
 app.use(passport.session());
 //app.use(helmet());
@@ -182,6 +182,9 @@ io.on('connection', function(socket){
   // TODO: log connections to run stats on visitors later
   // Geolocate based on their IP for use in populating a visitors map
   console.log('connection made');
+  io.emit('success', {
+    'success': true
+  });
   
   /*
     This is middleware to pass the data straight to the client
