@@ -2,7 +2,7 @@
 var config = {
   'secret': 'mybrewpisecret',
   'sessionId': 'mybrewpisession',
-  'host': process.env.OPENSHIFT_MYSQL_DB_HOST || 'localhost',
+  'host': process.env.OPENSHIFT_MYSQL_DB_HOST || '127.0.0.1',
   'user': (process.env.OPENSHIFT_MYSQL_DB_HOST ? 'ipaapi' : 'root'),
   'password': (process.env.OPENSHIFT_MYSQL_DB_HOST ? 'ipaapi' : 'admin'),
   'database': (process.env.OPENSHIFT_MYSQL_DB_HOST ? 'ipaapi' : 'test'),
@@ -16,6 +16,6 @@ var config = {
 };
 
 // Create a dburi for convenience
-config['dburi'] = 'mysql://' + config.user + ':' + config.password + '@' + config.host + '/' + config.database;
+config['dburi'] = 'mysql://' + config.user + ':' + config.password + '@' + config.host + ':3306/' + config.database;
 
 module.exports = config;
