@@ -183,17 +183,6 @@ io.on('connection', function(socket){
   // Geolocate based on their IP for use in populating a visitors map
   console.log('connection made');
   
-  // Test sockets
-  setTimeout(function () {
-    socket.emit('pour', 
-      {
-        'keg': {
-          'volume': '11.7oz'
-        },
-        message: 'Now pouring!'
-      }
-    );
-  }, 3000);
   /*
     This is middleware to pass the data straight to the client
     from the program reading from the flow meter
