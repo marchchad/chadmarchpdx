@@ -53,8 +53,11 @@ var user = {
    */
   'FindUserByUsername': function(req, params, callback){
     var validParams = user.UserParams(params);
-    if(validParams && req.pool){
-      req.pool.getConnection(function(err, conn){
+    if (validParams && req.pool) {
+      req.pool.getConnection(function (err, conn) {
+        if(err){
+          callback({ 'error': 'Sorry, currently our systems are down. Please try again later.<br/>' + err.message});
+        }
         if(conn){
           var query = conn.query('select username, password from users where username = ?', params.username, function(err, result){
             if(err){
@@ -78,6 +81,9 @@ var user = {
           });
           console.log(query.sql);
           conn.release();
+        }
+        else {
+          callback({ 'error': 'Sorry, currently our systems are down. Please try again later.' });
         }
       });
     }
@@ -173,7 +179,7 @@ var user = {
 
     if(password.length < 7){
       response.valid = false;
-      repsonse.message += '<br>Password must be at least 8 characters.';
+      response.message += '<br>Password must be at least 8 characters.';
     }
 
     // If we've gotten this far, the password is valid.
@@ -182,7 +188,7 @@ var user = {
     return response;
   },
   'ValidUser': function(username){
-    var hasSpecial = new regex(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
+    var hasSpecial = new RegExp(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
     if(hasSpecial.test(username)){
       return false;
     }
