@@ -1,0 +1,61 @@
+extends ../layout
+
+block content
+  .container
+    .page-header= keginfo.recipename
+    
+    if error
+      div.error= error
+      
+    h3.row(for='volume') Volume (gallons)
+    input.row(id='remainingvolume' name='volume' type='range' min='0' max='5' value='#{keginfo.remainingvolume}' step='0.01' disabled)
+    p.left(id='volume')= keginfo.volume
+
+    h3.row(for='pressure') Pressure (psi)
+    input.row(id='pressure' name='pressure' type='range' min='0' max ='40' value='#{keginfo.pressure}' disabled)
+    p.left= keginfo.pressure
+
+    h3.row Kegged
+    div.row.keggedon
+      div.month= keginfo.keggedon.month + ', ' + keginfo.keggedon.year
+      div= keginfo.keggedon.day
+    
+    h3.row Pour Stats
+    table.full-row(id='pourstats')
+      thead
+        tr
+          th Count
+          th Average
+          th Biggest
+          th Smallest
+          th Last
+      tbody
+        tr
+          td
+            div= keginfo.pourcount
+          td
+            div= keginfo.averagepour
+          td
+            div= keginfo.maxpour
+          td
+            div= keginfo.minpour
+          td
+            div= keginfo.lastpour
+            
+    h3.row Temperature Stats
+    table.full-row(id='pourstats')
+      thead
+        th High
+        th Low
+        th Average
+      tbody
+        tr
+          td
+            p=keginfo.maxtemp
+          td
+            div= keginfo.mintemp
+          td
+            div= keginfo.averagetemp
+    
+block append styles
+  link(rel='stylesheet', href='/css/keginfo.css')
