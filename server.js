@@ -71,13 +71,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-/*app.use(session({
+app.use(session({
   'secret': config.secret,
   'resave': true,
   'saveUninitialized': true,
   'name': config.sessionId,
   //'store': SessionStore
-}));*/
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 //app.use(helmet());
