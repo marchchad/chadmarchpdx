@@ -68,9 +68,12 @@ define(['d3Donut', 'donutProps', 'domReady'], function (d3Donut, donutProps, dom
 
     // listens to an event from the server called 'pour' that
     // emits a message letting us know that a pour is occurring
-    kegServer.on('pour', function(data){
-      var targetKegHeader = "keg" + data.keg + "-header";
+    kegServer.on('pour', function (data) {
+      var kegid = parseInt(data.keg);
+      // default it to keg 1 for now.
+      var targetKegHeader = "keg" + (kegid || 1) + "-header";
       var node = document.getElementById(targetKegHeader);
+      console.log(data);
       if(!node){
         node = document.createElement('H3');
         node.innerHTML = data.message
