@@ -22,9 +22,9 @@ var passport = require('passport');
 
 // Get mysql library
 var mysql = require('mysql');
+/*
 // Middleware to use MySQL as session store
 var MySQLStore = require('express-mysql-session');
-/*
 var SessionStore = new MySQLStore ({
     'useConnectionPooling': true
   }, pool);
@@ -49,6 +49,16 @@ config = require(config);
 
 // Create connection pool
 var pool = mysql.createPool(config.dburi);
+// var pool = mysql.createPool({
+//   host: config.host,
+//   user: config.user,
+//   passowrd: config.password
+// });
+// var connection = mysql.createConnection({
+//   host: config.host,
+//   user: config.user,
+//   passowrd: config.password
+// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -101,7 +111,7 @@ if(routes){
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-  res.render('error/fourohfour');
+  res.render('./error/fourohfour');
 });
 
 // error handlers
