@@ -11,12 +11,11 @@ define(['common', 'domReady'], function (common, domReady) {
     e.preventDefault();
     e.stopPropagation();
     var params = common.SerializeForm(e.target);
-    var post = common.Request(e.target.action, e.target.method, params, true, 'JSON');
+    var post = common.Request(e.target.action, e.target.method, params, 'JSON');
     var errors = document.getElementById('errors');
     if(post.then){
       post.then(function(resp){
-        resp = JSON.parse(resp);
-        console.log(resp);
+        resp = typeof resp === 'string' ? JSON.parse(resp) : resp;
         if(resp.success){
           if(resp.redirectUrl){
             window.location = [window.origin, resp.redirectUrl].join("/");
@@ -26,13 +25,13 @@ define(['common', 'domReady'], function (common, domReady) {
           }
         }
         else{
-          console.error(resp);
-          errors.innerHTML = resp.error;
+          console.log(resp);
+          errors.innerHTML = resp.error || common.genericError;
         }
       }
       ,function(err){
         console.error(err);
-        errors.innerHTML = err.error;
+        errors.innerHTML = err.error || common.genericError;
       }
       );
     }

@@ -1,13 +1,13 @@
 "use strict";
 
-define(['common', 'domReady'], function (common, domReady) {
+define(['common', 'domReady'], function (C, domReady) {
 
   var configure = null;
   var deactivate = null;
 
   // Private variables and functions
   var _populateSibling = function(e){
-    var _target = e.target;
+    var _target = e ? e.target : this;
     if(_target.type === 'range'){
       _target.nextSibling.value = _target.value;
     }
@@ -17,8 +17,8 @@ define(['common', 'domReady'], function (common, domReady) {
   };
 
   var submitForm = function(form){
-    var params = common.SerializeForm(form);
-    var post = common.Request(form.action, form.method, params, true, 'JSON');
+    var params = C.SerializeForm(form);
+    var post = C.Request(form.action, form.method, params, 'JSON');
     console.log('post response: ', post);
   };
 
@@ -27,41 +27,75 @@ define(['common', 'domReady'], function (common, domReady) {
     for(var i = 0; i < inputs.length; i++){
       var _input = inputs[i];
       if(_input.type == 'range'){
-        var _sibling = common.CreateElement('input', {
+        var _sibling = C.CreateElement('input', {
           'type': 'number',
-          'min': '1',
-          'max': '15.5',
-          'step': '0.5',
-          'class': 'range-input',
+          'min': _input.min,
+          'max': _input.max,
+          'step': _input.step,
+          'class': 'range-input keginfo',
           'value': _input.value
         });
-        common.InsertAfter(_input, _sibling);
+        // onchange is for programmatic changes, oninput is to change once user changes the value
+        _sibling.onchange = _populateSibling;
+        _sibling.oninput = _populateSibling;
+        C.InsertAfter(_input, _sibling);
+        _input.onchange = _populateSibling;
         _input.oninput = _populateSibling;
       }
     }
   };
 
-  var _activateButtons = function(){
+  var _toggleButtonState = function(value){
     configure = configure || document.getElementById('configure');
-    configure.disabled = false;
+    configure.disabled = !value ? true : false;
 
     deactivate = deactivate || document.getElementById('deactivate');
-    deactivate.disabled = false;
+    deactivate.disabled = !value ? true : false;
   };
+  
+  var updateKegInfo = function (e) {
+    var kegid = e.target.value;
+    _toggleButtonState(kegid);
+    if (kegid) {
+      var req = C.Request(window.location.origin + '/api/keg/' + kegid, 'GET', null, 'json');
+      req.then(function (keginfo) {
+        keginfo = keginfo && typeof keginfo === 'string' ? JSON.parse(keginfo) : keginfo;
+        console.log(keginfo);
+        if (keginfo) {
+          var keys = Object.keys(keginfo);
+          for (var i = 0; i < keys.length; i++) {
+            var prop = keys[i];
+            var value = keginfo[prop];
+            C.SetElemValue(prop, value);
+          }
+        }
+      });
+    } else {
+      var elems = C.GetElements('keginfo');
+      for (var i = 0; i < elems.length; i++){
+        var elem = elems[i];
+        if (elem.nodeName === 'SELECT') {
+          elem.value = '';
+          continue;
+        }
+        else if (elem.type === 'date') {
+          elem.valueAsDate = '';
+          continue;
+        }
+        elem.value = '-';
+        elem.innerHTML = '-';
+      }
+    }
+  }
 
   var _bindFormRules = function(){
     // Get references to the keg configuration buttons
     configure = document.getElementById('configure');
     deactivate = document.getElementById('deactivate');
 
-    // Get the inputs to find the radio buttons
-    var inputs = document.getElementsByTagName('input');
-    for(var i = 0; i < inputs.length; i++){
-      var input = inputs[i];
-      if(input.type == 'radio'){
-        input.onclick = _activateButtons;
-      }
-    }
+    // Get the keglist so we can toggle the button states
+    var keglist = document.getElementById('keglist');
+    keglist.onchange = updateKegInfo;
 
     // Bind their click events
     configure.onclick = function(e){
@@ -75,21 +109,37 @@ define(['common', 'domReady'], function (common, domReady) {
       e.preventDefault();
       e.stopPropagation();
 
-      var resp = common.Confirm("Are you sure you want to deactivate this keg?");
+      var resp = C.Confirm("Are you sure you want to deactivate this keg?");
       resp.then(function(deactivate){
-        if(deactivate){
-          var form = e.target.parentNode.parentNode;
+        if (deactivate) {
+          var finished = C.GetElem('finished');
+          if (finished) {
+            C.SetElemValue(finished, C.FormatDate(new Date()));
+          }
+          var form = C.SerializeForm(e.target.parentNode.parentNode);
           //submitForm(form);
-          console.log('deactivate: ', deactivate);
           console.log('form: ', form);
         }
       });
     }
   };
+  
+  function _formatTables() {
+    var tables = document.getElementsByTagName('table');
+    for (var i = 0; i < tables.length; i++){
+      var cells = tables[i].querySelectorAll('td');
+      var cellCount = cells.length;
+      var cellWidth = 100 / cellCount;
+      for (var j = 0; j < cellCount; j++){
+        cells[j].style.width = cellWidth + "%";
+      }
+    }
+  }
 
   var _init = function() {
     _setupRangeInputs();
     _bindFormRules();
+    _formatTables();
   };
 
   // Public object for reference to functions and properties

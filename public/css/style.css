@@ -68,7 +68,28 @@ a:focus:before,
 a:active:before {
   left: 0;
   right: 0;
-  color: #5647AB;
+}
+
+.recipe-name a,
+.recipe-name a:before,
+.recipe-name a:hover:before,
+.recipe-name a:focus:before,
+.recipe-name a:active:before,
+
+.page-header a,
+.page-header a:before,
+.page-header a:hover:before,
+.page-header a:focus:before,
+.page-header a:active:before {
+  color: #120A42;
+}
+
+table, thead, tbody, th, td{
+  font-weight: normal;
+}
+
+td{
+  font-size: 10pt;
 }
 
 form {
@@ -108,6 +129,10 @@ label {
   margin: 0 auto;
 }
 
+label.row {
+    margin: 5px 0 5px -25px;
+}
+
 input, select, button {
   float: left;
   display: inline-block;
@@ -117,7 +142,7 @@ input:not([type='range']), select {
   border-radius: 2px;
   border: 1px solid #ccc;
   box-sizing: border-box;
-  margin: 5px;
+  margin: 7.5px 5px;
   padding: 5px 5px 5px 7.5px;
 }
 
@@ -134,6 +159,7 @@ input[type=range] {
   margin: 7.5px 0;
   height: 25px;
   padding: 0 5px;
+  background: transparent;
 }
 
 /* Special styling for WebKit/Blink */
@@ -179,6 +205,7 @@ input[type=range]::-webkit-slider-runnable-track {
   background: #3071a9;
   border-radius: 1.3px;
   border: 0.2px solid #010101;
+  animate: 0.5s;
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {
@@ -193,6 +220,7 @@ input[type=range]::-moz-range-track {
   background: #3071a9;
   border-radius: 1.3px;
   border: 0.2px solid #010101;
+  animate: 0.5s;
 }
 
 input[type=range]::-ms-track {
@@ -203,6 +231,7 @@ input[type=range]::-ms-track {
   border-color: transparent;
   border-width: 16px 0;
   color: transparent;
+  animate: 0.5s;
 }
 input[type=range]::-ms-fill-lower {
   background: #2a6495;
@@ -245,11 +274,12 @@ input[type=radio]{
 }
 
 #confirm .content {
-  position: relative;
-  transform: translate(87.5%, 100%);
+  position: absolute;
+  top: calc(50% - 92.5px);
+  left: calc(50% - 212.5px);
   background: #fff;
   height: 150px;
-  width: 450px;
+  max-width: 450px;
   padding: 25px;
   box-sizing: border-box;
   border-radius: 3px;
@@ -267,6 +297,39 @@ input[type=radio]{
 
 #confirm button.right {
   right: 25px;
+}
+
+#confirm-content{
+  text-align: center;
+  height: 60%;
+  width: 100%;
+  display: inline-block;
+}
+
+#confirm-content *{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#confirm .buttons{
+  height: 40%;
+}
+
+.hidden {
+  display: none;
+}
+
+.row{
+  float: left;
+  clear: both;
+  margin: 5px 0;
+}
+
+.full-row{
+  float: left;
+  clear: both;
+  margin: 5px 0;
+  width: 100%;
 }
 
 .navbar {
@@ -439,6 +502,12 @@ input[type=radio]{
   float: right;
 }
 
+.middle{
+  margin: 0 auto;
+  display: block;
+  float: none;
+}
+
 .top,
 .bottom{
   width: inherit;
@@ -485,19 +554,6 @@ input[type=radio]{
 .checked{
   /* eventually replace with checkmark icon */
   text-decoration: line-through;
-}
-
-.row{
-  float: left;
-  clear: both;
-  margin: 5px 0;
-}
-
-.full-row{
-  float: left;
-  clear: both;
-  margin: 5px 0;
-  width: 100%;
 }
 
 .note{

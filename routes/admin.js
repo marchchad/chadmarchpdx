@@ -40,7 +40,7 @@ passport.use('local', new LocalStrategy({
     User.FindUserByUsername(req, params, function(err, user) {
       if (err) {
         console.log(' err finding user: ', err);
-        return done({ 'error': err });
+        return done(err);
       }
       if (!user) {
         console.log(' no user found: ', user);
@@ -137,7 +137,7 @@ router.route('/login')
     }
     catch(e){
       console.log(' in error: ', e);
-      response["error"] = e;
+      response['error'] = e;
     }
     res.send(response);
   },
@@ -156,7 +156,7 @@ router.route('/login')
       User.AddUser(req, req.body, function(err, user){
         if(err){
           console.log('err adding user: ', err);
-          response["Error"] = err;
+          response['Error'] = err;
           res.render('admin/signup', response);
         }
         if(user){
@@ -167,7 +167,7 @@ router.route('/login')
     }
     catch(e){
       console.log(' in catch, err: ', e);
-      response["Error"] = e;
+      response['Error'] = e;
       res.render('admin/signup', response);
     }
 });*/
