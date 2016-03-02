@@ -75,12 +75,10 @@ app.use(session({
   'secret': config.secret,
   'resave': true,
   'saveUninitialized': true,
-  'name': config.sessionId,
-  //'store': SessionStore
+  'name': config.sessionId
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-//app.use(helmet());
 
 // Make our connection pool accessible to our routers
 // This must be declared before setting the app to use our routes.
@@ -122,7 +120,7 @@ if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     err.env = app.get('env');
     res.status(err.status || 500);
-    res.render('error/error', { err: err });
+    res.render('.views/error/error', { err: err });
   });
 }
 
@@ -130,7 +128,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error/error', { err: 'Sorry, an error occurred.' });
+  res.render('.views/error/error', { err: { status: err.status, message: 'Sorry, an error occurred.' } });
 });
 
 /*
@@ -147,33 +145,6 @@ var server = http.createServer(app);
 
 // Setup TCP server
 var io = require('socket.io')(server);
-
-/*
-function onAuthorizeFail(data, message, error, accept){
-  // error indicates whether the fail is due to an error or just a unauthorized client
-  if(error){
-    throw new Error(message);
-  }
-  // send the (not-fatal) error-message to the client and deny the connection
-  return accept(new Error(message));
-}
-
-
-function onAuthorizeSuccess(data, accept){
-  console.log('successful connection to socket.io');
-  accept();
-}
-
-// Setup session authoriziation
-io.use(passportSocketIo.authorize({
-  cookieParser: cookieParser, //optional your cookie-parser middleware function. Defaults to require('cookie-parser')
-  key:          config.sessionId,       //make sure is the same as in your session settings in app.js
-  secret:       config.sectet,      //make sure is the same as in your session settings in app.js
-  store:        SessionStore,        //you need to use the same sessionStore you defined in the app.use(session({... in app.js
-  success:      onAuthorizeSuccess,  // *optional* callback on success
-  fail:         onAuthorizeFail,     // *optional* callback on fail/error
-}));
-*/
 
 // io.emit emits to all connected clients
 // socket.emit emits to only the connection made on that socket
