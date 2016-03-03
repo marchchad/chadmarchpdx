@@ -14,6 +14,7 @@ var FullMonthMapAsString = {
   '11': 'November',
   '12': 'December'
 };
+
 var ShortMonthMapAsString = {
   '1': 'Jan',
   '2': 'Feb',
@@ -28,8 +29,32 @@ var ShortMonthMapAsString = {
   '11': 'Nov',
   '12': 'Dec'
 };
+
+function twoDigits(d) {
+  if (0 <= d && d < 10) {
+    return "0" + d.toString();
+  }
+  else if (-10 < d && d < 0) {
+    return "-0" + (-1 * d).toString();
+  }
+  return d.toString();
+}
+
+var mysqlDatePattern = new RegExp(/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]/);
+
 module.exports = {
-  formatDate: function (value) {
+  CheckDateFormat: function (value) {
+    return mysqlDatePattern.test(value);
+  },
+  
+  formatDateForInsert: function (value) {
+    if (typeof value === "string") {
+      value = new Date(value);
+    }
+    return value.getUTCFullYear() + "-" + twoDigits(1 + value.getUTCMonth()) + "-" + twoDigits(value.getUTCDate()) + " " + twoDigits(value.getUTCHours()) + ":" + twoDigits(value.getUTCMinutes()) + ":" + twoDigits(value.getUTCSeconds());
+  },
+  
+  formatDateForDisplay: function (value) {
     if (!value) {
       return;
     }
@@ -52,7 +77,12 @@ module.exports = {
     if (!d0 || !d1) {
       return;
     }
-    var diff = Math.abs(new Date(+d1).setHours(12) - new Date(+d0).setHours(12));
+    
+    d0 = typeof d0 === "string" || typeof d0 === "number " ? new Date(d0) : d0;
+    d1 = typeof d1 === "string" || typeof d1 === "number " ? new Date(d1) : d1;
+    
+    // Technically the d0/ can be in any order since we're taking the absolute value
+    var diff = Math.abs(d1 - d0);
 
     var seconds = Math.floor(diff / 1000);
     if (seconds < 60) {

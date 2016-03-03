@@ -1,5 +1,8 @@
 var PasswordHash = require('password-hash');
 
+var hasCapital = new RegExp(/[A-Z]/);
+var hasSpecial = new RegExp(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
+
 var user = {
   'UserObject': function(){
     return {
@@ -164,9 +167,6 @@ var user = {
       return response;
     }
 
-    var hasCapital = new RegExp(/[A-Z]/);
-    var hasSpecial = new RegExp(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
-
     if(hasCapital.test(password) !== true){
       response.valid = false;
       response.message += '<br>Password must contain at least 1 uppercase letter';
@@ -188,7 +188,6 @@ var user = {
     return response;
   },
   'ValidUser': function(username){
-    var hasSpecial = new RegExp(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
     if(hasSpecial.test(username)){
       return false;
     }

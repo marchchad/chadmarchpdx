@@ -17,18 +17,9 @@ var bodyParser = require('body-parser');
 var debug = require('debug')('mynodeapp:server');
 var http = require('http');
 var passport = require('passport');
-//var passportSocketIo = require("passport.socketio");
-//var helmet = require('helmet');
 
 // Get mysql library
 var mysql = require('mysql');
-/*
-// Middleware to use MySQL as session store
-var MySQLStore = require('express-mysql-session');
-var SessionStore = new MySQLStore ({
-    'useConnectionPooling': true
-  }, pool);
-*/
 
 // Begin express app creation
 var app = express();
@@ -49,16 +40,6 @@ config = require(config);
 
 // Create connection pool
 var pool = mysql.createPool(config.dburi);
-// var pool = mysql.createPool({
-//   host: config.host,
-//   user: config.user,
-//   passowrd: config.password
-// });
-// var connection = mysql.createConnection({
-//   host: config.host,
-//   user: config.user,
-//   passowrd: config.password
-// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -79,6 +60,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 // Make our connection pool accessible to our routers
 // This must be declared before setting the app to use our routes.
