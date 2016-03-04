@@ -83,7 +83,7 @@ define(['d3Donut', 'donutProps', 'domReady'], function (d3Donut, donutProps, dom
             node.className = 'right';
             node.id = targetKegHeader;
 
-            var parent = document.getElementById(targetKegHeader);
+            var parent = document.getElementById("keg" + (kegid || 1));
             parent.insertBefore(node, parent.firstChild);
 
             setTimeout(function () {

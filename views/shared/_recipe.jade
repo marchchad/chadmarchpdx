@@ -1,5 +1,5 @@
 div(class='recipe' id='keg#{recipe.keg}')
-  h2.left.recipe-name
+  h2.left.recipe-name(id='keg#{recipe.keg}-name')
     a(href='/ontap/keg/#{recipe.keg}')= recipe.Name
   div(class='recipeDetails left')
     if (recipe.grains.length > 0)

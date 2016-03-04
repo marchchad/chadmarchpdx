@@ -143,14 +143,16 @@ io.on('connection', function(socket){
     This is middleware to pass the data straight to the client
     from the program reading from the flow meter
   */
-  socket.on('emitTotalPourData', function(pourData){
-    console.log(pourData);
-    socket.emit('pour', 
+  socket.on('pourStart', function (id) {
+    io.emit('pour', 
       {
-        keg: pourData.kegid,
+        kegid: id,
         message: 'Now pouring!'
       }
     );
+  })
+  socket.on('emitTotalPourData', function(pourData){
+    console.log(pourData);
     io.emit('pourData', pourData);
   });
   
