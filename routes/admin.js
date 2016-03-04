@@ -157,7 +157,9 @@ router.route('/users')
           response['Error'] = err;
           res.render('admin/users', response);
         }
-        response['users'] = users[0];
+        if(users.length > 0){
+          response['users'] = users[0];
+        }
         res.render('admin/users', response);
       });
     }
