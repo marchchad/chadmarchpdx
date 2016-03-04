@@ -45,6 +45,40 @@ router.get('/', function(req, res){
   res.render('api');
 });
 
+// router.route('/signup')
+//   /*.get(function(req, res){
+//     res.render('admin/signup');
+//   })*/
+//   .post(function(req, res){
+//     var response = {};
+//     try{
+//       User.AddUser(req, req.body, function(err, user){
+//         if(err){
+//           response['Error'] = err;
+//           res.json(response);
+//         }
+//         if(user){
+//           // if user is valid, create and return a token
+//           var token = jwt.sign(user, config.secret, {
+//             expiresIn: 1440 // expires in 24 hours
+//           });
+
+//           // return the information including token as JSON
+//           res.json({
+//             success: true,
+//             message: 'Enjoy your token!',
+//             token: token
+//           });
+//         }
+//       });
+//     }
+//     catch(e){
+//       console.log(' in catch, err: ', e);
+//       response['Error'] = e;
+//       res.json(response);
+//     }
+// });
+
 router.post('/authenticate', function (req, res) {
   try {
     var params = new User.UserParams({ 'username': req.body.username, 'password': req.body.password });
@@ -106,6 +140,7 @@ router.route('/keg/:kegid')
                   if (keginfo.lastpour){
                     keginfo.lastpour = Utils.dateDiff(new Date(), new Date(keginfo.lastpour));
                   }
+                  keginfo.remainingvolume = parseFloat(keginfo.remainingvolume);
                   res.json(keginfo);
                 }
               });
