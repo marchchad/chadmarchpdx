@@ -124,7 +124,7 @@ router.get('/ontap/keg/:id', function (req, res) {
           conn.query('call get_keg_info(?)', req.params.id, function (err, results) {
             conn.release();
             if (err && err.errno > 0) {
-              throw 'There was an error querying the keg information. Please try again later.';
+              res.render('shared/_keginfo', { 'Error': 'There was an error querying the keg information. Please try again later.' });
             }
             else {
               // Render response to keg info template
@@ -142,12 +142,12 @@ router.get('/ontap/keg/:id', function (req, res) {
           });
         }
         else {
-          throw 'No connection available. Please try again later.';
+          res.render('shared/_keginfo', { 'Error': 'No connection available. Please try again later.' });
         }
       });
     }
     else {
-      throw 'No connection pool available. Please try again later.';
+      res.render('shared/_keginfo', { 'Error': 'No connection pool available. Please try again later.' });
     }    
   }
   catch (e) {
