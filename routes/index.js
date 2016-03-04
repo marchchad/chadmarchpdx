@@ -133,6 +133,7 @@ router.get('/ontap/keg/:id', function (req, res) {
               if (keginfo.lastpour){
                 keginfo.lastpour = utils.dateDiff(new Date(), new Date(keginfo.lastpour));
               }
+              keginfo.remainingvolume = parseFloat(keginfo.remainingvolume);
               var response = {
                 'keginfo': keginfo
               };
