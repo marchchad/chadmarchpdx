@@ -106,22 +106,22 @@ define(['d3Donut', 'donutProps', 'domReady'], function (d3Donut, donutProps, dom
             if (!vol) {
               vol = document.createElement('p');
               vol.setAttribute("id", data.targetKeg + "-vol");
-              vol.innerHTML = data.volume;
+              vol.innerHTML = parseFloat(data.volume).toFixed(2) + " oz.";
               targetPourData.appendChild(vol);
             }
             else {
-              vol.innerHTML = parseInt(vol.innerHTML) + data.volume;
+              vol.innerHTML = parseFloat(data.volume).toFixed(2) + " oz.";
             }
 
             var dur = document.getElementById(data.targetKeg + "-dur")
             if (!dur) {
               dur = document.createElement('p');
               dur.setAttribute("id", data.targetKeg + "-dur");
-              dur.innerHTML = data.duration;
+              dur.innerHTML = parseFloat(data.duration).toFixed(1) + " secs.";
               targetPourData.appendChild(dur);
             }
             else {
-              dur.innerHTML = parseInt(dur.innerHTML) + data.duration;
+              dur.innerHTML = parseFloat(data.duration).toFixed(1) + " secs.";
             }
           }
 
