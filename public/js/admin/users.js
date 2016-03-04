@@ -39,11 +39,11 @@ define(['common', 'domReady'], function (C, domReady) {
     if(userdata){
       users.onchange = function (e) {
         var id = e.target.value;
+        var username = C.GetElem('username');
         for (var i = 0; i < userdata.length; i++){
           var user = userdata[i];
           if (user.userid == id) {
             C.PopulateForm(user);
-            var username = C.GetElem('username');
             username.readOnly = true;
             _toggleButtonState(false);
             break;
