@@ -146,31 +146,103 @@ router.route('/login')
     return res.send(err);
   });
 
-/*router.route('/signup')
-  .get(function(req, res){
-    res.render('admin/signup');
-  })
-  .post(function(req, res){
-    var response = {};
-    try{
-      User.AddUser(req, req.body, function(err, user){
-        if(err){
-          console.log('err adding user: ', err);
+router.route('/users')
+  .get(ensureAuthenticated, function (req, res) {
+    var response = {
+      'success': false
+    };
+    try {
+      User.GetUsers(req, function (err, users) {
+        if (err) {
           response['Error'] = err;
-          res.render('admin/signup', response);
+          res.render('admin/users', response);
         }
-        if(user){
-          console.log('created user: ', user);
-          res.redirect('/admin');
+        response['users'] = users[0];
+        res.render('admin/users', response);
+      });
+    }
+    catch (e) {
+      response['Error'] = e;
+      res.render('admin/users', response);
+    }
+  })
+  .delete(ensureAuthenticated, function (req, res) {
+    var response = {
+      'success': false
+    };
+    try {
+      // User.DeleteUser(req, req.body, function(err, user){
+      //   if(err){
+      //     response['Error'] = err;
+      //     res.json(response);
+      //   }
+      //   if(user){
+      //     // if user is valid, create and return a token
+      //     var token = jwt.sign(user, config.secret, {
+      //       expiresIn: 1440 // expires in 24 hours
+      //     });
+
+      //     // return the information including token as JSON
+      //     res.json({
+      //       success: true,
+      //       message: 'Enjoy your token!',
+      //       token: token
+      //     });
+      //   }
+      // });
+    }
+    catch (e) {
+      
+    }
+  })
+  .post(ensureAuthenticated, function (req, res) {
+    var response = {
+      'success': false
+    };
+    try {
+      User.UpdateInfo(req, req.body, function (err, user) {
+        if (err) {
+          console.log('err updating user: ', err);
+          response['Error'] = err;
+          res.json(response);
+        }
+        if (user) {
+          console.log('updated user: ', user);
+          response.success = true;
+          res.json(response);
         }
       });
     }
-    catch(e){
+    catch (e) {
       console.log(' in catch, err: ', e);
       response['Error'] = e;
-      res.render('admin/signup', response);
+      res.json(response);
     }
-});*/
+  })
+  .put(ensureAuthenticated, function (req, res) {
+    var response = {
+      'success': false
+    };
+    try {
+      User.AddUser(req, req.body, function (err, user) {
+        if (err) {
+          console.log('err adding user: ', err);
+          response['Error'] = err;
+          res.json(response);
+        }
+        if (user) {
+          console.log('created user: ', user);
+          response.success = true;
+          res.json(response);
+        }
+      });
+    }
+    catch (e) {
+      console.log(' in catch, err: ', e);
+      response['Error'] = e;
+      res.json(response);
+    }
+  });
 
 router.get('/logout', function(req, res){
   req.logout();

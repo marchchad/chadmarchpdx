@@ -195,6 +195,20 @@ define(['domReady'], function (domReady) {
     }
   }
   
+  Common['PopulateForm'] = function (data) {
+    /**
+     * Populates a form based on the properties of the data object passed in.
+     */
+    var keys = Object.keys(data);
+    for (var i = 0; i < keys.length; i++){
+      var key = keys[i];
+      var target = Common.GetElem(key);
+      if(target){
+        target.value = data[key];
+      }
+    }
+  }
+  
   Common['GetElem'] = function (id) {
     return document.getElementById(id);
   }

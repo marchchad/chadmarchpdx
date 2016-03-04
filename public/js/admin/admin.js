@@ -46,10 +46,10 @@ define(['common', 'domReady'], function (C, domReady) {
   };
 
   var _toggleButtonState = function(value){
-    configure = configure || document.getElementById('configure');
+    configure = configure || C.GetElem('configure');
     configure.disabled = !value ? true : false;
 
-    deactivate = deactivate || document.getElementById('deactivate');
+    deactivate = deactivate || C.GetElem('deactivate');
     deactivate.disabled = !value ? true : false;
   };
   
@@ -90,11 +90,11 @@ define(['common', 'domReady'], function (C, domReady) {
 
   var _bindFormRules = function(){
     // Get references to the keg configuration buttons
-    configure = document.getElementById('configure');
-    deactivate = document.getElementById('deactivate');
+    configure = C.GetElem('configure');
+    deactivate = C.GetElem('deactivate');
 
     // Get the keglist so we can toggle the button states
-    var keglist = document.getElementById('keglist');
+    var keglist = C.GetElem('keglist');
     keglist.onchange = updateKegInfo;
 
     // Bind their click events

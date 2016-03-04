@@ -35,7 +35,7 @@ p {
   font-weight: 300;
 }
 
-a {
+a:not(.button) {
   text-decoration: none;
   color: #5647AB;
   -webkit-transform: translateZ(0);
@@ -47,7 +47,7 @@ a {
   overflow: hidden;
 }
 
-a:before {
+a:not(.button):before {
   content: "";
   position: absolute;
   z-index: -1;
@@ -63,9 +63,9 @@ a:before {
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 }
-a:hover:before, 
-a:focus:before, 
-a:active:before {
+a:not(.button):hover:before, 
+a:not(.button):focus:before, 
+a:not(.button):active:before {
   left: 0;
   right: 0;
 }
@@ -96,16 +96,17 @@ form {
   margin: 0 auto;
 }
 
-button {
+button, .button {
   border: 1px solid #120A42;
   border-radius: 2.5px;
   padding: 5px 10px;
   background: transparent;
   color: #120A42;
   margin: 5px;
+  text-decoration: none;
 }
 
-button:hover {
+button:hover, .button:hover {
   box-shadow: 0 0 10px #666;
   cursor: pointer;
 }
@@ -490,7 +491,7 @@ input[type=radio]{
   }
 }
 
-.btn-default{
+.btn-noborder{
   border: none;
 }
 
@@ -533,6 +534,11 @@ input[type=radio]{
   font-weight: 200;
   margin: 20px 0;
   color: #120A42;
+}
+
+.page-header *{
+  display: inline;
+  padding: 0 5px;
 }
 
 .sub-header {
