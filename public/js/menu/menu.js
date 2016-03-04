@@ -72,7 +72,7 @@ define(['d3Donut', 'donutProps', 'domReady'], function (d3Donut, donutProps, dom
         // listens to an event from the server called 'pour' that
         // emits a message letting us know that a pour is occurring
         kegServer.on('pour', function (data) {
-          var kegid = parseInt(data.keg);
+          var kegid = parseInt(data.kegid);
           // default it to keg 1 for now.
           var targetKegHeader = "keg" + (kegid || 1) + "-header";
           var node = document.getElementById(targetKegHeader);
@@ -99,7 +99,7 @@ define(['d3Donut', 'donutProps', 'domReady'], function (d3Donut, donutProps, dom
           // let's reset it so we let the pouring finish before the timer clears.
           this.resetClearData();
 
-          var targetPourData = document.querySelector("#keg" + data.keg + " .pourData");
+          var targetPourData = document.querySelector("#keg" + data.kegid + " .pourData");
 
           if (targetPourData) {
             var vol = document.getElementById(data.targetKeg + "-vol");

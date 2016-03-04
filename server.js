@@ -147,7 +147,7 @@ io.on('connection', function(socket){
     console.log(pourData);
     socket.emit('pour', 
       {
-        keg: pourData.keg,
+        keg: pourData.kegid,
         message: 'Now pouring!'
       }
     );
