@@ -9,7 +9,7 @@ block content
       
     h3.row(for='volume') Volume (gallons)
     input.row(id='remainingvolume' name='volume' type='range' min='0' max='5' value='#{keginfo.remainingvolume}' step='0.01' disabled)
-    p.left(id='volume')= keginfo.volume
+    p.left(id='volume') #{keginfo.remainingvolume} / #{keginfo.volume} gallons
 
     h3.row(for='pressure') Pressure (psi)
     input.row(id='pressure' name='pressure' type='range' min='0' max ='40' value='#{keginfo.pressure}' disabled)
