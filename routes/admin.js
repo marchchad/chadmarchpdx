@@ -200,7 +200,7 @@ router.route('/users')
       'success': false
     };
     try {
-      User.UpdateInfo(req, req.body, function (err, user) {
+      User.UpdateUser(req, req.body, function (err, user) {
         if (err) {
           console.log('err updating user: ', err);
           response['Error'] = err;
