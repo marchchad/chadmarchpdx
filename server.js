@@ -102,7 +102,7 @@ if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     err.env = app.get('env');
     res.status(err.status || 500);
-    res.render('.views/error/error', { err: err });
+    res.render('error/error', { err: err });
   });
 }
 
@@ -110,7 +110,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('.views/error/error', { err: { status: err.status, message: 'Sorry, an error occurred.' } });
+  res.render('error/error', { err: { status: err.status, message: 'Sorry, an error occurred.' } });
 });
 
 /*
