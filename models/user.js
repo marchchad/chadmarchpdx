@@ -1,7 +1,10 @@
 var PasswordHash = require('password-hash');
 
+var hasCapital = new RegExp(/[A-Z]/);
+var hasSpecial = new RegExp(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
+
 var user = {
-  'UserObject': function(){
+  'UserObject': function () {
     return {
       'username': null,
       'password': null,
@@ -9,16 +12,16 @@ var user = {
       'role': null
     }
   },
-  'UserParams': function(params){
+  'UserParams': function (params) {
 
     var validParams = user.FilterParams(params);
     var userParams = new user.UserObject();
 
-    if(validParams.length < 0){
+    if (validParams.length < 0) {
       return false;
     }
-    else{
-      for(var i = 0; i < validParams.length; i++){
+    else {
+      for (var i = 0; i < validParams.length; i++) {
         var param = validParams[i];
         userParams[param] = params[param];
       }
@@ -31,13 +34,13 @@ var user = {
    * @param  {Object} params
    * @return {Array} validParams
    */
-  'FilterParams': function(params){
+  'FilterParams': function (params) {
     var keys = Object.keys(params);
     var validParams = [];
     var userParams = Object.keys(new user.UserObject());
-    for(var i = 0; i < keys.length; i++){
+    for (var i = 0; i < keys.length; i++) {
       var key = keys[i];
-      if(userParams.indexOf(key) > -1 && typeof params[key] === "string"){
+      if (userParams.indexOf(key) > -1 && typeof params[key] === "string") {
         validParams.push(key);
       }
     }
@@ -51,27 +54,30 @@ var user = {
    * @param  {Function} callback
    * @return {undefined}
    */
-  'FindUserByUsername': function(req, params, callback){
+  'FindUserByUsername': function (req, params, callback) {
     var validParams = user.UserParams(params);
-    if(validParams && req.pool){
-      req.pool.getConnection(function(err, conn){
-        if(conn){
-          var query = conn.query('select username, password from users where username = ?', params.username, function(err, result){
-            if(err){
+    if (validParams && req.pool) {
+      req.pool.getConnection(function (err, conn) {
+        if (err) {
+          callback({ 'error': 'Sorry, currently our systems are down. Please try again later.<br/>' + err.message });
+        }
+        if (conn) {
+          var query = conn.query('select username, password from users where username = ?', params.username, function (err, result) {
+            if (err) {
               console.error('error: ', err);
               callback({ 'error': err });
             }
-            else if(result.length > 0){
-              if(PasswordHash.verify(params.password, result[0].password)){
+            else if (result.length > 0) {
+              if (PasswordHash.verify(params.password, result[0].password)) {
                 console.log(' found matching user ');
                 callback(null, { 'username': result[0].username });
               }
-              else{
+              else {
                 console.error('Password does not match.');
                 callback({ 'error': 'Password does not match.' });
               }
             }
-            else{
+            else {
               console.log('No matching user found.\n', result);
               callback(null, false);
             }
@@ -79,29 +85,32 @@ var user = {
           console.log(query.sql);
           conn.release();
         }
+        else {
+          callback({ 'error': 'Sorry, currently our systems are down. Please try again later.' });
+        }
       });
     }
-    else{
+    else {
       callback({ 'error': 'Database not available.' });
     }
   },
-  'AddUser': function(req, params, callback){
+  'AddUser': function (req, params, callback) {
     var userParams = user.UserParams(params);
-    if(userParams && req.pool){
-      req.pool.getConnection(function(err, conn){
-        if(conn){
+    if (userParams && req.pool) {
+      req.pool.getConnection(function (err, conn) {
+        if (conn) {
           var validPassword = user.ValidPassword(params.password);
 
-          if(!validPassword.valid){
+          if (!validPassword.valid) {
             callback({ 'error': validPassword.message });
             return;
           }
           // Check if username already exists.
-          user.FindUserByUsername(req, params, function(err, result){
-            if(err){
+          user.FindUserByUsername(req, params, function (err, result) {
+            if (err) {
               callback({ 'error': err });
             }
-            if(result){
+            if (result) {
               callback({ 'error': 'User already exists' });
             }
             else {
@@ -109,11 +118,11 @@ var user = {
               // the generated hashed value.
               var sqlparams = user.GetCreateUserParams(params);
               params.password = PasswordHash.generate(params.password);
-              var query = conn.query('insert into users SET ?', params, function(err, results){
-                if(err){
+              var query = conn.query('insert into users SET ?', params, function (err, results) {
+                if (err) {
                   callback({ 'error': err });
                 }
-                else if(results.affectedRows > 0){
+                else if (results.affectedRows > 0) {
                   callback(null, { 'username': params.username });
                 }
               });
@@ -123,7 +132,85 @@ var user = {
         }
       });
     }
-    else{
+    else {
+      callback({ 'error': 'Database not available.' });
+    }
+  },
+  'GetUsers': function (req, callback) {
+    if (req.pool) {
+      req.pool.getConnection(function (err, conn) {
+        if (err) {
+          callback({ 'error': 'Sorry, currently our systems are down. Please try again later.<br/>' + err.message });
+        }
+        if (conn) {
+          var query = conn.query('call get_users', function (err, result) {
+            if (err) {
+              console.error('error: ', err);
+              callback({ 'error': err });
+            }
+            callback(null, result);
+          });
+          console.log(query.sql);
+          conn.release();
+        }
+        else {
+          callback({ 'error': 'Sorry, currently our systems are down. Please try again later.' });
+        }
+      });
+    }
+    else {
+      callback({ 'error': 'Database not available.' });
+    }
+  },
+  'UpdateUser': function (req, params, callback) {
+    var userParams = user.UserParams(params);
+    if (userParams && req.pool) {
+      req.pool.getConnection(function (err, conn) {
+        if (conn) {
+          var validPassword = user.ValidPassword(params.password);
+
+          if (!validPassword.valid) {
+            callback({ 'error': validPassword.message });
+            return;
+          }
+          // Check if username already exists.
+          user.FindUserByUsername(req, params, function (err, result) {
+            if (err) {
+              callback({ 'error': err });
+            }
+            if (result) {
+              // We won't ever store the plain text password so overwrite it with
+              // the generated hashed value.
+              params.password = PasswordHash.generate(params.password);
+              var keys = Object.keys(params);
+              var id = result[0].userid;
+              var updateParams = {};
+              for (var i = 0; i < keys.length; i++){
+                var key = keys[i];
+                var value = params[key];
+                if (key == "userid") {
+                  id = value;
+                }
+                else{
+                  updateParams[key] = value;
+                }
+              }
+              
+              var query = conn.query('update users SET ? where userid = ?', (updateParams, id), function (err, results) {
+                if (err) {
+                  callback({ 'error': err });
+                }
+                else if (results.affectedRows > 0) {
+                  callback(null, { 'success': true });
+                }
+              });
+              conn.release();
+            }
+          });
+        }
+      });
+    }
+    else {
       callback({ 'error': 'Database not available.' });
     }
   },
@@ -158,9 +245,6 @@ var user = {
       return response;
     }
 
-    var hasCapital = new RegExp(/[A-Z]/);
-    var hasSpecial = new RegExp(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
-
     if(hasCapital.test(password) !== true){
       response.valid = false;
       response.message += '<br>Password must contain at least 1 uppercase letter';
@@ -173,7 +257,7 @@ var user = {
 
     if(password.length < 7){
       response.valid = false;
-      repsonse.message += '<br>Password must be at least 8 characters.';
+      response.message += '<br>Password must be at least 8 characters.';
     }
 
     // If we've gotten this far, the password is valid.
@@ -182,7 +266,6 @@ var user = {
     return response;
   },
   'ValidUser': function(username){
-    var hasSpecial = new regex(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
     if(hasSpecial.test(username)){
       return false;
     }

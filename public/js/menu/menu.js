@@ -65,68 +65,78 @@ define(['d3Donut', 'donutProps', 'domReady'], function (d3Donut, donutProps, dom
   this.connectSockets = function(){
     // pass in url to server that will be emitting data.
     var kegServer = io.connect(window.location.host);
+    
+    kegServer.on('success', function (data) {
+      console.log(data);
+      if (data.success) {
+        // listens to an event from the server called 'pour' that
+        // emits a message letting us know that a pour is occurring
+        kegServer.on('pour', function (data) {
+          var kegid = parseInt(data.kegid);
+          // default it to keg 1 for now.
+          var targetKegHeader = "keg" + (kegid || 1) + "-header";
+          var node = document.getElementById(targetKegHeader);
+          console.log(data);
+          if (!node) {
+            node = document.createElement('H3');
+            node.innerHTML = data.message
+            node.className = 'right';
+            node.id = targetKegHeader;
 
-    // listens to an event from the server called 'pour' that
-    // emits a message letting us know that a pour is occurring
-    kegServer.on('pour', function(data){
-      var targetKegHeader = "keg" + data.keg + "-header";
-      var node = document.getElementById(targetKegHeader);
-      if(!node){
-        node = document.createElement('H3');
-        node.innerHTML = data.message
-        node.className = 'right';
-        node.id = targetKegHeader;
+            var parent = document.getElementById("keg" + (kegid || 1));
+            parent.insertBefore(node, parent.firstChild);
 
-        var parent = document.getElementById(targetKegHeader);
-        parent.insertBefore(node, parent.firstChild);
+            setTimeout(function () {
+              parent.removeChild(node);
+            }, 5000);
+          }
+        });
 
-        setTimeout(function(){
-          parent.removeChild(node);
-        }, 5000);
+        // listens to an event from the server called 'pour'
+        // that emits the total pour data from a specified keg
+        kegServer.on('pourData', function (data) {
+          // In the event that we initialized the timeout to clear the pour data
+          // let's reset it so we let the pouring finish before the timer clears.
+          this.resetClearData();
+
+          var targetPourData = document.querySelector("#keg" + data.kegid + " .pourData");
+
+          if (targetPourData) {
+            var vol = document.getElementById(data.targetKeg + "-vol");
+            if (!vol) {
+              vol = document.createElement('p');
+              vol.setAttribute("id", data.targetKeg + "-vol");
+              vol.innerHTML = parseFloat(data.volume).toFixed(2) + " oz.";
+              targetPourData.appendChild(vol);
+            }
+            else {
+              vol.innerHTML = parseFloat(data.volume).toFixed(2) + " oz.";
+            }
+
+            var dur = document.getElementById(data.targetKeg + "-dur")
+            if (!dur) {
+              dur = document.createElement('p');
+              dur.setAttribute("id", data.targetKeg + "-dur");
+              dur.innerHTML = parseFloat(data.duration).toFixed(1) + " secs.";
+              targetPourData.appendChild(dur);
+            }
+            else {
+              dur.innerHTML = parseFloat(data.duration).toFixed(1) + " secs.";
+            }
+          }
+
+          // It's impossible to know when the end of the pour will happen in this event
+          // So in case this is the last data we receive, let's start the timer to clear the data
+          this.clearPourData();
+        }.bind(this));
       }
-    });
-
-    // listens to an event from the server called 'pour'
-    // that emits the total pour data from a specified keg
-    kegServer.on('pourData', function(data){
-      // In the event that we initialized the timeout to clear the pour data
-      // let's reset it so we let the pouring finish before the timer clears.
-      this.resetClearData();
-
-      var targetPourData = document.querySelector("#keg" + data.keg + " .pourData");
-
-      if(targetPourData){
-        var vol = document.getElementById(data.targetKeg + "-vol");
-        if(!vol){
-          vol = document.createElement('p');
-          vol.setAttribute("id", data.targetKeg + "-vol");
-          vol.innerHTML = data.volume;
-          targetPourData.appendChild(vol);
-        }
-        else{
-          vol.innerHTML = parseInt(vol.innerHTML) + data.volume;
-        }
-        
-        var dur = document.getElementById(data.targetKeg + "-dur")
-        if(!dur){
-          dur = document.createElement('p');
-          dur.setAttribute("id", data.targetKeg + "-dur");
-          dur.innerHTML = data.duration;
-          targetPourData.appendChild(dur);
-        }
-        else{
-          dur.innerHTML = parseInt(dur.innerHTML) + data.duration;
-        }
-      }
-
-      // It's impossible to know when the end of the pour will happen in this event
-      // So in case this is the last data we receive, let's start the timer to clear the data
-      this.clearPourData();
     }.bind(this));
   }.bind(this);
 
-  domReady(function() {
-    this.connectSockets();
+  domReady(function () {
+    if(io){
+      this.connectSockets();
+    }
     this.buildDonuts(window.d3data);
   }).bind(this);
 });

@@ -40,7 +40,7 @@ passport.use('local', new LocalStrategy({
     User.FindUserByUsername(req, params, function(err, user) {
       if (err) {
         console.log(' err finding user: ', err);
-        return done({ 'error': err });
+        return done(err);
       }
       if (!user) {
         console.log(' no user found: ', user);
@@ -91,7 +91,7 @@ router.get('/', ensureAuthenticated, function(req, res){
           var recipes = conn.query('call get_admin_data', function(err, result){
             if(err){
               console.error('error: ', err);
-              res.send({
+              res.render('admin/admin', {
                 'error': err
               });
             }
@@ -137,7 +137,7 @@ router.route('/login')
     }
     catch(e){
       console.log(' in error: ', e);
-      response["error"] = e;
+      response['error'] = e;
     }
     res.send(response);
   },
@@ -146,31 +146,105 @@ router.route('/login')
     return res.send(err);
   });
 
-/*router.route('/signup')
-  .get(function(req, res){
-    res.render('admin/signup');
-  })
-  .post(function(req, res){
-    var response = {};
-    try{
-      User.AddUser(req, req.body, function(err, user){
-        if(err){
-          console.log('err adding user: ', err);
-          response["Error"] = err;
-          res.render('admin/signup', response);
+router.route('/users')
+  .get(ensureAuthenticated, function (req, res) {
+    var response = {
+      'success': false
+    };
+    try {
+      User.GetUsers(req, function (err, users) {
+        if (err) {
+          response['Error'] = err;
+          res.render('admin/users', response);
         }
-        if(user){
-          console.log('created user: ', user);
-          res.redirect('/admin');
+        if(users.length > 0){
+          response['users'] = users[0];
+        }
+        res.render('admin/users', response);
+      });
+    }
+    catch (e) {
+      response['Error'] = e;
+      res.render('admin/users', response);
+    }
+  })
+  .delete(ensureAuthenticated, function (req, res) {
+    var response = {
+      'success': false
+    };
+    try {
+      // User.DeleteUser(req, req.body, function(err, user){
+      //   if(err){
+      //     response['Error'] = err;
+      //     res.json(response);
+      //   }
+      //   if(user){
+      //     // if user is valid, create and return a token
+      //     var token = jwt.sign(user, config.secret, {
+      //       expiresIn: 1440 // expires in 24 hours
+      //     });
+
+      //     // return the information including token as JSON
+      //     res.json({
+      //       success: true,
+      //       message: 'Enjoy your token!',
+      //       token: token
+      //     });
+      //   }
+      // });
+    }
+    catch (e) {
+      
+    }
+  })
+  .post(ensureAuthenticated, function (req, res) {
+    var response = {
+      'success': false
+    };
+    try {
+      User.UpdateUser(req, req.body, function (err, user) {
+        if (err) {
+          console.log('err updating user: ', err);
+          response['Error'] = err;
+          res.json(response);
+        }
+        if (user) {
+          console.log('updated user: ', user);
+          response.success = true;
+          res.json(response);
         }
       });
     }
-    catch(e){
+    catch (e) {
       console.log(' in catch, err: ', e);
-      response["Error"] = e;
-      res.render('admin/signup', response);
+      response['Error'] = e;
+      res.json(response);
     }
-});*/
+  })
+  .put(ensureAuthenticated, function (req, res) {
+    var response = {
+      'success': false
+    };
+    try {
+      User.AddUser(req, req.body, function (err, user) {
+        if (err) {
+          console.log('err adding user: ', err);
+          response['Error'] = err;
+          res.json(response);
+        }
+        if (user) {
+          console.log('created user: ', user);
+          response.success = true;
+          res.json(response);
+        }
+      });
+    }
+    catch (e) {
+      console.log(' in catch, err: ', e);
+      response['Error'] = e;
+      res.json(response);
+    }
+  });
 
 router.get('/logout', function(req, res){
   req.logout();
