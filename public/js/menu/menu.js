@@ -1,4 +1,4 @@
-define(['d3Donut', 'donutProps', 'domReady'], function (d3Donut, donutProps, domReady) {
+define(['d3Donut', 'donutProps', 'common', 'domReady'], function (d3Donut, donutProps, C, domReady) {
 
   this.clearPourData = function(){
     return setTimeout(function(){
@@ -65,6 +65,7 @@ define(['d3Donut', 'donutProps', 'domReady'], function (d3Donut, donutProps, dom
   this.connectSockets = function(){
     // pass in url to server that will be emitting data.
     var kegServer = io.connect(window.location.host);
+    var parent = null, nowPourNode = null;
     
     kegServer.on('success', function (data) {
       console.log(data);
@@ -75,20 +76,16 @@ define(['d3Donut', 'donutProps', 'domReady'], function (d3Donut, donutProps, dom
           var kegid = parseInt(data.kegid);
           // default it to keg 1 for now.
           var targetKegHeader = "keg" + (kegid || 1) + "-header";
-          var node = document.getElementById(targetKegHeader);
+          nowPourNode = document.getElementById(targetKegHeader);
           console.log(data);
-          if (!node) {
-            node = document.createElement('H3');
-            node.innerHTML = data.message
-            node.className = 'right';
-            node.id = targetKegHeader;
+          if (!nowPourNode) {
+            nowPourNode = document.createElement('H3');
+            nowPourNode.innerHTML = data.message
+            nowPourNode.className = 'right';
+            nowPourNode.id = targetKegHeader;
 
-            var parent = document.getElementById("keg" + (kegid || 1));
-            parent.insertBefore(node, parent.firstChild);
-
-            setTimeout(function () {
-              parent.removeChild(node);
-            }, 5000);
+            parent = document.getElementById("keg" + (kegid || 1));
+            parent.insertBefore(nowPourNode, parent.firstChild);
           }
         });
 
@@ -98,6 +95,12 @@ define(['d3Donut', 'donutProps', 'domReady'], function (d3Donut, donutProps, dom
           // In the event that we initialized the timeout to clear the pour data
           // let's reset it so we let the pouring finish before the timer clears.
           this.resetClearData();
+
+          if(parent && nowPourNode){
+            setTimeout(function () {
+              parent.removeChild(nowPourNode);
+            }, 5000);
+          }
 
           var targetPourData = document.querySelector("#keg" + data.kegid + " .pourData");
 

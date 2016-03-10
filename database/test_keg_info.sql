@@ -4,7 +4,10 @@ DROP PROCEDURE IF EXISTS get_keg_info $
 CREATE PROCEDURE get_keg_info(
 	kegid int
 )
-	BEGIN
+BEGIN
+	declare blowdate DATE;
+    set @blowdate = est_keg_blow_date(kegid);
+    
 	select
 		k.pressure,
 		cast(k.keggedon as DateTime) as 'keggedon',
@@ -20,7 +23,9 @@ CREATE PROCEDURE get_keg_info(
 		concat(coalesce(min(p.temperature), '-'), '&deg;') as 'mintemp',
 		concat(coalesce(round(sum(p.temperature) / count(p.pourid)), 1), '&deg;') as 'averagetemp',
         k.recipeid,
-        r.Name as 'recipename'
+        r.Name as 'recipename',
+        @blowdate as 'estimatedblowdate',
+        k.finished as 'finisheddate'
 	from kegs k
 	left join pours p on k.kegid = p.kegid
     left join recipes r on k.recipeid = r.id
