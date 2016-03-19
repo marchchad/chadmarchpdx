@@ -43,7 +43,7 @@ block content
             div= keginfo.lastpour
             
     h3.row Temperature Stats
-    table.full-row(id='pourstats')
+    table.full-row(id='tempstats')
       thead
         th High
         th Low
@@ -51,11 +51,11 @@ block content
       tbody
         tr
           td
-            p=keginfo.maxtemp
+            p!= keginfo.maxtemp
           td
-            div= keginfo.mintemp
+            div!= keginfo.mintemp
           td
-            div= keginfo.averagetemp
+            div!= keginfo.averagetemp
     
 block append styles
   link(rel='stylesheet', href='/css/keginfo.css')

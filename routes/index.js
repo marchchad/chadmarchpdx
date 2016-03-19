@@ -27,8 +27,7 @@ router.get('/', function(req, res) {
 
 /* GET menu page. */
 // TODO:
-//   May want to implement ORM to abstract the error
-//   and data logic away from router
+//   Create model to abstact recipe fetching, rendering and return
 router.get('/ontap', function (req, res) {
   var response = {};
   try{
