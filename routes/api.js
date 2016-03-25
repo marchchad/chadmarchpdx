@@ -45,39 +45,41 @@ router.get('/', function(req, res){
   res.render('api');
 });
 
-// router.route('/signup')
-//   /*.get(function(req, res){
-//     res.render('admin/signup');
-//   })*/
-//   .post(function(req, res){
-//     var response = {};
-//     try{
-//       User.AddUser(req, req.body, function(err, user){
-//         if(err){
-//           response['Error'] = err;
-//           res.json(response);
-//         }
-//         if(user){
-//           // if user is valid, create and return a token
-//           var token = jwt.sign(user, config.secret, {
-//             expiresIn: 1440 // expires in 24 hours
-//           });
+if(process.env.deploy_env === 'development'){
+    router.route('/signup')
+    .get(function(req, res){
+        res.render('admin/signup');
+    })
+    .post(function(req, res){
+        var response = {};
+        try{
+        User.AddUser(req, req.body, function(err, user){
+            if(err){
+            response['Error'] = err;
+            res.json(response);
+            }
+            if(user){
+            // if user is valid, create and return a token
+            var token = jwt.sign(user, config.secret, {
+                expiresIn: 1440 // expires in 24 hours
+            });
 
-//           // return the information including token as JSON
-//           res.json({
-//             success: true,
-//             message: 'Enjoy your token!',
-//             token: token
-//           });
-//         }
-//       });
-//     }
-//     catch(e){
-//       console.log(' in catch, err: ', e);
-//       response['Error'] = e;
-//       res.json(response);
-//     }
-// });
+            // return the information including token as JSON
+            res.json({
+                success: true,
+                message: 'Enjoy your token!',
+                token: token
+            });
+            }
+        });
+        }
+        catch(e){
+        console.log(' in catch, err: ', e);
+        response['Error'] = e;
+        res.json(response);
+        }
+    });
+}
 
 router.post('/authenticate', function (req, res) {
   try {
