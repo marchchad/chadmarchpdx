@@ -2,10 +2,10 @@ extends ../layout
 
 block content
   .container
-    .page-header= keginfo.recipename
+    .page-header #{keginfo.recipename}
     hr
     if error
-      div.error= error
+      div.error #{error}
       
     h3.row(for='volume') Volume (gallons)
     input.row(id='remainingvolume' name='volume' type='range' min='0' max='5' value='#{keginfo.remainingvolume}' step='0.01' disabled)
@@ -13,12 +13,12 @@ block content
 
     h3.row(for='pressure') Pressure (psi)
     input.row(id='pressure' name='pressure' type='range' min='0' max ='40' value='#{keginfo.pressure}' disabled)
-    p.left= keginfo.pressure
+    p.left #{keginfo.pressure}
 
     h3.row Kegged
     div.row.keggedon
-      div.month= keginfo.keggedon.month + ', ' + keginfo.keggedon.year
-      div= keginfo.keggedon.day
+      div.month #{keginfo.keggedon.month}, #{keginfo.keggedon.year}
+      div #{keginfo.keggedon.day}
     
     h3.row Pour Stats
     table.full-row(id='pourstats')
@@ -31,11 +31,11 @@ block content
           th Last
       tbody
         tr
-          td= keginfo.pourcount
-          td= keginfo.averagepour
-          td= keginfo.maxpour
-          td= keginfo.minpour
-          td= keginfo.lastpour
+          td #{keginfo.pourcount}
+          td #{keginfo.averagepour}
+          td #{keginfo.maxpour}
+          td #{keginfo.minpour}
+          td #{keginfo.lastpour}
             
     h3.row Temperature Stats
     table.full-row(id='tempstats')
