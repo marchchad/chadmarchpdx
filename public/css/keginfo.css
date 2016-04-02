@@ -21,12 +21,12 @@
   padding: 0 5px;
 }
 
-#pourstats{
+table{
   border-spacing: 5px 0;
 }
 
 .keggedon .month,
-#pourstats th{
+table th{
   background-color: #120A42;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
@@ -35,16 +35,20 @@
   box-shadow: 0 4px 8px -4px #120A42;
 }
 
-#pourstats th{
+table th{
   padding: 10px 0;
 }
 
-#pourstats td{
+table td{
   text-align: center;
   padding: 10px 7px;
   border: 1px solid #aaa;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
+}
+
+#pourstats td{
+  width: 20%;
 }
 
 #deactivate{

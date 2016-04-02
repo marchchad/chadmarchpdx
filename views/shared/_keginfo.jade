@@ -31,31 +31,23 @@ block content
           th Last
       tbody
         tr
-          td
-            div= keginfo.pourcount
-          td
-            div= keginfo.averagepour
-          td
-            div= keginfo.maxpour
-          td
-            div= keginfo.minpour
-          td
-            div= keginfo.lastpour
+          td= keginfo.pourcount
+          td= keginfo.averagepour
+          td= keginfo.maxpour
+          td= keginfo.minpour
+          td= keginfo.lastpour
             
     h3.row Temperature Stats
-    table.full-row(id='pourstats')
+    table.full-row(id='tempstats')
       thead
         th High
         th Low
         th Average
       tbody
         tr
-          td
-            p=keginfo.maxtemp
-          td
-            div= keginfo.mintemp
-          td
-            div= keginfo.averagetemp
+          td!= keginfo.maxtemp
+          td!= keginfo.mintemp
+          td!= keginfo.averagetemp
     
 block append styles
   link(rel='stylesheet', href='/css/keginfo.css')
