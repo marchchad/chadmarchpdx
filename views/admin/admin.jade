@@ -1,100 +1,101 @@
 extends ../layout
 
 block content
-  .container
-    .page-header Admin
-    hr
-    
-    // form.left.col-6(action='/api/system' method='POST')
-    //   h3 Add a Keg to the system
-    //   label.row(for='kegsize') Keg Size (gallons)
-    //   input.row(id='kegsize' name='kegsize' type='range' min='1' max='15.5' step='0.5' value='5')
-    //   // label.row(for='kegcount') Count
-    //   // sup.row *To add multiple kegs of the same size at the same time
-    //   // input.row(id='kegcount' name='kegcount' type='range' min='1' max='99' value='1')
-    //   div.row
-    //     button(type='submit') Add
-    a.left(class='button' href='/admin/users') Manage Users
-    div.full-row
-      form.middle.col-8(action='/api/keg/' method='POST')
-        h3(style='text-align: center') Configure a Keg
-        label.row Active Kegs
+    .container
+        .page-header Admin
+        hr
+
+        // form.left.col-xs-6.col-sm-6.col-md-6.col-lg-6(action='/api/system' method='POST')
+        //   h3 Add a Keg to the system
+        //   label.row(for='kegsize') Keg Size (gallons)
+        //   input.row(id='kegsize' name='kegsize' type='range' min='1' max='15.5' step='0.5' value='5')
+        //   // label.row(for='kegcount') Count
+        //   // sup.row *To add multiple kegs of the same size at the same time
+        //   // input.row(id='kegcount' name='kegcount' type='range' min='1' max='99' value='1')
+        //   div.row
+        //     button(type='submit') Add
+        a.left(class='button' href='/admin/users') Manage Users
+        a.left(class='button' href='/admin/recipes') Manage Recipes
         div.full-row
-          select(id='keglist' name='kegid')
-            option(value='') Select a Keg...
-            for keg in data.kegs
-              option(value='#{keg.kegsessionid}') #{keg.kegid}
-          button.right.warning(type='button' id='deactivate' data-disabled-title='Please select a keg first' disabled) Deactivate
-          input(type='hidden' id='finished' name='finished')
+            form.middle.col-xs-8.col-sm-8.col-md-8.col-lg-8(action='/api/keg/' method='POST')
+                h3(style='text-align: center') Configure a Keg
+                label.row Active Kegs
+                div.full-row
+                    select(id='keglist' name='kegid')
+                        option(value='') Select a Keg...
+                        for keg in data.kegs
+                            option(value='#{keg.kegsessionid}') #{keg.kegid}
+                    button.right.warning(type='button' id='deactivate' data-disabled-title='Please select a keg first' disabled) Deactivate
+                    input(type='hidden' id='finished' name='finished')
 
-        div(id='adminkeginfo')
-          label.row Pour Stats
-          table.full-row(id='pourstats')
-            thead
-              tr
-                th Count
-                th Average
-                th Biggest
-                th Smallest
-                th Last
-            tbody
-              tr
-                td
-                  div.keginfo(id='pourcount') -
-                td
-                  div.keginfo(id='averagepour') -
-                td
-                  div.keginfo(id='maxpour') -
-                td
-                  div.keginfo(id='minpour') -
-                td
-                  div.keginfo(id='lastpour') -
-                  
-          label.row Temperature Stats
-          sup.row * Demo values only. Live values coming soon.
-          table.full-row(id='pourstats')
-            thead
-              tr
-                th High
-                th Low
-                th Average
-            tbody
-              tr
-                td
-                  div.keginfo(id='maxtemp') -
-                td
-                  div.keginfo(id='mintemp') -
-                td
-                  div.keginfo(id='averagetemp') -
-            
-          label.row(for='volume') Volume (gallons)
-          input.row.keginfo(id='remainingvolume' name='volume' type='range' min='0' max='5' step='0.01')
-          div.volume.left
-            p.left /
-            p.left(id='volume') -
-            p.left (Starting Volume)
+                div(id='adminkeginfo')
+                    label.row Pour Stats
+                    table.full-row(id='pourstats')
+                        thead
+                            tr
+                                th Count
+                                th Average
+                                th Biggest
+                                th Smallest
+                                th Last
+                        tbody
+                            tr
+                                td
+                                    div.keginfo(id='pourcount') -
+                                td
+                                    div.keginfo(id='averagepour') -
+                                td
+                                    div.keginfo(id='maxpour') -
+                                td
+                                    div.keginfo(id='minpour') -
+                                td
+                                    div.keginfo(id='lastpour') -
 
-          label.row(for='pressure') Pressure (psi)
-          input.row.keginfo(id='pressure' name='pressure' type='range' min='0' max='40' step='0.1')
+                    label.row Temperature Stats
+                    sup.row * Demo values only. Live values coming soon.
+                    table.full-row(id='tempstats')
+                        thead
+                            tr
+                                th High
+                                th Low
+                                th Average
+                        tbody
+                            tr
+                                td
+                                    div.keginfo(id='maxtemp') -
+                                td
+                                    div.keginfo(id='mintemp') -
+                                td
+                                    div.keginfo(id='averagetemp') -
 
-          label.row(for='keggedon') Date Kegged
-          input.row.keginfo(id='keggedon' name='keggedon' type='date')
+                    label.row(for='volume') Volume (gallons)
+                    input.row.keginfo(id='remainingvolume' name='volume' type='range' min='0' max='5' step='0.01')
+                    div.volume.left
+                        p.left /
+                        p.left(id='volume') -
+                        p.left (Starting Volume)
 
-          label.row(for='recipeid') Recipe
-          select.row.keginfo(id='recipeid' name='recipeid' style='margin: 0 5px;' disabled)
-            option(value='') Select a keg
-            for recipe in data.recipes
-              option(value='#{recipe.id}') #{recipe.name}
+                    label.row(for='pressure') Pressure (psi)
+                    input.row.keginfo(id='pressure' name='pressure' type='range' min='0' max='40' step='0.1')
 
-          div.full-row
-            button.right(type='button' id='configure' data-disabled-title='Please select a keg first' disabled) Configure
-          
-        if data.message
-          h3=data.message
+                    label.row(for='keggedon') Date Kegged
+                    input.row.keginfo(id='keggedon' name='keggedon' type='date')
+
+                    label.row(for='recipeid') Recipe
+                    select.row.keginfo(id='recipeid' name='recipeid' style='margin: 0 5px;' disabled)
+                        option(value='') Select a keg
+                        for recipe in data.recipes
+                            option(value='#{recipe.id}') #{recipe.name}
+
+                    div.full-row
+                        button.right(type='button' id='configure' data-disabled-title='Please select a keg first' disabled) Configure
+
+                if data.message
+                    h3=data.message
 
 block append scripts
-  script(data-main='js/admin/main', src='js/lib/require.js')
-  
+    script(data-main='js/admin/main', src='js/lib/require.js')
+
 block append styles
-  link(rel='stylesheet', href='/css/keginfo.css')
+    link(rel='stylesheet', href='/css/keginfo.css')
   

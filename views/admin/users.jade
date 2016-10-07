@@ -1,51 +1,51 @@
 extends ../layout
 
 block content
-  .container
-    .page-header
-      a(href='/admin') Admin
-      div : Users
-    hr
-    
-    h3 Create a new user or view the information of an existing user.
-    
-    div.full-row
-      form.middle.col-8(action='/admin/users' method='POST')
-        h3(style='text-align: center') Configure users
-        
-        div.row
-          label(for='userlist') Active Users
-          select.row(id='userlist' name='userid')
-            option(value='') Select a User...
-            for user in users
-              option(value='#{user.userid}') #{user.username}
-          button.right.error(type='button' id='deactivate' data-disabled-title='Please select a user first' disabled) Deactivate
-        
-        div.row
-          label(for='username') Username
-          input.row(type='text' id='username' name='username' required)
-        div.row
-          label(for='firstname') First Name
-          input.row(type='text' id='firstname' name='firstname' required)
-        div.row
-          label(for='lastname') Last Name
-          input.row(type='text' id='lastname' name='lastname' required)
-        div.row
-          label(for='email') Email
-          input.row(type='email' id='email' name='email')
-        div.row
-          label(for='role') Role
-          input.row(type='text' id='role' name='role' value='user')
-        div.row
-          label(for='role') Password
-          input.row(type='password' id='password' name='password')
-        
+    .container
+        .page-header
+            a(href='/admin') Admin
+            div : Users
+        hr
+
+        h3 Create a new user or view the information of an existing user.
+
         div.full-row
-          button.right(type='submit' id='configure') Configure User
-          button.left.warning(type='button' id='resetpassword') Reset Password
+            form.middle.col-xs-8.col-sm-8.col-md-8.col-lg-8(action='/admin/users' method='POST')
+                h3(style='text-align: center') Configure users
+
+                div.row
+                    label(for='userlist') Active Users
+                    select.row(id='userlist' name='userid')
+                        option(value='') Select a User...
+                        for user in users
+                            option(value='#{user.userid}') #{user.username}
+                    button.right.error(type='button' id='deactivate' data-disabled-title='Please select a user first' disabled) Deactivate
+
+                div.row
+                    label(for='username') Username
+                    input.row(type='text' id='username' name='username' required)
+                div.row
+                    label(for='firstname') First Name
+                    input.row(type='text' id='firstname' name='firstname' required)
+                div.row
+                    label(for='lastname') Last Name
+                    input.row(type='text' id='lastname' name='lastname' required)
+                div.row
+                    label(for='email') Email
+                    input.row(type='email' id='email' name='email')
+                div.row
+                    label(for='role') Role
+                    input.row(type='text' id='role' name='role' value='user')
+                div.row
+                    label(for='role') Password
+                    input.row(type='password' id='password' name='password')
+
+                div.full-row
+                    button.right(type='submit' id='configure') Configure User
+                    button.left.warning(type='button' id='resetpassword') Reset Password
 
 block append scripts
-  script(data-main='/js/admin/main', src='/js/lib/require.js')
-  if users
-    script.
-      var userdata = !{JSON.stringify(users)}
+    script(data-main='/js/admin/main', src='/js/lib/require.js')
+    if users
+        script.
+            var userdata = !{JSON.stringify(users)}
