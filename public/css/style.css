@@ -64,6 +64,7 @@ a:not(.button) span{
     -moz-osx-font-smoothing: grayscale;
     position: relative;
     overflow: hidden;
+    margin: 0 3px;
 }
 
 a:not(.button):not(.nav):before,

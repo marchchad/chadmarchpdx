@@ -664,6 +664,12 @@
     border-color: #36080A;
 }
 
+@media (max-width: 768px){
+    .beer{
+        clear: both;
+    }
+}
+
 @media (min-width: 768px){
     .item{
         width: calc(50% - 10px);
