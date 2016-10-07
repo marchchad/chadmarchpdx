@@ -1,11 +1,11 @@
-div(class='recipe' id='keg#{recipe.keg}')
+div.recipe( id='keg#{recipe.keg}')
   h2.left.recipe-name(id='keg#{recipe.keg}-name')
     a(href='/ontap/keg/#{recipe.keg}')= recipe.Name
-  div(class='recipeDetails left')
-    if (recipe.grains.length > 0)
+  div.recipeDetails.left
+    if (recipe.grains && recipe.grains.length > 0)
       div(id='keg#{recipe.keg}-grains' class='left')
 
-    if (recipe.hops.length > 0)
+    if (recipe.hops && recipe.hops.length > 0)
       div(id='keg#{recipe.keg}-hops' class='left')
   div.pourData.right
   .beer.left
@@ -25,6 +25,6 @@ div(class='recipe' id='keg#{recipe.keg}')
       .bubble.bubble3
       .bubble.bubble4
       .bubble.bubble5
-  div(class='row left')= 'ABV: ' + recipe.abv + '%'
-  div(class='row left')= 'IBU: ' + recipe.ibu
-  div(class='row left')= 'Yeast: ' + recipe.yeast
+  div.row.left= 'ABV: ' + recipe.abv + '%'
+  div.row.left= 'IBU: ' + recipe.ibu
+  div.row.left= 'Yeast: ' + recipe.yeast
