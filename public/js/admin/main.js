@@ -9,6 +9,9 @@ require(['../config'], function () {
   else if (url.indexOf('users') > -1) {
     require(['/js/admin/users.js']);
   }
+  else if (url.indexOf('recipes') > -1) {
+    require(['/js/admin/recipes.js']);
+  }
   else{
     require(['/js/admin/admin.js']);
   }
