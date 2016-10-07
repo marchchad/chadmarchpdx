@@ -28,6 +28,7 @@ var app = express();
 var routes = require('./routes/index');
 var apiRoutes = require('./routes/api');
 var adminRoutes = require('./routes/admin');
+var recipeRoutes = require('./routes/recipes');
 
 // Application config that stores JWT secret (once configured), db connection info,
 // and other application secrets that we want to abstract away
@@ -79,6 +80,9 @@ if(apiRoutes){
 }
 if(adminRoutes){
   app.use('/admin', adminRoutes);
+}
+if(recipeRoutes){
+  app.use('/recipes', recipeRoutes);
 }
 // We set up the basic app routes last because this
 // route set contains a catch all route at the end

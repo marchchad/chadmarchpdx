@@ -1,0 +1,54 @@
+extends ../layout
+
+block content
+    .container
+        .page-header
+            a(href='/admin') Admin
+            div : Recipes
+        hr
+        div.login-methods(style='width: 60%; margin: 0 auto; overflow: auto; position: relative;')
+            div.left
+                form(action='/recipe/' method='DELETE' style='margin: 0;')
+                    div.row
+                        label(for='recipeList') Current Recipes
+                        select.row(id='recipeList' name='id')
+                            option(value='') Select a Recipe...
+                            for recipe in recipes
+                                option(value='#{recipe.id}') #{recipe.Name}
+                        button.right.error(type='button' id='delete' data-disabled-title='Please select a recipe first' disabled) Delete
+
+                form(action='/recipe/' method='POST' style='margin: 0;')
+                    div.row.full-row
+                        label(for='Name') Name
+                        input(id='Name' name='Name' required).row
+                    div.row.full-row
+                        label(for='og') Original Gravity
+                        input(id='og' type='number' name='og' step='0.1').row
+                    div.row.full-row
+                        label(for='fg') Final Gravity
+                        input(id='fg' type='number' name='fg' step='0.1').row
+                    div.row.full-row
+                        label(for='abv') Alcohol By Volume
+                        input(id='abv' type='number' name='abv' step='0.1').row
+                    div.row.full-row
+                        label(for='srm') SRM (Color)
+                        input(id='srm' type='number' name='srm' step='0.1').row
+                    div.row.full-row
+                        label(for='ibu') IBU
+                        input(id='ibu' type='number' name='ibu').row
+                    div.row.full-row
+                        label(for='Author') Author
+                        input(id='Author' name='Author').row
+                    div.row.full-row
+                        label(for='Notes') Notes
+                        input(id='Notes' name='Notes').row
+                    div.row.full-row
+                        button(type='submit').left Create Recipe
+                    div.row.full-row#errors
+                        p(style='color: red;') #{Error.error}
+
+block append scripts
+    script(data-main='/js/admin/main', src='/js/lib/require.js' type='text/javascript')
+    if recipes
+        script.
+            var recipedata = !{JSON.stringify(recipes)}
