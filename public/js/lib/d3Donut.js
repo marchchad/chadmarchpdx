@@ -41,7 +41,7 @@ define(["d3"], function(d3){
         if(typeof targetNode == "string"){
           var node = document.getElementById(targetNode);
           if(!node){
-            node = document.getElementByClassName(targetNode)[0];
+            node = document.getElementsByClassName(targetNode)[0];
           }
           targetNode = node;
         }
