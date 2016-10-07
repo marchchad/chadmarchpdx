@@ -1,41 +1,36 @@
 var keg = {
-  'IsActive': function(id){
-    if(id && req.pool){
-      req.pool.getConnection(function(err, conn){
-        if(conn){
-          var validPassword = user.ValidPassword(params.password);
-
-          if(!validPassword.valid){
-            callback({ 'error': validPassword.message });
-            return;
-          }
-          // Check if username already exists.
-          user.FindUserByUsername(req, params, function(err, result){
-            if(err){
-              callback({ 'error': err });
-            }
-            if(result){
-              callback({ 'error': 'User already exists' });
-            }
-            else {
-              // We won't ever store the plain text password so overwrite it with
-              // the generated hashed value.
-              var sqlparams = user.GetCreateUserParams(params);
-              params.password = PasswordHash.generate(params.password);
-              var query = conn.query('insert into users SET ?', params, function(err, results){
-                if(err){
-                  callback({ 'error': err });
-                }
-                else if(results.affectedRows > 0){
-                  callback(null, { 'username': params.username });
-                }
-              });
-              conn.release();
-            }
-          });
+    'IsActive': function (id, callback) {
+        if(!id || isNaN(parseInt(id))){
+            callback({'error': 'Please provide a valid keg id.'});
         }
-      });
-  }
+        else if (req.pool) {
+            req.pool.getConnection(function (err, conn) {
+                if (conn) {
+                    conn.query('select active from kegs where kegid = ?', id, function (err, result) {
+                        if (err) {
+                            console.error('error: ', err);
+                            callback({'error': err});
+                        }
+                        else if (result.length > 0) {
+                            callback(null, result);
+                        }
+                        else {
+                            console.log('No matching keg found.\n', result);
+                            callback(null, false);
+                        }
+                    });
+                    conn.release();
+                }
+                else{
+                    // todo: handle this case.
+                    callback({'error': 'An error occurred attempting to retrieve the requested data. Please try again at a later time.'})
+                }
+            });
+        }
+        else{
+            callback({'error': 'An error occurred attempting to retrieve the requested data. Please try again at a later time.'})
+        }
+    }
 };
 
-module.exports = user;
+module.exports = keg;
