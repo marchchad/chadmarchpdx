@@ -1,3 +1,4 @@
+CREATE USER IF NOT EXISTS 'ipaapi'@'localhost' IDENTIFIED BY 'ipaapi';
 CREATE DATABASE  IF NOT EXISTS `ipaapi` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `ipaapi`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
@@ -469,3 +470,4 @@ DELIMITER ;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2016-03-25 16:07:31
+GRANT ALL ON `ipaapi`.* TO 'ipaapi'@'localhost' IDENTIFIED BY 'ipaapi';users
