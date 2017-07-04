@@ -102,7 +102,7 @@ module.exports = {
 
     var days = Math.floor(hours / 24);
     var text = days === 1 ? "day" : "days";
-    return [days, text, "ago"].join(" ");
+    return [days, text].join(" ");
   },
   getDateParts: function (dateString) {
     if (!dateString) {

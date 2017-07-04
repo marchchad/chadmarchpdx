@@ -1,4 +1,4 @@
-var PasswordHash = require('password-hash');
+var bcrypt = require('bcrypt');
 
 var hasCapital = new RegExp(/[A-Z]/);
 var hasSpecial = new RegExp(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
@@ -133,13 +133,16 @@ var User = {
                     callback({'error': err});
                 }
                 else if (result.length > 0) {
-                    if (PasswordHash.verify(params.password, result[0].password)) {
-                        callback(null, {'username': result[0].username});
-                    }
-                    else {
-                        console.error('Password does not match.');
-                        callback({'error': 'Password does not match.'});
-                    }
+                    bcrypt.compare(params.password, result[0].password, function(err, res){
+                        if (res) {
+                            callback(null, {'username': result[0].username});
+                        }
+                        else {
+                            console.error('Password does not match.');
+                            callback({'error': 'Password does not match.'});
+                        }
+
+                    });
                 }
                 else {
                     console.log('No matching user found.\n', result);
@@ -219,12 +222,20 @@ var User = {
                 else if (result) {
                     // We won't ever store the plain text password so overwrite it with
                     // the generated hashed value.
-                    userParams.password = PasswordHash.generate(userParams.password);
-                    if(userParams.hasOwnProperty('userId')){
-                        delete userParams.userId;
-                    }
-                    var query = 'update users SET ? where userid = ?';
-                    User._Query(req, query, (userParams, userParams.userId), User._QueryCallback);
+                    bcrypt.hash(userParams.password, saltRounds, function(err, hash){
+                        if(hash){
+                            userParams.password = hash;
+                            if(userParams.hasOwnProperty('userId')){
+                                delete userParams.userId;
+                            }
+                            var query = 'update users SET ? where userid = ?';
+                            User._Query(req, query, (userParams, userParams.userId), User._QueryCallback);
+                        }
+                        else{
+                            // TODO: Return error
+                            // TODO: Log error
+                        }
+                    });
                 }
             });
         }
