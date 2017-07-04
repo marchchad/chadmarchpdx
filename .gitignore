@@ -24,10 +24,10 @@ build/Release
 
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
-# node_modules
+
 
 # WebStrom project files
-.idea/*
+.idea/
 
 # Sublime project files
 *.sublime-project
@@ -38,3 +38,4 @@ build/Release
 
 # Specifically ignored files
 # config-prod.js
+/node_modules/**
