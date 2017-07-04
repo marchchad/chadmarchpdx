@@ -1,5 +1,6 @@
-var PasswordHash = require('password-hash');
+var bcrypt = require('bcrypt');
 
+var saltRounds = 10; // TODO: Move magic number to config
 var hasCapital = new RegExp(/[A-Z]/);
 var hasSpecial = new RegExp(/[\[\]\^\$\.\|\?\*\+\(\)\\~`\!@#%&\-_+={}'""<>:;, ]{1,}/);
 
@@ -55,11 +56,11 @@ var User = {
             console.error('error: ', err);
             callback({'error': err});
         }
-        else if (result.length > 0) {
+        else if (('length' in result && result.length > 0) || ('warningCount' in result && result.warningCount === 0)) {
             callback(null, result || true);
         }
         else {
-            callback(null, false);
+            callback(null, ('message' in result ? result.message : false));
         }
     },
     /**
@@ -133,13 +134,7 @@ var User = {
                     callback({'error': err});
                 }
                 else if (result.length > 0) {
-                    if (PasswordHash.verify(params.password, result[0].password)) {
-                        callback(null, {'username': result[0].username});
-                    }
-                    else {
-                        console.error('Password does not match.');
-                        callback({'error': 'Password does not match.'});
-                    }
+                    callback(null, {'username': result[0].username});
                 }
                 else {
                     console.log('No matching user found.\n', result);
@@ -164,11 +159,6 @@ var User = {
             callback({'error': 'Please check the provided parameters.'});
         }
         else if(req.pool) {
-            var validPassword = User.ValidPassword(params.password);
-            if (!validPassword.valid) {
-                callback({'error': validPassword.message});
-                return;
-            }
             User.FindUserByUsername(req, params, function (err, result) {
                 if (err) {
                     callback({'error': err});
@@ -206,11 +196,6 @@ var User = {
             callback({'error': 'Please check the provided parameters.'});
         }
         else if(req.pool) {
-            var validPassword = User.ValidPassword(params.password);
-            if (!validPassword.valid) {
-                callback({'error': validPassword.message});
-                return;
-            }
             // Check if username already exists.
             User.FindUserByUsername(req, params, function (err, result) {
                 if (err) {
@@ -219,12 +204,20 @@ var User = {
                 else if (result) {
                     // We won't ever store the plain text password so overwrite it with
                     // the generated hashed value.
-                    userParams.password = PasswordHash.generate(userParams.password);
-                    if(userParams.hasOwnProperty('userId')){
-                        delete userParams.userId;
-                    }
-                    var query = 'update users SET ? where userid = ?';
-                    User._Query(req, query, (userParams, userParams.userId), User._QueryCallback);
+                    bcrypt.hash(userParams.password, saltRounds, function(err, hash){
+                        if(hash){
+                            userParams.password = hash;
+                            if(userParams.hasOwnProperty('userId')){
+                                delete userParams.userId;
+                            }
+                            var query = 'update users SET ? where userid = ?';
+                            User._Query(req, query, [userParams, parseInt(userParams.userid)], User._QueryCallback.bind(null, callback));
+                        }
+                        else{
+                            // TODO: Return error
+                            // TODO: Log error
+                        }
+                    });
                 }
             });
         }

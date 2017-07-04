@@ -193,7 +193,7 @@ define(['domReady'], function (domReady) {
         el.onchange();
       }
     }
-  }
+  };
   
   Common['PopulateForm'] = function (data) {
     /**
@@ -207,11 +207,11 @@ define(['domReady'], function (domReady) {
         target.value = data[key];
       }
     }
-  }
+  };
   
   Common['GetElem'] = function (id) {
     return document.getElementById(id);
-  }
+  };
   
   Common['GetElements'] = function (className) {
     /**
@@ -220,7 +220,7 @@ define(['domReady'], function (domReady) {
      * @returns Array<DOMElements>
      */
     return AsArray(document.getElementsByClassName(className));
-  }
+  };
   
   Common['FormatDate'] = function (value) {
     if (!value) {
@@ -230,7 +230,7 @@ define(['domReady'], function (domReady) {
     var day = date.getDate().toString();
     var month = (date.getMonth() + 1).toString();
     return [date.getFullYear(), (month.length === 1 ? "0" + month : month), (day.length === 1 ? "0" + day : day)].join("-");
-  }
+  };
 
   /*var counter = 0;
   // TODO: Finish custom tooltip
