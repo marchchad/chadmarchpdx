@@ -125,7 +125,7 @@ router.get('/ontap/keg/:id', function (req, res) {
         if (req.pool) {
             req.pool.getConnection(function (err, conn) {
                 if (conn) {
-                    if(req.params.id == "null"){
+                    if(req.params.id === null){
                         res.render('shared/_keginfo', {'Error': 'Please search for a keg with a valid ID.'});
                     }
                     conn.query('call get_keg_info(?)', req.params.id, function (err, results) {
@@ -136,7 +136,15 @@ router.get('/ontap/keg/:id', function (req, res) {
                         else {
                             // Render response to keg info template
                             var keginfo = results[0][0];
+                            keginfo["lifespan"] = utils.dateDiff(keginfo.keggedon, (keginfo.finisheddate || keginfo.estimatedblowdate));
                             keginfo.keggedon = utils.getDateParts(keginfo.keggedon);
+                            keginfo.estimatedblowdate = utils.getDateParts(keginfo.estimatedblowdate);
+                            if(keginfo.finisheddate){
+                                keginfo.finisheddate = utils.getDateParts(keginfo.finisheddate);
+                            }
+                            else{
+                                keginfo.finisheddate = keginfo.estimatedblowdate;
+                            }
                             if (keginfo.lastpour) {
                                 keginfo.lastpour = utils.dateDiff(new Date(), new Date(keginfo.lastpour));
                             }

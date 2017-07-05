@@ -218,6 +218,12 @@ var User = {
                             // TODO: Log error
                         }
                     });
+                        }
+                        else{
+                            // TODO: Return error
+                            // TODO: Log error
+                        }
+                    });
                 }
             });
         }

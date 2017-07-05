@@ -1,54 +1,68 @@
 extends ../layout
 
 block content
-  .container
-    if locals.Error
-      div.error #{Error}
-    else
-      .page-header #{keginfo.recipename}
-      hr
+    .container
+        if locals.Error
+            div.error #{Error}
+        else
+            .page-header #{keginfo.recipename}
+            hr
 
-      h3.row(for='volume') Volume (gallons)
-      input.row(id='remainingvolume' name='volume' type='range' min='0' max='5' value='#{keginfo.remainingvolume}' step='0.01' disabled)
-      p.left(id='volume') #{keginfo.remainingvolume} / #{keginfo.volume} gallons
+            div.col-xs-12
 
-      h3.row(for='pressure') Pressure (psi)
-      input.row(id='pressure' name='pressure' type='range' min='0' max ='40' value='#{keginfo.pressure}' disabled)
-      p.left #{keginfo.pressure}
+                div.col-xs-6
+                    h3(for='volume') Volume (gallons)
+                    input.row(id='remainingvolume' name='volume' type='range' min='0' max='5' value='#{keginfo.remainingvolume}' step='0.01' disabled)
+                    p.left(id='volume') #{keginfo.remainingvolume} / #{keginfo.volume} gallons
 
-      h3.row Kegged
-      div.row.keggedon
-        div.month #{keginfo.keggedon.month}, #{keginfo.keggedon.year}
-        div #{keginfo.keggedon.day}
+                div.col-xs-6
+                    h3(for='pressure') Pressure (psi)
+                    input.row(id='pressure' name='pressure' type='range' min='0' max ='40' value='#{keginfo.pressure}' disabled)
+                    p.left #{keginfo.pressure}
 
-      h3.row Pour Stats
-      table.full-row(id='pourstats')
-        thead
-          tr
-            th Count
-            th Average
-            th Biggest
-            th Smallest
-            th Last
-        tbody
-          tr
-            td #{keginfo.pourcount}
-            td #{keginfo.averagepour}
-            td #{keginfo.maxpour}
-            td #{keginfo.minpour}
-            td #{keginfo.lastpour}
+            h3.row Kegged
+            table.full-row
+                thead
+                    tr
+                        th Kegged On
+                        th Est. Blow Date
+                        th Blow Date
+                        th Lifespan
+                tbody
+                    tr
+                        td #{keginfo.keggedon.month} #{keginfo.keggedon.day}, #{keginfo.keggedon.year}
+                        td #{keginfo.estimatedblowdate.month} #{keginfo.estimatedblowdate.day}, #{keginfo.estimatedblowdate.year}
+                        td #{keginfo.finisheddate.month} #{keginfo.finisheddate.day}, #{keginfo.finisheddate.year}
+                        td #{keginfo.lifespan}
 
-      h3.row Temperature Stats
-      table.full-row(id='tempstats')
-        thead
-          th High
-          th Low
-          th Average
-        tbody
-          tr
-            td!= keginfo.maxtemp
-            td!= keginfo.mintemp
-            td!= keginfo.averagetemp
+            h3.row Pour Stats
+            table.full-row(id='pourstats')
+                thead
+                    tr
+                        th Count
+                        th Average
+                        th Biggest
+                        th Smallest
+                        th Last
+                tbody
+                    tr
+                        td #{keginfo.pourcount}
+                        td #{keginfo.averagepour}
+                        td #{keginfo.maxpour}
+                        td #{keginfo.minpour}
+                        td #{keginfo.lastpour} ago
+
+            h3.row Temperature Stats
+            table.full-row(id='tempstats')
+                thead
+                    th High
+                    th Low
+                    th Average
+                tbody
+                    tr
+                        td!= keginfo.maxtemp
+                        td!= keginfo.mintemp
+                        td!= keginfo.averagetemp
 
 block append styles
-  link(rel='stylesheet', href='/css/keginfo.css')
+    link(rel='stylesheet', href='/css/keginfo.css')
