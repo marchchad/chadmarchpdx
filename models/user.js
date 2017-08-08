@@ -1,4 +1,4 @@
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 var saltRounds = 10; // TODO: Move magic number to config
 var hasCapital = new RegExp(/[A-Z]/);
@@ -212,12 +212,6 @@ var User = {
                             }
                             var query = 'update users SET ? where userid = ?';
                             User._Query(req, query, [userParams, parseInt(userParams.userid)], User._QueryCallback.bind(null, callback));
-                        }
-                        else{
-                            // TODO: Return error
-                            // TODO: Log error
-                        }
-                    });
                         }
                         else{
                             // TODO: Return error
